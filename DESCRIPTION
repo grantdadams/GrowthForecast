@@ -13,7 +13,8 @@ Imports:
     dplyr,
     RTMB,
     tidyr,
-    TMB (>= 1.9.15)
+    TMB (>= 1.9.15),
+    xgboost
 RoxygenNote: 7.3.2
 LinkingTo: 
     TMB
