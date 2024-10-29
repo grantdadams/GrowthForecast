@@ -28,7 +28,7 @@ FitXGBoost <- function(
 ){
 
   # - Fit model
-  bstDense <- xgboost(data = data %>%
+  bst_model <- xgboost(data = data %>%
                         dplyr::select(-weight) %>%
                         as.matrix(),
                       label = data$weight,
@@ -56,12 +56,7 @@ FitXGBoost <- function(
     dplyr::filter(year >  max(years))
 
   # -- Predict
-  pred <- predict(bstDense, as.matrix(proj_data))
-  pred
+  pred <- predict(bst_model, as.matrix(proj_data))
 
-  data %>%
-    dplyr::group_by(age) %>%
-    dplyr::summarise(weight = mean(weight, na.rm = T)) %>%
-    pull(mn_weight)
-
+  return(list(bst_model = bst_model, pred = pred))
 }
