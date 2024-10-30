@@ -165,9 +165,9 @@ FitGMRF <- function(
       waa_model$optim <- waa_optim
 
       # Get report
-      waa_model$rep <- waa_model$report(waa_model$env$last.par.best)
-      colnames(waa_model$rep$mu_at) <- c(years, proj_years)
-      rownames(waa_model$rep$mu_at) <- ages
+      waa_model$report <- waa_model$report(waa_model$env$last.par.best)
+      colnames(waa_model$report$wt_hat) <- c(years, proj_years)
+      rownames(waa_model$report$wt_hat) <- ages
       waa_model$map_fact <- map_fact
 
       # Get sd report

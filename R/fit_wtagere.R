@@ -170,6 +170,8 @@ FitWtAgeRE <- function(
                gr = obj$gr,
                control = list(maxit = 1e6))
   report <- obj$report(obj$env$last.par.best)
+  colnames(report$wt_hat) <- data_list$years
+  rownames(report$wt_hat) <- data_list$age
 
 
   # Return ----

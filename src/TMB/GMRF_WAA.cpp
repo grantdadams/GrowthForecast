@@ -184,7 +184,7 @@ Type objective_function<Type>::operator() ()
   Type jnLL = 0;
 
   // LIKELIHOOD SECTION ------------------------
-  array<Type> mu_at(ln_Y_at.rows(), ln_Y_at.cols()); // Mean weight at age across time
+  array<Type> wt_hat(ln_Y_at.rows(), ln_Y_at.cols()); // Mean weight at age across time
 
   // Transform vonB and WL parameters
   Type L0 = exp(ln_L0);
@@ -196,8 +196,8 @@ Type objective_function<Type>::operator() ()
   // vonB and allometric weight-length relationship
   for(int a = 0; a < X_at.rows(); a++) {
     for(int t = 0; t < X_at.cols(); t++) {
-      mu_at(a,t) = Linf - (Linf-L0)*exp(-k*Type(a)); // LA calculations
-      mu_at(a,t) = alpha * pow( mu_at(a,t), beta ); // WL calculations
+      wt_hat(a,t) = Linf - (Linf-L0)*exp(-k*Type(a)); // LA calculations
+      wt_hat(a,t) = alpha * pow( wt_hat(a,t), beta ); // WL calculations
     } // t loop
   } // a loop
 
@@ -212,7 +212,7 @@ Type objective_function<Type>::operator() ()
 
   // Evaluate GMRF with precision matrix estimating cohort, year, and age correlations
   array<Type> eps_at(ln_Y_at.rows(), ln_Y_at.cols()); // array of process errors
-  eps_at = ln_Y_at - log(mu_at); // process errors relative to the mean across age and time
+  eps_at = ln_Y_at - log(wt_hat); // process errors relative to the mean across age and time
   jnLL += GMRF(Q_sparse)(eps_at);
 
   // REPORT SECTION ------------------------
@@ -222,7 +222,7 @@ Type objective_function<Type>::operator() ()
   // REPORT(B);
   // REPORT(Omega);
   // REPORT(L);
-  REPORT(mu_at);
+  REPORT(wt_hat);
   ADREPORT(ln_Y_at);
 
   return(jnLL);
