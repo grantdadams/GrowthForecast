@@ -20,21 +20,22 @@ FitGMRF <- function(
 ){
 
   # Reformat data for GMRF ----
-  colnames(data) <- tolower(colnames(data))
-
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
   years_ages <- expand.grid(years, ages)
   colnames(years_ages) <- c("year", "age")
 
+  # Weight data
+  if(is.null(weights)){
+    weights = rep(1, nrow(data))
+  }
+  data$weights <- weights
+
   gmrf_data <- data %>%
-    mutate(weight = weight/1000) %>%
     dplyr::group_by(year, age) %>%
-    dplyr::summarise(mn_weight = ifelse(!is.null(weights), weighted.mean(weight, weights, na.rm = TRUE),
-                                        mean(weight, na.rm = TRUE)),
-                     sd = ifelse(!is.null(weights), sqrt(sum(weights * (weight - mn_weight)^2, na.rm = TRUE)),
-                                 sd(weight, na.rm = TRUE)),
+    dplyr::summarise(mn_weight = weighted.mean(weight, weights, na.rm = TRUE),
+                     sd = sqrt(sum(weights * (weight - mn_weight)^2, na.rm = TRUE)),
                      n = n()
     )
 
@@ -82,7 +83,7 @@ FitGMRF <- function(
                      Xsd_at = Xsd_at,
                      ay_Index = ay_Index,
                      n_proj_years = n_proj_years,
-                     Var_Param = 1) # Var_Param == 0 Conditional, == 1 Marginal
+                     Var_Param = 0) # Var_Param == 0 Conditional, == 1 Marginal
 
   parameters <- list( rho_a = 0,
                       rho_y = 0,
@@ -131,16 +132,16 @@ FitGMRF <- function(
     map <- c(map, list("ln_Linf" = factor(NA),
                        "ln_beta" = factor(NA)))
 
-    # Now, make AD model function
-    waa_model <- TMB::MakeADFun(data = data_list, parameters = parameters,
-                                map = map, random = "ln_Y_at",
-                                DLL = "GMRF_WAA", silent = TRUE)
+    # Build AD model function
+    obj <- TMB::MakeADFun(data = data_list, parameters = parameters,
+                          map = map, random = "ln_Y_at",
+                          DLL = "GMRF_WAA", silent = TRUE)
 
-    # Now, optimize the function
+    # Fit model
     kill_mod <- tryCatch({
       R.utils::withTimeout({
-        waa_optim <- stats::nlminb(waa_model$par, waa_model$fn, waa_model$gr,
-                                   control = list(iter.max = 1e5, eval.max = 1e5))
+        fit <- stats::nlminb(obj$par, obj$fn, obj$gr,
+                             control = list(iter.max = 1e5, eval.max = 1e5))
         return(kill_mod = FALSE)
       },
       timeout = 60*5)
@@ -152,28 +153,24 @@ FitGMRF <- function(
       return(kill_mod = TRUE)
     })
 
+    # Save if optimized
     if(!kill_mod){
       # Take some additional newton steps to make sure we reach a minimum
       tryCatch(expr = for(i in 1:n.newton) {
-        g = as.numeric(waa_model$gr(waa_optim$par))
-        h = optimHess(waa_optim$par, fn = waa_model$fn, gr = waa_model$gr)
-        waa_optim$par = waa_optim$par - solve(h,g)
-        waa_optim$objective = waa_model$fn(waa_optim$par)
+        g = as.numeric(obj$gr(fit$par))
+        h = optimHess(fit$par, fn = obj$fn, gr = obj$gr)
+        fit$par = fit$par - solve(h,g)
+        fit$objective = obj$fn(fit$par)
       }, error = function(e){e})
 
       # Save optimized model results
-      waa_model$optim <- waa_optim
-
       # Get report
-      waa_model$report <- waa_model$report(waa_model$env$last.par.best)
-      colnames(waa_model$report$wt_hat) <- c(years, proj_years)
-      rownames(waa_model$report$wt_hat) <- ages
-      waa_model$map_fact <- map_fact
+      report <- obj$report(obj$env$last.par.best)
+      colnames(report$wt_hat) <- c(years, proj_years)
+      rownames(report$wt_hat) <- ages
 
-      # Get sd report
-      waa_model$sd_rep <- TMB::sdreport(waa_model)
-
-      models[[n_fact]] <- waa_model
+      # Save
+      models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report)
     }
 
     print(n_fact)

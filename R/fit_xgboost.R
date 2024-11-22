@@ -24,18 +24,17 @@ FitXGBoost <- function(
     n_proj_years = 2,
     max.depth = 6,
     nthread = 1,
-    nrounds = 2,
-){
+    nrounds = 2){
 
   # - Fit model
   bst_model <- xgboost(data = data %>%
-                        dplyr::select(-weight) %>%
-                        as.matrix(),
-                      label = data$weight,
-                      max.depth = 10,
-                      nthread = nthread,
-                      nrounds = 20,
-                      objective = "reg:squarederror")
+                         dplyr::select(-weight) %>%
+                         as.matrix(),
+                       label = data$weight,
+                       max.depth = 10,
+                       nthread = nthread,
+                       nrounds = 20,
+                       objective = "reg:squarederror")
 
   # - Predict
   # -- Build data set for X year projection

@@ -49,21 +49,21 @@ FitVonBEE <- function(dat){
   # - Rearrange data
   dat <- dat %>%
     mutate(
-      YrIndex = YEAR - min(YEAR) + 1,
-      cohortYr   = YEAR-age,
+      YrIndex = year - min(year) + 1,
+      cohortYr   = year-age,
       cohortIndex = cohortYr - min(cohortYr) + 1,
       cohortIndexFactor = as.numeric(factor(cohortIndex))) %>%
-    group_by(YEAR) %>%
-    mutate(mnTemp = mean(Temp,na.rm=T), # Probably want to scale these
-           seTemp = sd(Temp,na.rm=T),
-           mnTemp2 = mean(Temp^2, na.rm =T),
-           seTemp2 = sd(Temp^2, na.rm =T)) %>%
+    group_by(year) %>%
+    mutate(mntemp = mean(temp,na.rm=T), # Probably want to scale these
+           setemp = sd(temp,na.rm=T),
+           mntemp2 = mean(temp^2, na.rm =T),
+           setemp2 = sd(temp^2, na.rm =T)) %>%
     ungroup() %>%
     group_by(cohortYr) %>%
-    mutate(chort_mnTemp = mean(Temp,na.rm=T),
-           chort_seTemp = sd(Temp,na.rm=T),
-           chort_mnTemp2 = mean(Temp^2, na.rm =T),
-           chort_seTemp2 = sd(Temp^2, na.rm =T)) %>%
+    mutate(chort_mntemp = mean(temp,na.rm=T),
+           chort_setemp = sd(temp,na.rm=T),
+           chort_mntemp2 = mean(temp^2, na.rm =T),
+           chort_setemp2 = sd(temp^2, na.rm =T)) %>%
     ungroup()
 
   data_list <- list(
@@ -73,10 +73,10 @@ FitVonBEE <- function(dat){
                     cohortYr   = factor(dat$cohortIndex),
                     ncov       = 3,
                     nobs       = nrow(dat),
-                    nyrs       = length(unique(dat$YEAR)),
+                    nyrs       = length(unique(dat$year)),
                     d_offset   = 0 ,#0.01,  # prevents WInf --> 0
                     x_mat   = dat %>%
-                      dplyr::select(mnTemp, mnTemp2, chort_mnTemp) %>%
+                      dplyr::select(mntemp, mntemp2, chort_mntemp) %>%
                       as.matrix()
   )
 

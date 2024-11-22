@@ -1,4 +1,4 @@
-WtAgeRE <- function(pars){
+WtAgeRE <- function(pars, data_list){
   require(RTMB)
   RTMB::getAll(pars, data_list)
 
@@ -85,21 +85,22 @@ FitWtAgeRE <- function(
 ){
 
   # Reformat data for GMRF ----
-  colnames(data) <- tolower(colnames(data))
-
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
   years_ages <- expand.grid(years, ages)
   colnames(years_ages) <- c("year", "age")
 
+  # Deal with weights
+  if(is.null(weights)){
+    weights = rep(1, nrow(data))
+  }
+  data$weights <- weights
+
   gmrf_data <- data %>%
-    mutate(weight = weight/1000) %>%
     dplyr::group_by(year, age) %>%
-    dplyr::summarise(mn_weight = #ifelse(!is.null(weights), weighted.mean(weight, weights, na.rm = TRUE),
-                       mean(weight, na.rm = TRUE), #),
-                     sd = # ifelse(!is.null(weights), sqrt(sum(weights * (weight - mn_weight)^2, na.rm = TRUE)),
-                       sd(weight, na.rm = TRUE), #),
+    dplyr::summarise(mn_weight = weighted.mean(weight, weights, na.rm = TRUE),
+                     sd = sqrt(sum(weights * (weight - mn_weight)^2, na.rm = TRUE)),
                      n = n()
     )
 
@@ -164,7 +165,8 @@ FitWtAgeRE <- function(
 
 
   # Build and fit ----
-  obj <- MakeADFun(WtAgeRE, par_list, silent = TRUE, random = c("y_eta", "c_eta"))
+  cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
+  obj <- RTMB::MakeADFun(cmb(WtAgeRE, data_list), par_list, silent = TRUE, random = c("y_eta", "c_eta"))
   fit <- optim(par = obj$par,
                fn = obj$fn,
                gr = obj$gr,
@@ -175,5 +177,5 @@ FitWtAgeRE <- function(
 
 
   # Return ----
-  return(list(obj = obj, data = dat, fit = fit, report = report))
+  return(list(obj = obj, data = dat, opt = fit, report = report))
 }
