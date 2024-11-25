@@ -1,13 +1,5 @@
-# This code simulates weight-at-age data for individuals from a population where there are multiple sub-groups
-# based on a von Bertalanfy growth curve
-
-# Weight.obs.i = Winf.i * (1-exp(-k.i * (age.obs.i - t0.i))) + eps.i
-# Winf_i = exp(mu.winf + winf.group)
-# K_i  = exp(mu.k + k.group)
-# t0_i = mu.t0 + t0.group
-
-# The group level parameters are assumed to be MVN with mean 0
-# Eps.i is the normally distributed error term
+# This code simulates weight-at-age data for individuals from a population where there are multiple years
+# based on a von Bertalanfy growth curve with AR1 processes on the parameters
 
 
 ####################################################################################
@@ -97,22 +89,9 @@ ggplot(dat, aes(x = age, y = weight, colour = year)) +
   scale_color_discrete()
 
 
-## Fit estimation models ----
+## Fit deep NN models ----
+library(neuralnet)
 data = data.frame(weight = weight, age = round(age), year = group)
-#
-# wtagere <- FitWtAgeRE(
-#   data = data,
-#   weights=NULL,
-#   # - Number of projection years
-#   n_proj_years = 2
-# )
-#
-# gmrf <- FitGMRF(
-#   data = data,
-#   weights=NULL,
-#   # - Number of projection years
-#   n_proj_years = 2
-# )
 
 # mat <- model.matrix(~age+year, data)
 # par1 <- matrix(dnorm(5*3), 3, 5)
@@ -121,7 +100,6 @@ data = data.frame(weight = weight, age = round(age), year = group)
 #
 # ((mat %*% par1) %*% par2) %*% lastpar
 
-library(neuralnet)
 nn <- neuralnet(log(weight) ~ age+year,
                data = data %>%
                  filter(year <= ngroup_hind),
