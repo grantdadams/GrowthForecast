@@ -1,9 +1,9 @@
-nn_fun <- function(pars){
+nn_fun_rtmb <- function(pars, data_list){
   require(RTMB)
   RTMB::getAll(pars, data_list)
 
   # Parameter transform ----
-  sigmaObs = exp(log_sigma_obs)
+  # sigmaObs = exp(log_sigma_obs)
 
 
   # Data transform ----
@@ -32,10 +32,10 @@ nn_fun <- function(pars){
 
 
   # Likelihood ----
-  nll = -sum((logweight-logoutput)^2)
+  nll = -sum((logweight-logoutput)^2) # Sum of squares, dnorm may be worth testing
 
   # Report ----
-  RTMB::REPORT(sigmaObs)
+  # RTMB::REPORT(sigmaObs)
   RTMB::REPORT(neurons)
   RTMB::REPORT(output)
   RTMB::REPORT(nll)
@@ -45,11 +45,21 @@ nn_fun <- function(pars){
 
 
 
-fit_nn <- function(dat, nhidden_layer = 3, hidden_dim = 5){
+#' Function to fit neural net in RTMB
+#'
+#' @param data data.frame with weight, year, and age
+#' @param nhidden_layer number of hidden layers
+#' @param hidden_dim dimension of hidden layers
+#'
+#' @return
+#' @export
+#'
+#' @examples
+fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5){
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
-  nnform = formula(~age+year)
+  nnform = formula(~age+year) #TODO adjust to use
   data_list <- list(
     weight = data$weight,
     mat = model.matrix(nnform, data),
@@ -59,13 +69,13 @@ fit_nn <- function(dat, nhidden_layer = 3, hidden_dim = 5){
 
   # Parameters ----
   par_list <- list(
-    layer1   = matrix(0, ncol(data_list$mat), hdim),
-    hidden  = array(0, dim = c(hdim+1, hdim, nlayer)),
-    last_layer = matrix(0, hdim+1, 1),
-    log_sigma_obs   = -.3
+    layer1   = matrix(0, ncol(data_list$mat), hidden_dim),
+    hidden  = array(0, dim = c(hidden_dim+1, hidden_dim, nlayer)),
+    last_layer = matrix(0, hidden_dim+1, 1) # ,
+    # log_sigma_obs   = -.3
   )
 
-  library(abind)
+  # library(abind)
   # nn <- neuralnet(log(weight) ~ age+year,
   #                 data = data %>%
   #                   filter(year <= ngroup_hind),
@@ -74,30 +84,24 @@ fit_nn <- function(dat, nhidden_layer = 3, hidden_dim = 5){
   #                 stepmax = 1e6,
   #                 lifesign = 'minimal',
   #                 rep=1)
-  par_list2 <- list(
-    layer1   = nn$weights[[1]][[1]],
-    hidden  = abind(nn$weights[[1]][2:4], along = 3),
-    last_layer = nn$weights[[1]][[5]],
-    log_sigma_obs   = -.3
-  )
+  # par_list2 <- list(
+  #   layer1   = nn$weights[[1]][[1]],
+  #   hidden  = abind(nn$weights[[1]][2:4], along = 3),
+  #   last_layer = nn$weights[[1]][[5]],
+  #   log_sigma_obs   = -.3
+  # )
 
 
   # Build and fit ----
-  obj <- MakeADFun(nn_fun, par_list, silent = FALSE)
+  cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
+  obj <- RTMB::MakeADFun(cmb(nn_fun_rtmb, data_list), par_list, silent = FALSE)
   fit <- optim(par = obj$par,
                fn = obj$fn,
                gr = obj$gr,
                control = list(maxit = 1e6))
   report <- obj$report(obj$env$last.par.best)
 
-
-  parListFit <- obj$env$parList(obj$env$last.par.best)
-  plot(data$age, report$output)
-  plot(data$weight, report$output)
-
-  plot(data$weight, exp(predict(nn, newdata = data)))
-
   # Return ----
-  return(list(obj = obj, data = dat, fit = fit, report = report))
+  return(list(obj = obj, data = data, fit = fit, report = report))
 }
 

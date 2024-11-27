@@ -93,13 +93,6 @@ ggplot(dat, aes(x = age, y = weight, colour = year)) +
 library(neuralnet)
 data = data.frame(weight = weight, age = round(age), year = group)
 
-# mat <- model.matrix(~age+year, data)
-# par1 <- matrix(dnorm(5*3), 3, 5)
-# par2 <- matrix(dnorm(5*3), 5, 5)
-# lastpar <- matrix(dnorm(5), 5, 1)
-#
-# ((mat %*% par1) %*% par2) %*% lastpar
-
 nn <- neuralnet(log(weight) ~ age+year,
                data = data %>%
                  filter(year <= ngroup_hind),
@@ -109,17 +102,14 @@ nn <- neuralnet(log(weight) ~ age+year,
                lifesign = 'minimal',
                rep=1)
 
-nn$weights
-# plot(nn,
-#      col.hidden = 'darkgreen',
-#      col.hidden.synapse = 'darkgreen',
-#      show.weights = F,
-#      information = T,
-#      fill = 'lightblue')
-
 pred$pred_weight <- exp(predict(nn, newdata = pred))
 
-# - Combine and plot
+# - TMB version
+nn_rtmb <- fit_nn_rtmb(data, nhidden_layer = 3, hidden_dim = 5)
+
+
+
+## Combine and plot ----
 melted_pred <- merge(pred, data, by = c("age", "year"), all = TRUE) %>%
   mutate(year = as.factor(year))
 

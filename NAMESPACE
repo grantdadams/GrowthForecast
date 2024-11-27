@@ -3,4 +3,5 @@
 export(FitGMRF)
 export(FitWtAgeRE)
 export(FitXGBoost)
+export(fit_nn_rtmb)
 useDynLib(GrowthForecast, .registration=TRUE); useDynLib(GMRF_WAA)
