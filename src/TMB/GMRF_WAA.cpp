@@ -223,6 +223,7 @@ Type objective_function<Type>::operator() ()
   // REPORT(Omega);
   // REPORT(L);
   REPORT(wt_hat);
+  REPORT(ln_Y_at);
   ADREPORT(ln_Y_at);
 
   return(jnLL);

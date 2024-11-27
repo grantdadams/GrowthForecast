@@ -107,8 +107,9 @@ nn <- neuralnet(log(weight) ~ age+year,
                linear.output = TRUE,
                stepmax = 1e6,
                lifesign = 'minimal',
-               rep=5)
+               rep=1)
 
+nn$weights
 # plot(nn,
 #      col.hidden = 'darkgreen',
 #      col.hidden.synapse = 'darkgreen',
@@ -128,3 +129,27 @@ ggplot(data = melted_pred, aes(x = age, y = true_weight, color = year, group = y
   geom_point(aes(x = age, y = weight)) +
   ylab("Weight")
 
+
+gmrf <- FitGMRF(
+  data = data %>%
+    filter(year <= ngroup_hind),
+  weights=NULL,
+  # - Number of projection years
+  n_proj_years = 2
+)
+
+# - Combine and plot
+gmrf_pred <- as.data.frame(exp(gmrf[[4]]$report$ln_Y_at))
+colnames(gmrf_pred) <- 1:7
+gmrf_pred$age <- rownames(gmrf_pred)
+gmrf_pred <- gmrf_pred %>%
+  tidyr::pivot_longer(!age, values_to = "gmrf_wt", names_to = "year") %>%
+  mutate(year = as.factor(year))
+
+gmrf_pred <- merge(melted_pred, gmrf_pred, by = c("age", "year"), all = TRUE)
+
+ggplot(data = gmrf_pred, aes(x = age, y = true_weight, color = year, group = year)) +
+  geom_line() +
+  geom_line(aes(x = age, y = gmrf_wt), lty = 2, size = 1.5) +
+  geom_point(aes(x = age, y = weight)) +
+  ylab("Weight")

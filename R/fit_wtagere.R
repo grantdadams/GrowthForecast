@@ -1,6 +1,6 @@
 WtAgeRE <- function(pars, data_list){
   require(RTMB)
-  RTMB::getAll(pars, data_list)
+  RTMB::getAll(pars)
 
   # Parameter transform ----
   L1 = exp(log_L1)
@@ -12,13 +12,68 @@ WtAgeRE <- function(pars, data_list){
 
 
   # Data transform ----
+  years = data_list$years
+  ages = data_list$ages
+  X_at = data_list$X_at
+  Xsd_at = data_list$Xsd_at
   nages = length(ages)
   nyrs = length(years)
+
+  # for (int j=age_st;j<=age_end;j++)
+  # {
+  #   mnwt(j)    = alpha * pow(L1 + (L2-L1)*(1.-pow(K,double(j-age_st))) / (1.-pow(K,double(nages-1))) ,3);
+  # }
+  # wt_inc       = --mnwt(age_st+1,age_end) - mnwt(age_st,age_end-1);
+  #
+  # // Initialize first year
+  # wt_pre(styr)    = mnwt;
+  #
+  # // subsequent years
+  # for (int i=styr+1;i<=endyr;i++)
+  # {
+  #   wt_pre(i,age_st) = mnwt(age_st)*mfexp(square(sigma_coh)/2.+sigma_coh*coh_eff(i));
+  #   if (last_phase())
+  #     wt_pre(i)(age_st+1,age_end) = ++(wt_pre(i-1)(age_st,age_end-1) + wt_inc*mfexp(square(sigma_yr)/2. + sigma_yr*yr_eff(i)));
+  #   else
+  #     wt_pre(i)(age_st+1,age_end) = ++(wt_pre(i-1)(age_st,age_end-1) + wt_inc*mfexp(sigma_yr*yr_eff(i)));
+  # }
+  # int iyr;
+  #
+  # // Fit global mean to all years...
+  # for (int h = 1;h<=ndat;h++) // Loop over number of data sets (assuming 1st is target)
+  # {
+  #   for (int i=1;i<=nyrs_data(h);i++) // Loop over how many observations w/in a data set
+  #   {
+  #     iyr = yrs_data(h,i);
+  #     if (h>1) // First data set is correct scale, latter sets need a multiplier (d_scale)
+  #     wt_hat(h,i) = elem_prod(d_scale(h-1) , wt_pre(iyr) );
+  #     else
+  #       wt_hat(h,i) = wt_pre(iyr);
+  #
+  #     for (int j=age_st;j<=age_end;j++)
+  #     {
+  #       // cout<<nll<<endl;
+  #       nll += square(wt_obs(h,i,j) - mnwt(j))      /(2.*square(sd_obs(h,i,j)));
+  #       nll += square(wt_obs(h,i,j) - wt_hat(h,i,j))/(2.*square(sd_obs(h,i,j)));
+  #     }
+  #   }
+  # }
+  # // Random effects are on N(0,1) scale
+  # nll += 0.5*norm2(coh_eff);
+  # nll += 0.5*norm2( yr_eff);
+  #
+  # if (sd_phase())
+  # {
+  #   wt_cur  = wt_pre(cur_yr);
+  #   wt_next = wt_pre(endyr-1);
+  #   wt_yraf = wt_pre(endyr);
+  #   wt_hist = wt_pre;
+  # }
 
 
   # Model ----
   wt_hat = X_at
-  mnwt    = alpha * (L1 + L2 * (1.0 - (K^(ages-ages[1]))) / (1.0-(K^(ages[nages]-1))))^3
+  mnwt    = alpha * (L1 + (L2 - L1) * (1.0 - (K^(ages-ages[1]))) / (1.0-(K^(ages[nages]-1))))^3
   wt_inc = mnwt[2:nages] - mnwt[1:(nages-1)]
 
   # -  Initialize first year
@@ -38,8 +93,8 @@ WtAgeRE <- function(pars, data_list){
     for (j in 1:nages){ # Years
       if(!is.na(X_at[j,i])){
         if(Xsd_at[j,i] > 0){
-          nll = nll - dnorm(log(X_at[j,i]), log(mnwt[j]), Xsd_at[j,i], TRUE)
-          nll = nll - dnorm(log(X_at[j,i]), log(wt_hat[j,i]), Xsd_at[j,i], TRUE)
+          nll = nll - dnorm((X_at[j,i]), (mnwt[j]), Xsd_at[j,i], TRUE)
+          nll = nll - dnorm((X_at[j,i]), (wt_hat[j,i]), Xsd_at[j,i], TRUE)
         }
       }
     }

@@ -6,16 +6,16 @@ nn_fun <- function(pars){
   sigmaObs = exp(log_sigma_obs)
 
   # Data transform ----
-  logweight = log(weight)
+  logweight = (weight)
 
   # Model ----
-  hidden = mat %*% layer1 + beta1
+  hidden = 1/(1 + exp(-mat %*% layer1))
   for(i in 1:nlayer){
-    hidden = (hidden %*% hidden_layer[,,1]) + hidden_beta[i]
+    hidden = 1/(1 + exp(-(hidden %*% hidden_layer[,,1])))
   }
 
-  logoutput = hidden %*% last_layer + last_beta
-  output = exp(logoutput)
+  logoutput = hidden %*% last_layer
+  output = (logoutput)
 
   # Likelihood ----
   nll = -sum(dnorm(logweight, logoutput, sigmaObs, TRUE))
@@ -32,8 +32,8 @@ nn_fun <- function(pars){
 fit_nn <- function(dat){
 
   # - Rearrange data
-  hdim = 10
-  nlayer = 3
+  hdim = 5
+  nlayer = 5
   nnform = formula(~-1+age+year)
   data_list <- list(
     weight = data$weight,
@@ -46,21 +46,19 @@ fit_nn <- function(dat){
   par_list <- list(
     layer1   = matrix(0, ncol(data_list$mat), hdim),
     hidden_layer  = array(0, dim = c(hdim, hdim, nlayer)),
-    beta1 = 0,
-    last_beta = 0,
-    hidden_beta = rep(0, nlayer),
     last_layer = matrix(0, hdim, 1),
     log_sigma_obs   = -.3
   )
 
   # Build and fit ----
-  obj <- MakeADFun(nn_fun, par_list, silent = TRUE)
+  obj <- MakeADFun(nn_fun, par_list, silent = FALSE)
   fit <- optim(par = obj$par,
                fn = obj$fn,
                gr = obj$gr,
                control = list(maxit = 1e6))
   report <- obj$report(obj$env$last.par.best)
   plot(data$age, report$output)
+  plot(data$weight, report$output)
 
   # Return ----
   return(list(obj = obj, data = dat, fit = fit, report = report))
