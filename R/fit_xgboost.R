@@ -2,7 +2,7 @@
 
 #' Function to fit XGBoost (eXtreme Gradient Boosting) to weight-at-age data
 #'
-#' @param formula model formula
+#' @param form model formula
 #' @param data data.frame with columns "year", "age", and "weight" and other potential covariates. Weight should be in kg so that uncertainty calculations do not cause an issue.
 #' @param weights likelihood weights for model.
 #' @param n_proj_years the number of years to project forward
@@ -18,7 +18,7 @@
 #' @export
 #'
 FitXGBoost <- function(
-    formula = NULL,
+    form = NULL,
     data = NULL,
     weights=NULL,
     n_proj_years = 2,

@@ -105,7 +105,15 @@ nn <- neuralnet(log(weight) ~ age+year,
 pred$pred_weight <- exp(predict(nn, newdata = pred))
 
 # - TMB version
-nn_rtmb <- fit_nn_rtmb(data, nhidden_layer = 3, hidden_dim = 5)
+nn_rtmb <- fit_nn_rtmb(data %>%
+                         filter(year <= 6) %>%
+                         as.data.frame(),
+                       nhidden_layer = 3, hidden_dim = 5)
+pred$weight = 1
+pred_nn_rtmb <- fit_nn_rtmb(pred, nhidden_layer = 3, hidden_dim = 5, input_par = nn_rtmb$parList)
+pred$tmb_weight <- as.numeric(pred_nn_rtmb$report$output)
+pred$weight = NULL
+
 
 
 
@@ -115,7 +123,7 @@ melted_pred <- merge(pred, data, by = c("age", "year"), all = TRUE) %>%
 
 ggplot(data = melted_pred, aes(x = age, y = true_weight, color = year, group = year)) +
   geom_line() +
-  geom_line(aes(x = age, y = pred_weight), lty = 2, size = 1.5) +
+  geom_line(aes(x = age, y = tmb_weight), lty = 2, size = 1.5) +
   geom_point(aes(x = age, y = weight)) +
   ylab("Weight")
 

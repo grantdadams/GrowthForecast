@@ -4,7 +4,7 @@
 \alias{fit_nn_rtmb}
 \title{Function to fit neural net in RTMB}
 \usage{
-fit_nn_rtmb(data, nhidden_layer = 3, hidden_dim = 5)
+fit_nn_rtmb(data, nhidden_layer = 3, hidden_dim = 5, input_par = NULL)
 }
 \arguments{
 \item{data}{data.frame with weight, year, and age}

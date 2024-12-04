@@ -23,7 +23,7 @@ FitGMRF <- function(
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(years, ages)
+  years_ages <- expand.grid(years, ages) # Expanded for missing years
   colnames(years_ages) <- c("year", "age")
 
   # Weight data
@@ -169,8 +169,15 @@ FitGMRF <- function(
       colnames(report$wt_hat) <- c(years, proj_years)
       rownames(report$wt_hat) <- ages
 
+      # Prediction
+      pred_weight <- gmrf[[1]]$report$wt_hat[,(length(years)+1):ncol(gmrf[[1]]$report$wt_hat)] %>%
+        as.data.frame() %>%
+        mutate(age = ages) %>%
+        tidyr::pivot_longer(!age) %>%
+        dplyr::rename(weight = value, year = name)
+
       # Save
-      models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report)
+      models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report, prediction = pred_weight)
     }
 
     print(n_fact)

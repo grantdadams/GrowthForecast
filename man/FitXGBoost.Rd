@@ -5,7 +5,7 @@
 \title{Function to fit XGBoost (eXtreme Gradient Boosting) to weight-at-age data}
 \usage{
 FitXGBoost(
-  formula = NULL,
+  form = NULL,
   data = NULL,
   weights = NULL,
   n_proj_years = 2,
@@ -15,7 +15,7 @@ FitXGBoost(
 )
 }
 \arguments{
-\item{formula}{model formula}
+\item{form}{model formula}
 
 \item{data}{data.frame with columns "year", "age", and "weight" and other potential covariates. Weight should be in kg so that uncertainty calculations do not cause an issue.}
 

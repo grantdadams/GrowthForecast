@@ -1,5 +1,14 @@
 
 
+#' Fit deep neural net
+#'
+#' @param data
+#' @param n_proj_years
+#'
+#' @return
+#' @export
+#'
+#' @examples
 fit_nn <- function(data,
                    n_proj_years = 2){
   require(neuralnet)
@@ -22,9 +31,7 @@ fit_nn <- function(data,
 
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
 
-  # Build and fit ----
-
   # Return ----
-  return(list(obj = nn, data = data, report = years_ages))
+  return(list(obj = nn, data = data, prediction = years_ages))
 }
 

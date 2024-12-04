@@ -9,6 +9,7 @@ nn_fun_rtmb <- function(pars, data_list){
   # Data transform ----
   logweight = log(weight)
   neurons <- list()
+  tiny = 1.0e-6 # Parameter weights
 
 
   # Model ----
@@ -32,7 +33,13 @@ nn_fun_rtmb <- function(pars, data_list){
 
 
   # Likelihood ----
-  nll = -sum((logweight-logoutput)^2) # Sum of squares, dnorm may be worth testing
+  nll = sum((logweight-logoutput)^2) # Sum of squares, dnorm may be worth testing
+
+
+  nll = nll + tiny * sum(layer1^2)
+  nll = nll + tiny * sum(last_layer^2)
+  nll = nll + tiny * sum(hidden^2)
+
 
   # Report ----
   # RTMB::REPORT(sigmaObs)
@@ -55,7 +62,7 @@ nn_fun_rtmb <- function(pars, data_list){
 #' @export
 #'
 #' @examples
-fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5){
+fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NULL){
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
@@ -68,12 +75,17 @@ fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5){
 
 
   # Parameters ----
-  par_list <- list(
-    layer1   = matrix(0, ncol(data_list$mat), hidden_dim),
-    hidden  = array(0, dim = c(hidden_dim+1, hidden_dim, nlayer)),
-    last_layer = matrix(0, hidden_dim+1, 1) # ,
-    # log_sigma_obs   = -.3
-  )
+  if(is.null(input_par)){
+    par_list <- list(
+      layer1   = matrix(0, ncol(data_list$mat), hidden_dim),
+      hidden  = array(0, dim = c(hidden_dim+1, hidden_dim, nhidden_layer)),
+      last_layer = matrix(0, hidden_dim+1, 1) # ,
+      # log_sigma_obs   = -.3
+    )
+  } else{
+    par_list <- input_par
+  }
+
 
   # library(abind)
   # nn <- neuralnet(log(weight) ~ age+year,
@@ -95,13 +107,16 @@ fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5){
   # Build and fit ----
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
   obj <- RTMB::MakeADFun(cmb(nn_fun_rtmb, data_list), par_list, silent = FALSE)
-  fit <- optim(par = obj$par,
-               fn = obj$fn,
-               gr = obj$gr,
-               control = list(maxit = 1e6))
+  if(is.null(input_par)){
+    fit <- nlminb(obj$par, obj$fn, obj$gr,
+                  control=list(eval.max=200000, iter.max=100000, trace=0))
+  }else{
+    fit <- NULL
+  }
   report <- obj$report(obj$env$last.par.best)
+  par_list <- obj$env$parList(obj$env$last.par.best)
 
   # Return ----
-  return(list(obj = obj, data = data, fit = fit, report = report))
+  return(list(obj = obj, data = data, fit = fit, report = report, parList = par_list, input_par = input_par))
 }
 

@@ -143,7 +143,7 @@ FitWtAgeRE <- function(
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(years, ages)
+  years_ages <- expand.grid(proj_years, ages)
   colnames(years_ages) <- c("year", "age")
 
   # Deal with weights
