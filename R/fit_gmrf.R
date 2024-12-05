@@ -170,11 +170,14 @@ FitGMRF <- function(
       rownames(report$wt_hat) <- ages
 
       # Prediction
-      pred_weight <- gmrf[[1]]$report$wt_hat[,(length(years)+1):ncol(gmrf[[1]]$report$wt_hat)] %>%
+      pred_weight <- report$wt_hat[,(length(years)+1):ncol(report$wt_hat)] %>%
         as.data.frame() %>%
         mutate(age = ages) %>%
         tidyr::pivot_longer(!age) %>%
-        dplyr::rename(weight = value, year = name)
+        dplyr::rename(weight = value, year = name) %>%
+        dplyr::select(year, age, weight) %>%
+        dplyr::rename(pred_weight = weight) %>%
+        as.data.frame()
 
       # Save
       models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report, prediction = pred_weight)

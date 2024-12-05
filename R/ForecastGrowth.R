@@ -17,29 +17,56 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     stop(print("Columns do not include `weight`, `age`, or `year`"))
   }
 
-  if(peels >= unique(data$year)){
+  if(peels >= length(unique(data$year))){
     stop(print("Number of retrospective peels is greater than the number of years"))
   }
 
-  # Fit models ----
-  # * VBGF ----
-  vbgf <- FitVBGF(
-    data = data,
-    weights=NULL,
-    n_proj_years = n_proj_years
-  )
 
-  # * GMRF ----
-  gmrf <- FitGMRF(
-    data = data,
-    weights=NULL,
-    n_proj_years = n_proj_years
-  )
+  # Run peels
+  peel_list <- list()
+  for(i in 1:peels){
 
-  # * NN ----
-  #FIXME: no likelihood weights
-  nn <- fit_nn(
-    data,
-    n_proj_years = n_proj_years)
+    # Peel data ----
+    train <- data %>%
+      dplyr::filter(year <= (max(year) - i))
+
+    test <- data %>%
+      dplyr::filter(year <= (max(year) - i+2) & year > (max(year) - i)) # Only two years
+
+
+    # Fit models ----
+    # * VBGF ----
+    vbgf <- FitVBGF(
+      data = train,
+      weights=NULL,
+      n_proj_years = n_proj_years
+    )
+
+    # * GMRF ----
+    gmrf <- FitGMRF(
+      data = train,
+      weights=NULL,
+      n_proj_years = n_proj_years
+    )
+
+    # * NN ----
+    #FIXME: no likelihood weights
+    nn <- fit_nn(
+      data = train,
+      n_proj_years = n_proj_years)
+
+
+    # Combine ----
+    peel_list[[i]] <- list(vbgf = vbgf,
+                           gmrf1 = gmrf[[1]],
+                           gmrf2 = gmrf[[2]],
+                           gmrf3 = gmrf[[3]],
+                           gmrf4 = gmrf[[4]],
+                           nn = nn)
+  }
+  names(peel_list) <- 1:peels
+
+
+  # Performance metrics ----
 
 }

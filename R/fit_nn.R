@@ -26,10 +26,13 @@ fit_nn <- function(data,
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(years, ages)
+  years_ages <- expand.grid(proj_years, ages)
   colnames(years_ages) <- c("year", "age")
 
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
+  years_ages <- years_ages %>%
+    dplyr::select(year, age, pred_weight) %>%
+    as.data.frame()
 
   # Return ----
   return(list(obj = nn, data = data, prediction = years_ages))

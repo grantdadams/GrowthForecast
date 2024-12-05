@@ -9,16 +9,18 @@ vbgf <- function(pars, data_list){
 
   # Output
   nll = 0
-  WeightPred = weight
+  WeightPred = rep(0, length(data_list$weight))
 
   for(i in 1:length(weight)){
     # Model
-    WeightPred[i] = Winf * (1.0-exp(-Kappa*(age[i] - t0)))
+    tmp = Winf * (1.0 - exp(- Kappa *(age[i] - t0)))
+    WeightPred[i] = tmp
 
     # Likelihood
     if(!is.na(weight[i])){
-      nll = nll - dnorm(log(weight[i]), log(WeightPred[i]), sigma, TRUE) * weights[i]
+      nll = nll - dnorm(log(weight[i]), log(tmp), sigma, TRUE) * weights[i]
     }
+
   }
 
   # Report ----
@@ -91,8 +93,8 @@ FitVBGF <- function(data,
   data$pred_weight = report$WeightPred
   pred_weight <- data %>%
     dplyr::filter(year %in% proj_years) %>%
-    dplyr::select(-weight) %>%
-    dplyr::rename(weight = pred_weight)
+    dplyr::select(-weight, -weights) %>%
+    as.data.frame()
 
   # Return ----
   return(list(obj = obj, data = dat, fit = fit, report = report, prediction = pred_weight))
