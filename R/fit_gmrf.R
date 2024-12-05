@@ -14,9 +14,9 @@
 #'
 FitGMRF <- function(
     data = NULL,
-    weights=NULL,
-    # - Number of projection years
-    n_proj_years = 2
+    weights = NULL,
+    n_proj_years = 2,
+    last_year = NA
 ){
 
   # Reformat data for GMRF ----
@@ -166,17 +166,20 @@ FitGMRF <- function(
       # Save optimized model results
       # Get report
       report <- obj$report(obj$env$last.par.best)
-      colnames(report$wt_hat) <- c(years, proj_years)
-      rownames(report$wt_hat) <- ages
+      report$Y_at <- exp(report$ln_Y_at)
+      colnames(report$Y_at) <- c(years, proj_years)
+      rownames(report$Y_at) <- ages
 
       # Prediction
-      pred_weight <- report$wt_hat[,(length(years)+1):ncol(report$wt_hat)] %>%
+      pred_weight <- report$Y_at[,(length(years)+1):ncol(report$Y_at)] %>%
         as.data.frame() %>%
         mutate(age = ages) %>%
         tidyr::pivot_longer(!age) %>%
         dplyr::rename(weight = value, year = name) %>%
         dplyr::select(year, age, weight) %>%
         dplyr::rename(pred_weight = weight) %>%
+        dplyr::mutate(model = paste0("GMRF", n_fact),
+                      last_year = last_year) %>%
         as.data.frame()
 
       # Save

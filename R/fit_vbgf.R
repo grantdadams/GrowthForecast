@@ -45,7 +45,8 @@ vbgf <- function(pars, data_list){
 #' @examples
 FitVBGF <- function(data,
                     weights=NULL,
-                    n_proj_years = 2){
+                    n_proj_years = 2,
+                    last_year = NA){
 
   # Projection ----
   years <- do.call(seq, as.list(range(data$year)))
@@ -94,6 +95,8 @@ FitVBGF <- function(data,
   pred_weight <- data %>%
     dplyr::filter(year %in% proj_years) %>%
     dplyr::select(-weight, -weights) %>%
+    mutate(model = "vbgf",
+           last_year = last_year) %>%
     as.data.frame()
 
   # Return ----

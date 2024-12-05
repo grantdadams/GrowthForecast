@@ -10,7 +10,8 @@
 #'
 #' @examples
 fit_nn <- function(data,
-                   n_proj_years = 2){
+                   n_proj_years = 2,
+                   last_year = NA){
   require(neuralnet)
 
   # Fit deep NN ----
@@ -32,6 +33,8 @@ fit_nn <- function(data,
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
   years_ages <- years_ages %>%
     dplyr::select(year, age, pred_weight) %>%
+    dplyr::mutate(model = "nn",
+                  last_year = last_year) %>%
     as.data.frame()
 
   # Return ----

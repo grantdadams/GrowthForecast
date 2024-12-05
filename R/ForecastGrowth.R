@@ -24,14 +24,16 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
   # Run peels
   peel_list <- list()
+  projection_list <- list()
   for(i in 1:peels){
 
     # Peel data ----
+    last_year <- max(data$year, na.rm = TRUE) - i
     train <- data %>%
-      dplyr::filter(year <= (max(year) - i))
+      dplyr::filter(year <= last_year)
 
     test <- data %>%
-      dplyr::filter(year <= (max(year) - i+2) & year > (max(year) - i)) # Only two years
+      dplyr::filter(year <= (last_year + n_proj_years) & year > last_year) # Only projection years
 
 
     # Fit models ----
@@ -39,21 +41,24 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     vbgf <- FitVBGF(
       data = train,
       weights=NULL,
-      n_proj_years = n_proj_years
+      n_proj_years = n_proj_years,
+      last_year = last_year
     )
 
     # * GMRF ----
     gmrf <- FitGMRF(
       data = train,
       weights=NULL,
-      n_proj_years = n_proj_years
+      n_proj_years = n_proj_years,
+      last_year = last_year
     )
 
     # * NN ----
     #FIXME: no likelihood weights
     nn <- fit_nn(
       data = train,
-      n_proj_years = n_proj_years)
+      n_proj_years = n_proj_years,
+      last_year = last_year)
 
 
     # Combine ----
@@ -63,8 +68,16 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
                            nn = nn)
+
+    projection_list[[i]] <- do.call("rbind",
+                                    lapply(peel_list[[i]],
+                                           function(x) x$prediction)
+    ) %>%
+      tidyr::pivot_wider(names_from = c(model), values_from = pred_weight)
+
   }
   names(peel_list) <- 1:peels
+  names(projection_list) <- 1:peels
 
 
   # Performance metrics ----
