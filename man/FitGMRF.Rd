@@ -4,7 +4,7 @@
 \alias{FitGMRF}
 \title{Function to fit GMRF weight-at-age model from Cheng et al 2023}
 \usage{
-FitGMRF(data = NULL, weights = NULL, n_proj_years = 2)
+FitGMRF(data = NULL, weights = NULL, n_proj_years = 2, last_year = NA)
 }
 \arguments{
 \item{data}{data.frame with columns "year", "age", and "weight". Weight should be in kg so that uncertainty calculations do not cause an issue.}

@@ -4,7 +4,7 @@
 \alias{FitVBGF}
 \title{Fit 3-parameter von-bertalanfy growth function}
 \usage{
-FitVBGF(data, weights = NULL, n_proj_years = 2)
+FitVBGF(data, weights = NULL, n_proj_years = 2, last_year = NA)
 }
 \arguments{
 \item{n_proj_years}{number of years to project forward (default = 2)}

@@ -4,7 +4,7 @@
 \alias{fit_nn}
 \title{Fit deep neural net}
 \usage{
-fit_nn(data, n_proj_years = 2)
+fit_nn(data, n_proj_years = 2, last_year = NA)
 }
 \arguments{
 \item{n_proj_years}{}

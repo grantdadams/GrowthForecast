@@ -14,7 +14,9 @@ Imports:
     RTMB,
     tidyr,
     TMB (>= 1.9.15),
-    xgboost
+    xgboost,
+    MASS,
+    ggplot2
 RoxygenNote: 7.3.2
 LinkingTo: 
     TMB
