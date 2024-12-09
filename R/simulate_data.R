@@ -74,7 +74,7 @@ simulate_weight <- function(
 
   # Simulate year specific parameters ----
   cov.mat <- cov.year.mat %x% cov.ar1.mat
-  year.param.mat <- mvrnorm(1, rep(0, 3 * nyrs), cov.mat)
+  year.param.mat <- MASS::mvrnorm(1, rep(0, 3 * nyrs), cov.mat)
   year.param.mat <- matrix(year.param.mat, nrow = nyrs, ncol = 3, byrow = FALSE) # Rearrange
 
   # Natural scale for winf and k
