@@ -13,7 +13,7 @@ get_growthPars <- function(species_name){
     predict0 <- Plot_taxa( Search_species(Genus="Gadus", Species = "macrocephalus")$match_taxonomy)
   } else if(species_name == 'pop'){
     predict0 <- Plot_taxa( Search_species(Genus="Sebastes", Species = "alutus")$match_taxonomy)
-  }  if(species_name == 'flathead'){
+  } else if(species_name == 'flathead'){
     predict0 <- Plot_taxa( Search_species(Genus="Hippoglossoides", Species = "elassodon")$match_taxonomy)
   } else{
     predict0 <- Plot_taxa( Search_species(Genus= strsplit(species_name,' ')[[1]][1],
@@ -37,4 +37,8 @@ get_growthPars <- function(species_name){
   return(list(mu.parms, cov.group.mat))
 
 }
+
+## Not run:
+# get_growthPars(species_name = 'flathead')
+
 
