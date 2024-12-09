@@ -53,6 +53,7 @@ simulate_weight <- function(
   set.seed(seed)
 
   ## TODO decide whether to call get_growthPars here, pass species as arg
+  ## similarly look up or read in nages and selex vector
 
   ## Mu VBGM hyperparameters ----
   mu.parms <- c(winf, k, t0) ## TODO call or read from get_growthPars mu.parms instead
