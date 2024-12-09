@@ -52,12 +52,14 @@ simulate_weight <- function(
 ){
   set.seed(seed)
 
+  ## TODO decide whether to call get_growthPars here, pass species as arg
+
   ## Mu VBGM hyperparameters ----
-  mu.parms <- c(winf, k, t0)
+  mu.parms <- c(winf, k, t0) ## TODO call or read from get_growthPars mu.parms instead
 
 
   ## Year random effects ----
-  cor.year.mat = matrix(rho, 3, 3)
+  cor.year.mat = matrix(rho, 3, 3) ## TODO call or read from get_growthPars cov.group.mat instead
   diag(cor.year.mat) <- 1
   cov.year.mat <- diag(sigma.year) %*% cor.year.mat %*% diag(sigma.year) # Get covariance
 
