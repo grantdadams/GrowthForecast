@@ -16,7 +16,8 @@ Imports:
     TMB (>= 1.9.15),
     xgboost,
     MASS,
-    ggplot2
+    ggplot2,
+    FishLife
 RoxygenNote: 7.3.2
 LinkingTo: 
     TMB
