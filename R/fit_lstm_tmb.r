@@ -75,7 +75,7 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
 #' @export
 #'
 #' @examples
-fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NULL){
+fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NULL){
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
@@ -92,8 +92,7 @@ fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NUL
     par_list <- list(
       layer1   = matrix(0, ncol(data_list$mat), hidden_dim),
       hidden  = array(0, dim = c(hidden_dim+1, hidden_dim, nhidden_layer)),
-      last_layer = matrix(0, hidden_dim+1, 1) # ,
-      # log_sigma_obs   = -.3
+      last_layer = matrix(0, hidden_dim+1, 1)
     )
   } else{
     par_list <- input_par
@@ -115,6 +114,7 @@ fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NUL
   par_list <- obj$env$parList(obj$env$last.par.best)
 
   # Return ----
-  return(list(obj = obj, data = data, fit = fit, report = report, parList = par_list, input_par = input_par))
+  return(list(obj = obj, data = data, fit = fit, report = report,
+              parList = par_list, input_par = input_par))
 }
 
