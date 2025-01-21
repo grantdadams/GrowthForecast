@@ -13,15 +13,19 @@ lstm_cell <- function(x, h_prev, c_prev, W, U, b) {
 # Function to fit LSTM in RTMB ----
 lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = NULL) {
 
-  tiny = 1.0e-6 # Parameter weights
-  nlayer = nhidden_layer + 2  # Define the number of layers
-  nnform = formula(~age + year)  # Define the formula for the model matrix
-  # nbias = 1
-  data_list <- list(
-    weight = data$weight,  # Extract the weight from the data
-    mat = model.matrix(nnform, data)  # Create the model matrix
-  )
+  require(RTMB)
+  RTMB::getAll(pars, data_list)
 
+  # Parameter transform ----
+  # sigmaObs = exp(log_sigma_obs)
+
+
+  # Data transform ----
+  logweight = log(weight)
+  tiny = 1.0e-6 # Parameter weights
+
+
+  # Model ----
   # Initialize LSTM parameters
   W <- matrix(rnorm(ncol(data_list$mat) * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for input
   U <- matrix(rnorm(hidden_dim * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for hidden state
@@ -75,7 +79,7 @@ fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NUL
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
-  nnform = formula(~age+year)
+  nnform = formula(~age+year) #TODO adjust to use
   data_list <- list(
     weight = data$weight,
     mat = model.matrix(nnform, data),
@@ -96,26 +100,11 @@ fit_nn_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NUL
   }
 
 
-  # library(abind)
-  # nn <- neuralnet(log(weight) ~ age+year,
-  #                 data = data %>%
-  #                   filter(year <= ngroup_hind),
-  #                 hidden = c(5,5,5,5),
-  #                 linear.output = TRUE,
-  #                 stepmax = 1e6,
-  #                 lifesign = 'minimal',
-  #                 rep=1)
-  # par_list2 <- list(
-  #   layer1   = nn$weights[[1]][[1]],
-  #   hidden  = abind(nn$weights[[1]][2:4], along = 3),
-  #   last_layer = nn$weights[[1]][[5]],
-  #   log_sigma_obs   = -.3
-  # )
-
 
   # Build and fit ----
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
-  obj <- RTMB::MakeADFun(cmb(nn_fun_rtmb, data_list), par_list, silent = FALSE)
+  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = FALSE)
+
   if(is.null(input_par)){
     fit <- nlminb(obj$par, obj$fn, obj$gr,
                   control=list(eval.max=200000, iter.max=100000, trace=0))
