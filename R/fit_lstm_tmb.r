@@ -11,7 +11,9 @@ lstm_cell <- function(x, h_prev, c_prev, W, U, b) {
 }
 
 # Function to fit LSTM in RTMB ----
-fit_lstm_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = NULL) {
+lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = NULL) {
+
+  tiny = 1.0e-6 # Parameter weights
   nlayer = nhidden_layer + 2  # Define the number of layers
   nnform = formula(~age + year)  # Define the formula for the model matrix
   # nbias = 1
