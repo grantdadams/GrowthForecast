@@ -14,11 +14,7 @@ lstm_cell <- function(x, h_prev, c_prev, W, U, b) {
 lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = NULL) {
 
   require(RTMB)
-  RTMB::getAll(pars, data_list)
-
-  # Parameter transform ----
-  # sigmaObs = exp(log_sigma_obs)
-
+  # RTMB::getAll(pars, data_list)
 
   # Data transform ----
   logweight = log(weight)
@@ -79,7 +75,7 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
-  nnform = formula(~age+year) #TODO adjust to use
+  nnform = formula(~age+year)
   data_list <- list(
     weight = data$weight,
     mat = model.matrix(nnform, data),
@@ -117,4 +113,15 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
   return(list(obj = obj, data = data, fit = fit, report = report,
               parList = par_list, input_par = input_par))
 }
+
+
+test <- fit_lstm_rtmb(data=dat, input_par = NULL)
+
+dat$predicted <- test$report$output
+
+ggplot(dat, aes(x = age, y = weight, colour = year)) +
+  geom_point(size = 2) +
+  scale_color_discrete() +
+  geom_line
+
 
