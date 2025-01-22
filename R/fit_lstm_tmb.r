@@ -1,5 +1,5 @@
 # LSTM Cell Function ----
-lstm_cell <- function(x, h_prev, c_prev, W, U, b) {
+ltsm_neuron <- function(x, h_prev, c_prev, W, U, b) {
   z <- x %*% W + h_prev %*% U +  matrix(b, nrow = 1,  byrow = TRUE)  # Compute the combined input  # Compute the combined input
   input_gate <- 1 / (1 + exp(-z[, 1:dim(W)[2]]))  # Compute the input gate
   forget_gate <- 1 / (1 + exp(-z[, ((ncol(W)/4) + 1):(2 * (ncol(W)/4))]))  # Compute the forget gate
@@ -33,7 +33,7 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
 
 
   for (t in 1:nrow(data_list$mat)) {  # Loop through each time step
-    lstm_out <- lstm_cell(data_list$mat[t, ],
+    lstm_out <- ltsm_neuron(data_list$mat[t, ],
                           h[t, ],
                           c[t, ], W, U, b)  # Compute LSTM cell output
 
