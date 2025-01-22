@@ -8,8 +8,8 @@ lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
   candidate <- tanh(act_neuron[, ((3 * (ncol(W)/4)) + 1):(4 * (ncol(W)/4))])  # Compute the candidate cell state
 
   input_gate <- forget_gate * c_prev + act_neuron_trans * candidate  # Update the cell state
-  act_neuron <- output_gate * tanh(input_gate)  # Compute the updated hidden state
-  return(list(h = act_neuron, c = input_gate))  # Return the hidden and cell states
+  h_update <- output_gate * tanh(input_gate)  # Compute the updated hidden state
+  return(list(h = h_update, c = input_gate))  # Return the hidden and cell states
 }
 
 # Function to fit LSTM in RTMB ----
@@ -52,7 +52,7 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
   }
 
   # Final layer
-  logoutput <- h %*% matrix(rnorm(hidden_dim), ncol = 1)  # Compute the final outpu
+  logoutput <- h %*% matrix(rnorm(hidden_dim), ncol = 1)  # Compute the final output
   # logoutput <- h %*%  matrix(0, nrow = hidden_dim, ncol = 1)  # Compute the final output
   output <- exp(logoutput)  # Apply exponential to the output
 
