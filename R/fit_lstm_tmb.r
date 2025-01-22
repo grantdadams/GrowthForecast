@@ -25,9 +25,6 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
 
   # Model ----
   # Initialize LSTM parameters
-  # W   =  matrix(0, ncol(data_list$mat), hidden_dim)
-  # U =  matrix(0, ncol(data_list$mat), hidden_dim)
-  # U  = array(0, dim = c(hidden_dim, hidden_dim, nhidden_layer))
   W <- matrix(rnorm(ncol(data_list$mat) * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for input
   U <- matrix(rnorm(hidden_dim * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for hidden state
   b <- rnorm(4 * hidden_dim)  # Initialize biases
@@ -44,23 +41,19 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
                           W,
                           U,
                           b)  # Compute LSTM cell output
-    h[i,] <- lstm_out$h
-    c[i,] <- lstm_out$c  # Update cell state
-    # Update cell & hidden states and ensure matrix structure
-    # h  <- matrix(lstm_out$h, nrow = nrow(data_list$mat), ncol = hidden_dim)
-    # c  <- matrix(lstm_out$c, nrow = nrow(data_list$mat), ncol = hidden_dim)
+    h[i,] <- lstm_out$h ## update stm
+    c[i,] <- lstm_out$c ## update cell
   }
 
   # Final layer
-  logoutput <- h %*% matrix(rnorm(hidden_dim), ncol = 1)  # Compute the final output
-  # logoutput <- h %*%  matrix(0, nrow = hidden_dim, ncol = 1)  # Compute the final output
+  logoutput <- h %*% matrix(0, hidden_dim, ncol = 1)  # Compute the final output
   output <- exp(logoutput)  # Apply exponential to the output
 
   # Likelihood
   nll <- sum((log(data_list$weight) - logoutput)^2)  # Compute the negative log-likelihood
   nll <- nll + tiny * sum(W^2)  # Add regularization for W
   nll <- nll + tiny * sum(U^2)  # Add regularization for U
-  nll <- nll + tiny * sum(b^2)  # Add regularization for b
+  # nll <- nll + tiny * sum(b^2)  # Add regularization for b
 
   # Report
   RTMB::REPORT(h)  # Report hidden states
