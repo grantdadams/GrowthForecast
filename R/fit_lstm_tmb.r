@@ -1,13 +1,15 @@
 # LSTM Cell Function ----
 lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
   act_neuron <- x %*% W + h_prev %*% U # Compute the combined input
-  input_gate <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # Compute the input gate
+  act_neuron_trans <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # Compute the input gate
+
   forget_gate <- 1 / (1 + exp(-act_neuron[, ((ncol(W)/4) + 1):(2 * (ncol(W)/4))]))  # Compute the forget gate
   output_gate <- 1 / (1 + exp(-act_neuron[, ((2 * (ncol(W)/4)) + 1):(3 * (ncol(W)/4))]))  # Compute the output gate
   candidate <- tanh(act_neuron[, ((3 * (ncol(W)/4)) + 1):(4 * (ncol(W)/4))])  # Compute the candidate cell state
-  c <- forget_gate * c_prev + input_gate * candidate  # Update the cell state
-  h <- output_gate * tanh(c)  # Compute the hidden state
-  return(list(h = h, c = c))  # Return the hidden and cell states
+
+  input_gate <- forget_gate * c_prev + act_neuron_trans * candidate  # Update the cell state
+  act_neuron <- output_gate * tanh(input_gate)  # Compute the updated hidden state
+  return(list(h = act_neuron, c = input_gate))  # Return the hidden and cell states
 }
 
 # Function to fit LSTM in RTMB ----
@@ -36,14 +38,14 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
 
 
   for (i in 1:nrow(data_list$mat)) {
-    lstm_out <- ltsm_neuron(x= data_list$mat[i, ],
+    lstm_out <- lstm_neuron(x= data_list$mat[i, ],
                           h_prev=h[i, ], ## output layer
                           c_prev=c[i, ], ## long term memory
                           W,
                           U,
                           b)  # Compute LSTM cell output
-    h <- lstm_out$h
-    c <- lstm_out$c  # Update cell state
+    h[i,] <- lstm_out$h
+    c[i,] <- lstm_out$c  # Update cell state
     # Update cell & hidden states and ensure matrix structure
     # h  <- matrix(lstm_out$h, nrow = nrow(data_list$mat), ncol = hidden_dim)
     # c  <- matrix(lstm_out$c, nrow = nrow(data_list$mat), ncol = hidden_dim)
