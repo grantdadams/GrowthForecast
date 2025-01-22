@@ -13,10 +13,10 @@ lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
 }
 
 # Function to fit LSTM in RTMB ----
-lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = NULL) {
+lstm_fun_rtmb <- function(pars, data_list) {
 
   require(RTMB)
-  # RTMB::getAll(pars, data_list)
+  RTMB::getAll(pars, data_list)
 
   # Data transform ----
   logweight = log(weight)
@@ -85,15 +85,10 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
   # Parameters ----
   if(is.null(input_par)){
     par_list <- list(
-      W <- matrix(0,
-                  nrow =  ncol(data_list$mat),
-                  ncol = 4 * hidden_dim) , # Initialize weights for input
-      U <- matrix(0,
-                  nrow = hidden_dim ,
-                  ncol = 4 * hidden_dim),  # Initialize weights for hidden state
-      h <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
-      c <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize cell states
-
+      W = matrix(0,nrow =  ncol(data_list$mat), ncol = 4 * hidden_dim) , # Initialize weights for input
+      U = matrix(0,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize weights for hidden state
+      h = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
+      c = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize cell states
     )
   } else{
     par_list <- input_par
