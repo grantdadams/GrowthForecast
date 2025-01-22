@@ -1,13 +1,13 @@
 # LSTM Cell Function ----
 lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
   act_neuron <- x %*% W + h_prev %*% U # Compute the combined input
-  act_neuron_trans <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # Compute the input gate
+  act_neuron_sigmoid <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # sig transform entire neuron
 
   forget_gate <- 1 / (1 + exp(-act_neuron[, ((ncol(W)/4) + 1):(2 * (ncol(W)/4))]))  # Compute the forget gate
   output_gate <- 1 / (1 + exp(-act_neuron[, ((2 * (ncol(W)/4)) + 1):(3 * (ncol(W)/4))]))  # Compute the output gate
   candidate <- tanh(act_neuron[, ((3 * (ncol(W)/4)) + 1):(4 * (ncol(W)/4))])  # Compute the candidate cell state
 
-  input_gate <- forget_gate * c_prev + act_neuron_trans * candidate  # Update the cell state
+  input_gate <- forget_gate * c_prev + act_neuron_sigmoid * candidate  # Update the cell state
   h_update <- output_gate * tanh(input_gate)  # Compute the updated hidden state
   return(list(h = h_update, c = input_gate))  # Return the hidden and cell states
 }
@@ -27,7 +27,6 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
   # Initialize LSTM parameters
   W <- matrix(rnorm(ncol(data_list$mat) * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for input
   U <- matrix(rnorm(hidden_dim * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for hidden state
-  b <- rnorm(4 * hidden_dim)  # Initialize biases
 
   # Forward pass
   h <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize hidden states
@@ -53,7 +52,6 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
   nll <- sum((log(data_list$weight) - logoutput)^2)  # Compute the negative log-likelihood
   nll <- nll + tiny * sum(W^2)  # Add regularization for W
   nll <- nll + tiny * sum(U^2)  # Add regularization for U
-  # nll <- nll + tiny * sum(b^2)  # Add regularization for b
 
   # Report
   RTMB::REPORT(h)  # Report hidden states
