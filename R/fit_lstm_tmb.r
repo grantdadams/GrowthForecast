@@ -25,12 +25,10 @@ lstm_fun_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 5, input_par = N
 
   # Model ----
   # Initialize LSTM parameters
-  W <- matrix(rnorm(ncol(data_list$mat) * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for input
-  U <- matrix(rnorm(hidden_dim * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for hidden state
+  # W <- matrix(rnorm(ncol(data_list$mat) * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for input
+  # U <- matrix(rnorm(hidden_dim * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for hidden state
 
   # Forward pass
-  h <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize hidden states
-  c <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize cell states
 
 
   for (i in 1:nrow(data_list$mat)) {
@@ -87,9 +85,15 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
   # Parameters ----
   if(is.null(input_par)){
     par_list <- list(
-      layer1   = matrix(0, ncol(data_list$mat), hidden_dim),
-      hidden  = array(0, dim = c(hidden_dim+1, hidden_dim, nhidden_layer)),
-      last_layer = matrix(0, hidden_dim+1, 1)
+      W <- matrix(0,
+                  nrow =  ncol(data_list$mat),
+                  ncol = 4 * hidden_dim) , # Initialize weights for input
+      U <- matrix(0,
+                  nrow = hidden_dim ,
+                  ncol = 4 * hidden_dim),  # Initialize weights for hidden state
+      h <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
+      c <- matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize cell states
+
     )
   } else{
     par_list <- input_par
