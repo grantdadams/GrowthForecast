@@ -56,8 +56,8 @@ lstm_fun_rtmb <- function(pars, data_list) {
 #' Function to fit LSTM recurrent neural net in RTMB
 #'
 #' @param data data.frame with weight, year, and age
-#' @param nhidden_layer number of hidden layers
-#' @param hidden_dim dimension of hidden layers
+#' @param nhidden_layer number of hidden layers (this is on a per obs basis)
+#' @param hidden_dim dimension of hidden layers (nhidden_layer + 2 for in/out)
 #'
 #' @return
 #' @export
@@ -77,6 +77,7 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
 
   # Parameters ----
   if(is.null(input_par)){
+    ## note: the dims are multiplied by 4 to account for the memory "gates", this will not change
     par_list <- list(
       W = matrix(0.1,nrow =  ncol(data_list$mat), ncol = 4 * hidden_dim) , # Initialize weights for input
       U = matrix(0,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize weights for hidden state
