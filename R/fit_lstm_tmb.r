@@ -78,7 +78,7 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
   # Parameters ----
   if(is.null(input_par)){
     par_list <- list(
-      W = matrix(0,nrow =  ncol(data_list$mat), ncol = 4 * hidden_dim) , # Initialize weights for input
+      W = matrix(0.1,nrow =  ncol(data_list$mat), ncol = 4 * hidden_dim) , # Initialize weights for input
       U = matrix(0,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize weights for hidden state
       h = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
       c = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize cell states
