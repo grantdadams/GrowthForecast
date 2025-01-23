@@ -24,13 +24,6 @@ lstm_fun_rtmb <- function(pars, data_list) {
 
 
   # Model ----
-  # Initialize LSTM parameters
-  # W <- matrix(rnorm(ncol(data_list$mat) * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for input
-  # U <- matrix(rnorm(hidden_dim * 4 * hidden_dim), ncol = 4 * hidden_dim)  # Initialize weights for hidden state
-
-  # Forward pass
-
-
   for (i in 1:nrow(data_list$mat)) {
     lstm_out <- lstm_neuron(x= data_list$mat[i, ],
                           h_prev=h[i, ], ## output layer
@@ -43,11 +36,11 @@ lstm_fun_rtmb <- function(pars, data_list) {
   }
 
   # Final layer
-  logoutput <- h %*% matrix(0, hidden_dim, ncol = 1)  # Compute the final output
+  logoutput <- h %*% last_layer  # Compute the final output
   output <- exp(logoutput)  # Apply exponential to the output
 
   # Likelihood
-  nll <- sum((log(data_list$weight) - logoutput)^2)  # Compute the negative log-likelihood
+  nll <- sum((logweight - logoutput)^2)  # Compute the negative log-likelihood
   nll <- nll + tiny * sum(W^2)  # Add regularization for W
   nll <- nll + tiny * sum(U^2)  # Add regularization for U
 
@@ -88,7 +81,8 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
       W = matrix(0,nrow =  ncol(data_list$mat), ncol = 4 * hidden_dim) , # Initialize weights for input
       U = matrix(0,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize weights for hidden state
       h = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
-      c = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim)  # Initialize cell states
+      c = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize cell states
+      last_layer =  matrix(0, hidden_dim, ncol = 1)
     )
   } else{
     par_list <- input_par
