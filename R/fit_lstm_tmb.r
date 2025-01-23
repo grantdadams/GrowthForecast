@@ -63,7 +63,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
 #' @export
 #'
 #' @examples
-fit_lstm_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 4, input_par = NULL){
+fit_lstm_rtmb <- function(data, nhidden_layer = 1, hidden_dim = 1, input_par = NULL){
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
@@ -110,11 +110,21 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 4, input_par = N
 }
 
 
-# test <- fit_lstm_rtmb(data, input_par = NULL)
-# data$predicted <- test$report$output
-# ggplot(data, aes(x = age, y = weight, colour = year)) +
+# lstm_test <- fit_lstm_rtmb(data, input_par = NULL)
+# nn_test <- fit_nn_rtmb(data, input_par = NULL)
+#
+# data$LSTM <- lstm_test$report$output
+# data$NN <- nn_test$report$output
+#
+# data_plot <- reshape2::melt(data, id = c('year','age','weight'))
+#
+# ggplot(data_plot, aes(x = age, y = weight, colour = year, group =  year)) +
+#   geom_line(aes(y = value)) +
 #   geom_point(size = 2) +
 #   scale_color_discrete() +
-#   geom_line(aes(y = predicted))
+#   facet_grid(~variable) +
+#   ggsidekick::theme_sleek()
+
+
 
 
