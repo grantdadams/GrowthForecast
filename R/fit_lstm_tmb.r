@@ -63,7 +63,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
 #' @export
 #'
 #' @examples
-fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NULL){
+fit_lstm_rtmb <- function(data, nhidden_layer = 2, hidden_dim = 4, input_par = NULL){
 
   # - Rearrange data
   nlayer = nhidden_layer + 2
@@ -80,10 +80,10 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
     ## note: the dims are multiplied by 4 to account for the memory "gates", this will not change
     par_list <- list(
       W = matrix(0.1,nrow =  ncol(data_list$mat), ncol = 4 * hidden_dim) , # Initialize weights for input
-      U = matrix(0,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize weights for hidden state
-      h = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
-      c = matrix(0, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize cell states
-      last_layer =  matrix(0, hidden_dim, ncol = 1)
+      U = matrix(0.1,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize weights for hidden state
+      h = matrix(0.1, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize hidden states
+      c = matrix(0.1, nrow = nrow(data_list$mat), ncol = hidden_dim),  # Initialize cell states
+      last_layer =  matrix(0.1, hidden_dim, ncol = 1)
     )
   } else{
     par_list <- input_par
@@ -96,8 +96,8 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
   obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = FALSE)
 
   if(is.null(input_par)){
-    fit <- nlminb(obj$par, obj$fn, obj$gr,
-                  control=list(eval.max=200000, iter.max=100000, trace=0))
+    fit <- nlminb(obj$par, obj$fn, obj$gr)
+    # fit <- nlminb(obj$par, obj$fn, obj$gr,control=list(eval.max=200000, iter.max=100000, trace=0))
   }else{
     fit <- NULL
   }
@@ -110,13 +110,11 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
 }
 
 
-test <- fit_lstm_rtmb(data, input_par = NULL)
-
-dat$predicted <- test$report$output
-
-ggplot(dat, aes(x = age, y = weight, colour = year)) +
-  geom_point(size = 2) +
-  scale_color_discrete() +
-  geom_line
+# test <- fit_lstm_rtmb(data, input_par = NULL)
+# data$predicted <- test$report$output
+# ggplot(data, aes(x = age, y = weight, colour = year)) +
+#   geom_point(size = 2) +
+#   scale_color_discrete() +
+#   geom_line(aes(y = predicted))
 
 
