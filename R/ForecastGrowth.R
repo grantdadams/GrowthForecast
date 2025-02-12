@@ -46,20 +46,20 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     )
 
     # * WtAgeRe ----
-    wtagere <- FitWtAgeRE(
-      data = train,
-      weights=NULL,
-      # - Number of projection years
-      n_proj_years = n_proj_years
-    )
+    # wtagere <- FitWtAgeRE(
+    #   data = train,
+    #   weights=NULL,
+    #   # - Number of projection years
+    #   n_proj_years = n_proj_years
+    # )
 
     # * GMRF ----
-    gmrf <- FitGMRF(
-      data = train,
-      weights=NULL,
-      n_proj_years = n_proj_years,
-      last_year = last_year
-    )
+    # gmrf <- FitGMRF(
+    #   data = train,
+    #   weights=NULL,
+    #   n_proj_years = n_proj_years,
+    #   last_year = last_year
+    # )
 
     # * NN ----
     #FIXME: no likelihood weights
@@ -71,25 +71,31 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
     # Combine ----
     peel_list[[i]] <- list(vbgf = vbgf,
-                           wtagere = wtagere,
-                           gmrf1 = gmrf[[1]],
-                           gmrf2 = gmrf[[2]],
-                           gmrf3 = gmrf[[3]],
-                           gmrf4 = gmrf[[4]],
+                           # wtagere = wtagere,
+                           # gmrf1 = gmrf[[1]],
+                           # gmrf2 = gmrf[[2]],
+                           # gmrf3 = gmrf[[3]],
+                           # gmrf4 = gmrf[[4]],
                            nn = nn)
 
     projection_list[[i]] <- do.call("rbind",
                                     lapply(peel_list[[i]],
-                                           function(x) x$prediction)
-    ) %>%
+                                           function(x){x$prediction %>%
+                                               dplyr::select(year, age,
+                                                             pred_weight, model)}
+    )) %>%
       tidyr::pivot_wider(names_from = c(model), values_from = pred_weight)
 
   }
+
   names(peel_list) <- 1:peels
   names(projection_list) <- 1:peels
 
 
   # Performance metrics ----
+  ## want to know who did the best in foreYr 1 and 2 depending on age maybe and peel
+
+
 
 
   # Pick best model ---
