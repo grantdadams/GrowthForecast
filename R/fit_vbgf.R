@@ -91,7 +91,10 @@ FitVBGF <- function(data,
   report <- obj$report(obj$env$last.par.best)
 
   # Prediction ----
+  # - Prediction for each obs
   data$pred_weight = report$WeightPred
+
+  # - Predicted for projection
   pred_weight <- data %>%
     dplyr::filter(year %in% proj_years) %>%
     dplyr::select(-weight, -weights) %>%
@@ -100,6 +103,6 @@ FitVBGF <- function(data,
     as.data.frame()
 
   # Return ----
-  return(list(obj = obj, data = dat, fit = fit, report = report, prediction = pred_weight))
+  return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_weight))
 }
 

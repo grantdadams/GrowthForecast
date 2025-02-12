@@ -30,6 +30,11 @@ fit_nn <- function(data,
   years_ages <- expand.grid(proj_years, ages)
   colnames(years_ages) <- c("year", "age")
 
+
+  # - Prediction for each obs
+  data$pred_weight = predict(nn)
+
+  # - Predicted for forecast
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
   years_ages <- years_ages %>%
     dplyr::select(year, age, pred_weight) %>%

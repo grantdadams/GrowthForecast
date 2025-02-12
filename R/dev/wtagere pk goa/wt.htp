@@ -1,0 +1,167 @@
+#define SEPFUN1
+#define SEPFUN3
+#define SEPFUN4
+class model_data : public ad_comm{
+  public:
+  data_int  cur_yr;
+  int retro;
+  data_int  styr;
+  data_int  endyr;
+  data_int  ndat;
+  int nscale_parm;
+  data_ivector nyrs_data;
+  data_imatrix yrs_data;
+  data_int  age_st;
+  data_int  age_end;
+  int nages;
+  data_3array wt_obs;
+  data_3array sd_obs;
+  int phase_d_scale;
+  dvector ages;
+  int max_nyrs_data;
+  ~model_data();
+  model_data(int argc,char * argv[]);
+  friend class model_parameters;
+};
+
+class model_parameters : public model_data ,
+  public function_minimizer
+{
+public:
+  friend class df1b2_pre_parameters;
+  friend class df1b2_parameters;
+  static model_parameters * model_parameters_ptr;
+  static model_parameters * get_model_parameters_ptr(void)
+  {
+    return model_parameters_ptr;
+  }
+  ~model_parameters();
+  void preliminary_calculations(void);
+  void set_runtime(void);
+  static int mc_phase(void)
+  {
+    return initial_params::mc_phase;
+  }
+  static int mceval_phase(void)
+  {
+    return initial_params::mceval_phase;
+  }
+  static int hessian_phase(void)
+  {
+    return initial_params::in_hessian_phase;
+  }
+  static int sd_phase(void)
+  {
+    return initial_params::sd_phase;
+  }
+  static int current_phase(void)
+  {
+    return initial_params::current_phase;
+  }
+  static int last_phase(void)
+  {
+    return (initial_params::current_phase
+      >=initial_params::max_number_phases);
+  }
+  static prevariable& current_feval(void)
+  {
+    return *objective_function_value::pobjfun;
+  }
+private:
+  ivector integer_control_flags;
+  void begin_df1b2_funnel(void);
+  void end_df1b2_funnel(void);
+  dvector double_control_flags;
+  param_init_bounded_number L1;
+  param_init_bounded_number L2;
+  param_init_number  log_alpha;
+  param_init_number  log_K;
+  param_init_matrix d_scale;
+  param_3array wt_hat;
+  param_matrix wt_pre;
+  param_number  alpha;
+  param_vector mnwt;
+  param_vector wt_inc;
+  param_stddev_number  sigma_coh;
+  param_stddev_number  sigma_yr;
+  param_stddev_number  K;
+  param_stddev_matrix wt_hist;
+  param_stddev_vector wt_cur;
+  param_stddev_vector wt_next;
+  param_stddev_vector wt_yraf;
+  param_init_bounded_number log_sd_coh;
+  param_init_bounded_number log_sd_yr;
+  random_effects_vector coh_eff;
+  random_effects_vector yr_eff;
+  param_number prior_function_value;
+  param_number likelihood_function_value;
+  objective_function_value  nll;
+public:
+  virtual void userfunction(void);
+  virtual void report(const dvector& gradients);
+  virtual void final_calcs(void);
+  model_parameters(int sz,int argc, char * argv[]);
+  virtual void initializationfunction(void);
+  virtual void AD_uf_inner(void){pre_userfunction();}
+  virtual void AD_uf_outer(void){pre_userfunction();}
+  virtual void user_function(void){;}
+  virtual void allocate(void){;}
+
+};
+  
+class df1b2_pre_parameters : public model_parameters
+{ 
+public: 
+  df1b2_pre_parameters(int sz,int argc, char * argv[]) : 
+    model_parameters(sz,argc,argv){;}
+  re_objective_function_value  nll;
+  void begin_df1b2_funnel(void); 
+  void setup_quadprior_calcs(void); 
+  void end_df1b2_funnel(void);
+}; 
+ 
+class df1b2_parameters : public df1b2_pre_parameters 
+{ 
+public: 
+  static df1b2_parameters * df1b2_parameters_ptr;
+  static df1b2_parameters * get_df1b2_parameters_ptr(void) 
+  { 
+    return df1b2_parameters_ptr; 
+  } 
+  void deallocate(); 
+  df1b2_parameters(int sz,int argc, char * argv[]) : 
+    df1b2_pre_parameters(sz,argc,argv) 
+  { 
+    df1b2_parameters_ptr=this;
+  }
+  df1b2_init_bounded_number L1;
+  df1b2_init_bounded_number L2;
+  df1b2_init_number  log_alpha;
+  df1b2_init_number  log_K;
+  df1b2_init_matrix d_scale;
+  df1b23array wt_hat;
+  df1b2matrix wt_pre;
+  df1b2variable  alpha;
+  df1b2vector mnwt;
+  df1b2vector wt_inc;
+  df1b2variable  sigma_coh;
+  df1b2variable  sigma_yr;
+  df1b2variable  K;
+  df1b2matrix wt_hist;
+  df1b2vector wt_cur;
+  df1b2vector wt_next;
+  df1b2vector wt_yraf;
+  df1b2_init_bounded_number log_sd_coh;
+  df1b2_init_bounded_number log_sd_yr;
+  df1b2_init_vector coh_eff;
+  df1b2_init_vector yr_eff;
+  df1b2variable prior_function_value;
+  df1b2variable likelihood_function_value;
+   // re_objective_function_value  nll;
+  virtual void user_function(void); 
+  virtual void allocate(void); 
+ // void begin_df1b2_funnel(void); 
+ // void setup_quadprior_calcs(void); 
+ // void end_df1b2_funnel(void);
+
+};

@@ -45,6 +45,14 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
       last_year = last_year
     )
 
+    # * WtAgeRe ----
+    wtagere <- FitWtAgeRE(
+      data = train,
+      weights=NULL,
+      # - Number of projection years
+      n_proj_years = n_proj_years
+    )
+
     # * GMRF ----
     gmrf <- FitGMRF(
       data = train,
@@ -63,6 +71,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
     # Combine ----
     peel_list[[i]] <- list(vbgf = vbgf,
+                           wtagere = wtagere,
                            gmrf1 = gmrf[[1]],
                            gmrf2 = gmrf[[2]],
                            gmrf3 = gmrf[[3]],
@@ -81,5 +90,9 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
 
   # Performance metrics ----
+
+
+  # Pick best model ---
+  # - Output
 
 }

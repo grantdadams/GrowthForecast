@@ -17,7 +17,8 @@ Imports:
     xgboost,
     MASS,
     ggplot2,
-    FishLife
+    FishLife,
+    reshape2
 RoxygenNote: 7.3.2
 LinkingTo: 
     TMB

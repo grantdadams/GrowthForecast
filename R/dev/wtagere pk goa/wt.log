@@ -1,0 +1,2263 @@
+
+Initial statistics: 21 variables; iteration 0; function evaluation 0; phase 1
+Function value 5.6579647e+05; maximum gradient component mag 7.2214e+05
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.01415  7.22143e+05 |  2  0.00000 -1.80345e+01 |  3  0.00000 -6.14025e+02
+  4  0.00000 -9.38965e+03 |  5  0.00000 -7.97356e+04 |  6  0.00000 -2.35562e+05
+  7  0.00000 -1.27413e+05 |  8  0.00000 -6.02752e+04 |  9  0.00000 -2.86123e+04
+ 10  0.00000 -1.69291e+04 | 11  0.00000 -1.16526e+04 | 12  0.00000 -2.50843e+01
+ 13  0.00000 -5.76386e+02 | 14  0.00000 -7.21053e+03 | 15  0.00000 -5.17022e+04
+ 16  0.00000 -1.35423e+05 | 17  0.00000 -6.50491e+04 | 18  0.00000 -2.88639e+04
+ 19  0.00000 -1.35221e+04 | 20  0.00000 -7.87478e+03 | 21  0.00000 -5.53898e+03
+
+Intermediate statistics: 21 variables; iteration 20; function evaluation 36; phase 1
+Function value 2.3018253e+05; maximum gradient component mag 7.9512e+05
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.01107  7.95116e+05 |  2  0.62361  3.29902e+02 |  3  2.96622  9.59740e+03
+  4  0.29947 -2.32151e+03 |  5  0.52065 -8.73473e+03 |  6  0.70272 -2.07467e+03
+  7  0.76399 -8.44824e+03 |  8  0.81990 -3.68176e+03 |  9  0.85324 -8.10293e+02
+ 10  0.83550 -8.47585e+02 | 11  0.71805 -2.28852e+03 | 12  3.33619  8.07860e+02
+ 13  0.43836  9.39624e+01 | 14  0.76134  8.51319e+02 | 15  0.69858 -9.10213e+03
+ 16  0.82720 -1.25059e+04 | 17  0.84027 -6.51950e+03 | 18  0.87661 -1.79489e+03
+ 19  0.81575 -1.63215e+03 | 20  1.00408  7.71837e+02 | 21  0.48943 -2.68367e+03
+  ic > imax  in fminim is answer attained ?
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.12401 -9.04981e-03 |  2  0.05253 -2.93536e-05 |  3  0.25301  2.91521e-04
+  4  0.50943 -2.50872e-04 |  5  0.70150 -6.44521e-04 |  6  0.80935 -1.97385e-03
+  7  0.89830  8.45194e-04 |  8  0.92968  1.56524e-04 |  9  0.91205  1.99626e-06
+ 10  0.89525  7.51132e-06 | 11  0.89448  3.00775e-05 | 12  0.16333  2.01751e-05
+ 13  0.53089  1.88385e-05 | 14  0.87445 -5.18502e-04 | 15  1.01676 -6.17881e-04
+ 16  1.04006 -1.22395e-03 | 17  1.02514  4.26335e-04 | 18  0.99514  5.63250e-05
+ 19  0.96348  3.64746e-05 | 20  0.93085 -1.57031e-05 | 21  0.95041  3.53708e-05
+Function minimizer not making progress ... is minimum attained?
+Minimprove criterion = 0.0000e+00
+
+ - final statistics:
+21 variables; iteration 40; function evaluation 86
+Function value 1.7244e+05; maximum gradient component mag -9.0498e-03
+Exit code = 1;  converg criter 1.0000e-04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.12401 -9.04981e-03 |  2  0.05253 -2.93536e-05 |  3  0.25301  2.91521e-04
+  4  0.50943 -2.50872e-04 |  5  0.70150 -6.44521e-04 |  6  0.80935 -1.97385e-03
+  7  0.89830  8.45194e-04 |  8  0.92968  1.56524e-04 |  9  0.91205  1.99626e-06
+ 10  0.89525  7.51132e-06 | 11  0.89448  3.00775e-05 | 12  0.16333  2.01751e-05
+ 13  0.53089  1.88385e-05 | 14  0.87445 -5.18502e-04 | 15  1.01676 -6.17881e-04
+ 16  1.04006 -1.22395e-03 | 17  1.02514  4.26335e-04 | 18  0.99514  5.63250e-05
+ 19  0.96348  3.64746e-05 | 20  0.93085 -1.57031e-05 | 21  0.95041  3.53708e-05
+
+Initial statistics: 22 variables; iteration 0; function evaluation 0; phase 2
+Function value 1.7243961e+05; maximum gradient component mag 1.2399e+05
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.12401 -8.80532e-03 |  2 -0.18067  1.23992e+05 |  3  0.05253 -2.83014e-05
+  4  0.25301  2.80512e-04 |  5  0.50943 -2.41258e-04 |  6  0.70150 -6.33486e-04
+  7  0.80935 -1.87512e-03 |  8  0.89830  8.20426e-04 |  9  0.92968  1.51321e-04
+ 10  0.91205  2.33659e-06 | 11  0.89525  7.43476e-06 | 12  0.89448  2.93093e-05
+ 13  0.16333  2.00450e-05 | 14  0.53089  1.80860e-05 | 15  0.87445 -5.02397e-04
+ 16  1.01676 -6.02560e-04 | 17  1.04006 -1.16180e-03 | 18  1.02514  4.13472e-04
+ 19  0.99514  5.44269e-05 | 20  0.96348  3.50968e-05 | 21  0.93085 -1.51576e-05
+ 22  0.95041  3.42165e-05 |
+
+Intermediate statistics: 22 variables; iteration 20; function evaluation 31; phase 2
+Function value 1.7211047e+05; maximum gradient component mag 1.1271e+05
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.10675  2.50762e+04 |  2 -0.18545  1.12709e+05 |  3  0.04610 -6.44704e-01
+  4  0.24758  1.20097e+01 |  5  0.49440 -1.74976e+01 |  6  0.69412  2.05590e+02
+  7  0.81125  1.15376e+03 |  8  0.90786  6.73886e+02 |  9  0.94893  5.33997e+02
+ 10  0.93172  1.45228e+02 | 11  0.92013  1.20558e+02 | 12  0.92239  8.39398e+01
+ 13  0.15186  6.76600e-02 | 14  0.49104 -1.30903e+01 | 15  0.85452  2.66438e+01
+ 16  1.00704  1.75830e+02 | 17  1.04181  5.82890e+02 | 18  1.03765  4.36074e+02
+ 19  1.01279  1.76899e+02 | 20  0.98682  1.02053e+02 | 21  0.96200  9.82270e+01
+ 22  0.98229  5.22541e+01 |
+  ic > imax  in fminim is answer attained ?
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.10487  6.34560e-04 |  2 -0.18750  1.61163e-03 |  3  0.04825  2.74577e-06
+  4  0.24060 -4.06718e-07 |  5  0.49588  1.59825e-06 |  6  0.69427  7.21678e-06
+  7  0.81096  1.89268e-05 |  8  0.90863  9.86313e-06 |  9  0.94736  9.60874e-06
+ 10  0.93491  1.18324e-06 | 11  0.92210  1.96042e-06 | 12  0.92495  1.20231e-06
+ 13  0.15002 -2.46846e-06 | 14  0.50484  1.94390e-07 | 15  0.85119  1.26815e-06
+ 16  1.00629  4.75324e-06 | 17  1.04213  9.81310e-06 | 18  1.03693  5.94154e-06
+ 19  1.01406  2.13655e-06 | 20  0.98763  1.78434e-06 | 21  0.95878  2.64419e-06
+ 22  0.98279  1.46375e-06 |
+Function minimizer not making progress ... is minimum attained?
+Minimprove criterion = 0.0000e+00
+
+ - final statistics:
+22 variables; iteration 29; function evaluation 70
+Function value 1.7202e+05; maximum gradient component mag 1.6116e-03
+Exit code = 1;  converg criter 1.0000e-04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.10487  6.34560e-04 |  2 -0.18750  1.61163e-03 |  3  0.04825  2.74577e-06
+  4  0.24060 -4.06718e-07 |  5  0.49588  1.59825e-06 |  6  0.69427  7.21678e-06
+  7  0.81096  1.89268e-05 |  8  0.90863  9.86313e-06 |  9  0.94736  9.60874e-06
+ 10  0.93491  1.18324e-06 | 11  0.92210  1.96042e-06 | 12  0.92495  1.20231e-06
+ 13  0.15002 -2.46846e-06 | 14  0.50484  1.94390e-07 | 15  0.85119  1.26815e-06
+ 16  1.00629  4.75324e-06 | 17  1.04213  9.81310e-06 | 18  1.03693  5.94154e-06
+ 19  1.01406  2.13655e-06 | 20  0.98763  1.78434e-06 | 21  0.95878  2.64419e-06
+ 22  0.98279  1.46375e-06 |
+
+Initial statistics: 23 variables; iteration 0; function evaluation 0; phase 3
+Function value 1.7201845e+05; maximum gradient component mag 3.7198e+04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.10487  6.34560e-04 |  2 -0.18750  1.61163e-03 |  3 -0.13000  3.71982e+04
+  4  0.04825  2.74577e-06 |  5  0.24060 -4.06718e-07 |  6  0.49588  1.59825e-06
+  7  0.69427  7.21678e-06 |  8  0.81096  1.89268e-05 |  9  0.90863  9.86313e-06
+ 10  0.94736  9.60874e-06 | 11  0.93491  1.18324e-06 | 12  0.92210  1.96042e-06
+ 13  0.92495  1.20231e-06 | 14  0.15002 -2.46846e-06 | 15  0.50484  1.94390e-07
+ 16  0.85119  1.26815e-06 | 17  1.00629  4.75324e-06 | 18  1.04213  9.81310e-06
+ 19  1.03693  5.94154e-06 | 20  1.01406  2.13655e-06 | 21  0.98763  1.78434e-06
+ 22  0.95878  2.64419e-06 | 23  0.98279  1.46375e-06 |
+
+Intermediate statistics: 23 variables; iteration 20; function evaluation 26; phase 3
+Function value 1.7100273e+05; maximum gradient component mag -3.0280e+04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.13540  5.88252e+03 |  2 -0.19602 -3.02801e+04 |  3 -0.16853  2.63807e+04
+  4  0.07398  3.64034e+00 |  5  0.26168  1.26383e+01 |  6  0.53391  4.45054e+02
+  7  0.70532  1.17557e+03 |  8  0.81328  1.81654e+03 |  9  0.87776 -3.64628e+03
+ 10  0.95224 -3.17037e+01 | 11  0.94253 -2.25664e+02 | 12  0.96184  2.04072e+02
+ 13  0.99650  3.49199e+02 | 14  0.19278  1.81578e+00 | 15  0.66122  9.82681e+01
+ 16  0.91753  3.48819e+02 | 17  1.01419  4.09133e+02 | 18  1.01459 -2.47675e+03
+ 19  1.02000 -8.19777e+02 | 20  1.02160  4.49052e+01 | 21  0.99980 -5.53415e+01
+ 22  1.02249  2.60444e+02 | 23  1.07948  2.69361e+02 |
+  ic > imax  in fminim is answer attained ?
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.26054  1.73594e-03 |  2 -0.20946  6.04546e-03 |  3 -0.26705 -1.52865e-03
+  4  0.10209  3.45055e-06 |  5  0.32373  2.49842e-06 |  6  0.54606  6.70215e-05
+  7  0.70119  1.68991e-04 |  8  0.79635  1.76583e-04 |  9  0.89562 -2.28655e-04
+ 10  0.95405 -4.98585e-05 | 11  0.97117 -4.08234e-05 | 12  0.99270  6.95857e-07
+ 13  1.03373  1.80518e-05 | 14  0.31742  4.57367e-07 | 15  0.67927  1.28777e-05
+ 16  0.93733  4.97952e-05 | 17  1.01631  9.40421e-05 | 18  1.02335 -6.60727e-05
+ 19  1.02208 -6.37979e-05 | 20  1.02122 -2.07123e-05 | 21  1.02594 -1.30515e-05
+ 22  1.03218  1.14325e-05 | 23  1.09837  1.82153e-05 |
+Function minimizer not making progress ... is minimum attained?
+Minimprove criterion = 0.0000e+00
+
+ - final statistics:
+23 variables; iteration 40; function evaluation 76
+Function value 1.6961e+05; maximum gradient component mag 6.0455e-03
+Exit code = 1;  converg criter 1.0000e-04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.26054  1.73594e-03 |  2 -0.20946  6.04546e-03 |  3 -0.26705 -1.52865e-03
+  4  0.10209  3.45055e-06 |  5  0.32373  2.49842e-06 |  6  0.54606  6.70215e-05
+  7  0.70119  1.68991e-04 |  8  0.79635  1.76583e-04 |  9  0.89562 -2.28655e-04
+ 10  0.95405 -4.98585e-05 | 11  0.97117 -4.08234e-05 | 12  0.99270  6.95857e-07
+ 13  1.03373  1.80518e-05 | 14  0.31742  4.57367e-07 | 15  0.67927  1.28777e-05
+ 16  0.93733  4.97952e-05 | 17  1.01631  9.40421e-05 | 18  1.02335 -6.60727e-05
+ 19  1.02208 -6.37979e-05 | 20  1.02122 -2.07123e-05 | 21  1.02594 -1.30515e-05
+ 22  1.03218  1.14325e-05 | 23  1.09837  1.82153e-05 |
+ inner maxg = 9.9016897812e-04  Inner second time = 9.9016897812e-04  Inner f = 1.0279928300e+05
+Newton raphson 1
+ f = 102799.2829991593 max g = 2.0034186754e-08
+Newton raphson 2
+ f = 102799.2829991592 max g = 2.9759483766e-10
+
+Initial statistics: 23 variables; iteration 0; function evaluation 0; phase 4
+Function value 1.0290693e+05; maximum gradient component mag 1.9420e+05
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.26054  4.80115e+04 |  2 -0.20946  1.94197e+05 |  3 -0.26705 -1.07585e+05
+  4  0.10209  1.09032e+01 |  5  0.32373  1.30661e+02 |  6  0.54606  1.20866e+03
+  7  0.70119  6.78950e+03 |  8  0.79635  1.08975e+04 |  9  0.89562  3.40684e+03
+ 10  0.95405  5.13923e+02 | 11  0.97117 -7.70793e+01 | 12  0.99270 -7.76821e+01
+ 13  1.03373 -6.81727e+00 | 14  0.31742  1.62514e+01 | 15  0.67927  1.25916e+02
+ 16  0.93733  9.30933e+02 | 17  1.01631  5.00630e+03 | 18  1.02335  1.16932e+04
+ 19  1.02208  3.90036e+03 | 20  1.02122  1.48710e+03 | 21  1.02594  6.93490e+02
+ 22  1.03218  3.18626e+02 | 23  1.09837  2.73510e+02 |
+ inner maxg = -9.9396976235e-04  Inner second time = -9.9396976235e-04  Inner f = 1.0279926300e+05
+Newton raphson 1
+ f = 102799.2629977667 max g = 8.3787779159e-08
+Newton raphson 2
+ f = 102799.2629977666 max g = 2.5284263572e-10
+ inner maxg = -7.5725461224e-04  Inner second time = -7.5725461224e-04  Inner f = 1.0279906301e+05
+Newton raphson 1
+ f = 102799.0630075115 max g = 5.0269859386e-09
+Newton raphson 2
+ f = 102799.0630075116 max g = 3.0124924777e-10
+ inner maxg = -8.0582135674e-04  Inner second time = -8.0582135674e-04  Inner f = 1.0279706547e+05
+Newton raphson 1
+ f = 102797.0654721531 max g = 1.8928600021e-08
+Newton raphson 2
+ f = 102797.0654721530 max g = 2.8977176214e-10
+ inner maxg = -7.7150752877e-04  Inner second time = -7.7150752877e-04  Inner f = 1.0277732675e+05
+Newton raphson 1
+ f = 102777.3267458626 max g = 5.8166167438e-08
+Newton raphson 2
+ f = 102777.3267458624 max g = 2.9647972966e-10
+ inner maxg = -7.4950515079e-04  Inner second time = -7.4950515079e-04  Inner f = 1.0260351066e+05
+Newton raphson 1
+ f = 102603.5106600993 max g = 1.0593095578e-07
+Newton raphson 2
+ f = 102603.5106600993 max g = 2.6548185872e-10
+ inner maxg = 9.8944845402e-04  Inner second time = 9.8944845402e-04  Inner f = 1.0225537873e+05
+Newton raphson 1
+ f = 102255.3787277317 max g = 1.0016593888e-08
+Newton raphson 2
+ f = 102255.3787277318 max g = 2.7930502355e-10
+ inner maxg = 7.1004668021e-04  Inner second time = 7.1004668021e-04  Inner f = 1.0167312600e+05
+Newton raphson 1
+ f = 101673.1260033527 max g = 4.9576556194e-09
+Newton raphson 2
+ f = 101673.1260033530 max g = 3.0232438775e-10
+ inner maxg = -9.9558826502e-04  Inner second time = -9.9558826502e-04  Inner f = 1.0139925199e+05
+Newton raphson 1
+ f = 101399.2519947165 max g = 3.1066914041e-08
+Newton raphson 2
+ f = 101399.2519947165 max g = 2.1364332525e-10
+ inner maxg = -9.1131900540e-04  Inner second time = -9.1131900540e-04  Inner f = 1.0116676991e+05
+Newton raphson 1
+ f = 101166.7699063968 max g = 1.7393291807e-08
+Newton raphson 2
+ f = 101166.7699063967 max g = 2.6804114484e-10
+ inner maxg = -7.7215293776e-04  Inner second time = -7.7215293776e-04  Inner f = 1.0129784951e+05
+Newton raphson 1
+ f = 101297.8495096721 max g = 2.6352746874e-08
+Newton raphson 2
+ f = 101297.8495096722 max g = 2.7957680615e-10
+ inner maxg = 9.4013260778e-04  Inner second time = 9.4013260778e-04  Inner f = 1.0107162171e+05
+Newton raphson 1
+ f = 101071.6217106779 max g = 3.9611436353e-08
+Newton raphson 2
+ f = 101071.6217106781 max g = 2.6818458565e-10
+ inner maxg = 8.5753497931e-04  Inner second time = 8.5753497931e-04  Inner f = 1.0097323010e+05
+Newton raphson 1
+ f = 100973.2301022105 max g = 1.9166000786e-08
+Newton raphson 2
+ f = 100973.2301022107 max g = 2.7185365070e-10
+ inner maxg = -9.5150801871e-04  Inner second time = -9.5150801871e-04  Inner f = 1.0108908421e+05
+Newton raphson 1
+ f = 101089.0842141269 max g = 1.5794462849e-08
+Newton raphson 2
+ f = 101089.0842141266 max g = 2.5617108435e-10
+ inner maxg = 8.2102993917e-04  Inner second time = 8.2102993917e-04  Inner f = 1.0094187440e+05
+Newton raphson 1
+ f = 100941.8744035569 max g = 1.9331385936e-08
+Newton raphson 2
+ f = 100941.8744035568 max g = 2.2401458466e-10
+ inner maxg = -7.2684680639e-04  Inner second time = -7.2684680639e-04  Inner f = 1.0096353120e+05
+Newton raphson 1
+ f = 100963.5312027692 max g = 9.7787257181e-09
+Newton raphson 2
+ f = 100963.5312027693 max g = 2.6447688484e-10
+ inner maxg = -7.8723490784e-04  Inner second time = -7.8723490784e-04  Inner f = 1.0093036112e+05
+Newton raphson 1
+ f = 100930.3611191493 max g = 2.2116848464e-08
+Newton raphson 2
+ f = 100930.3611191490 max g = 2.6214186377e-10
+ inner maxg = -8.7485033517e-04  Inner second time = -8.7485033517e-04  Inner f = 1.0092055250e+05
+Newton raphson 1
+ f = 100920.5525036090 max g = 1.0301890230e-08
+Newton raphson 2
+ f = 100920.5525036091 max g = 2.4097834839e-10
+ inner maxg = -7.6173138152e-04  Inner second time = -7.6173138152e-04  Inner f = 1.0092433330e+05
+Newton raphson 1
+ f = 100924.3332973468 max g = 2.7597773167e-07
+Newton raphson 2
+ f = 100924.3332973468 max g = 2.7037527772e-10
+ inner maxg = 9.3053754332e-04  Inner second time = 9.3053754332e-04  Inner f = 1.0091633057e+05
+Newton raphson 1
+ f = 100916.3305743482 max g = 1.3371096230e-08
+Newton raphson 2
+ f = 100916.3305743481 max g = 2.4240742746e-10
+ inner maxg = 7.4583517116e-04  Inner second time = 7.4583517116e-04  Inner f = 1.0091175304e+05
+Newton raphson 1
+ f = 100911.7530433082 max g = 1.6671725001e-08
+Newton raphson 2
+ f = 100911.7530433081 max g = 2.8025937127e-10
+ inner maxg = 9.9550829346e-04  Inner second time = 9.9550829346e-04  Inner f = 1.0091011107e+05
+Newton raphson 1
+ f = 100910.1110682155 max g = 7.4655738258e-08
+Newton raphson 2
+ f = 100910.1110682155 max g = 2.1181678633e-10
+ inner maxg = -5.8744397157e-04  Inner second time = -5.8744397157e-04  Inner f = 1.0090737561e+05
+Newton raphson 1
+ f = 100907.3756134655 max g = 5.4574587072e-09
+Newton raphson 2
+ f = 100907.3756134656 max g = 2.6687008159e-10
+ inner maxg = 7.3025251830e-04  Inner second time = 7.3025251830e-04  Inner f = 1.0090374012e+05
+Newton raphson 1
+ f = 100903.7401175725 max g = 2.4366628215e-07
+Newton raphson 2
+ f = 100903.7401175723 max g = 2.7288438176e-10
+ inner maxg = 8.7435771382e-04  Inner second time = 8.7435771382e-04  Inner f = 1.0090017499e+05
+Newton raphson 1
+ f = 100900.1749886871 max g = 2.6135361764e-08
+Newton raphson 2
+ f = 100900.1749886872 max g = 2.6461366431e-10
+ inner maxg = -6.8091304324e-04  Inner second time = -6.8091304324e-04  Inner f = 1.0089862784e+05
+Newton raphson 1
+ f = 100898.6278380126 max g = 3.5790789887e-08
+Newton raphson 2
+ f = 100898.6278380127 max g = 2.8375657379e-10
+ inner maxg = -6.8824227422e-04  Inner second time = -6.8824227422e-04  Inner f = 1.0089690220e+05
+Newton raphson 1
+ f = 100896.9022044036 max g = 1.1243322151e-07
+Newton raphson 2
+ f = 100896.9022044036 max g = 2.7091573429e-10
+ inner maxg = -9.4739888089e-04  Inner second time = -9.4739888089e-04  Inner f = 1.0089420112e+05
+Newton raphson 1
+ f = 100894.2011240252 max g = 1.1074873574e-07
+Newton raphson 2
+ f = 100894.2011240253 max g = 2.2807222777e-10
+ inner maxg = 9.5189081829e-04  Inner second time = 9.5189081829e-04  Inner f = 1.0089372213e+05
+Newton raphson 1
+ f = 100893.7221267659 max g = 2.1464850897e-08
+Newton raphson 2
+ f = 100893.7221267659 max g = 2.7047564188e-10
+
+Intermediate statistics: 23 variables; iteration 20; function evaluation 28; phase 4
+Function value 1.0100269e+05; maximum gradient component mag 1.4402e+05
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.25960  3.44170e+04 |  2 -0.20679  1.44016e+05 |  3 -0.25619 -8.20813e+04
+  4  0.04601  1.17291e-01 |  5  0.25667  2.57285e+01 |  6  0.46032 -1.08027e+02
+  7  0.64601  1.42747e+03 |  8  0.80481  1.74450e+04 |  9  0.85714  8.44674e+01
+ 10  0.89402 -2.08985e+03 | 11  0.92075 -8.75115e+02 | 12  0.91863 -8.65073e+02
+ 13  0.94999 -5.75359e+02 | 14  0.21558  9.25393e+00 | 15  0.42742 -5.73307e+01
+ 16  0.74600 -2.70998e+02 | 17  0.88162 -4.66389e+02 | 18  0.94825  4.77879e+03
+ 19  0.93050 -4.46739e+02 | 20  0.92070 -7.36116e+02 | 21  0.93164 -1.92474e+02
+ 22  0.91410 -3.64348e+02 | 23  0.97438 -1.69798e+02 |
+ inner maxg = 7.2561125968e-04  Inner second time = 7.2561125968e-04  Inner f = 1.0089287663e+05
+Newton raphson 1
+ f = 100892.8766327128 max g = 1.1829673241e-08
+Newton raphson 2
+ f = 100892.8766327128 max g = 2.5443736007e-10
+ inner maxg = 4.7286075022e-04  Inner second time = 4.7286075022e-04  Inner f = 1.0088471421e+05
+Newton raphson 1
+ f = 100884.7142111901 max g = 2.5430600958e-09
+Newton raphson 2
+ f = 100884.7142111900 max g = 2.7404656322e-10
+ inner maxg = -9.9018796929e-04  Inner second time = -9.9018796929e-04  Inner f = 1.0083251395e+05
+Newton raphson 1
+ f = 100832.5139506888 max g = 2.4932727660e-08
+Newton raphson 2
+ f = 100832.5139506887 max g = 2.6317126256e-10
+ inner maxg = -8.1712141134e-04  Inner second time = -8.1712141134e-04  Inner f = 1.0151799587e+05
+Newton raphson 1
+ f = 101517.9958703613 max g = 7.8274514204e-08
+Newton raphson 2
+ f = 101517.9958703614 max g = 2.4211965766e-10
+ inner maxg = 8.0819016930e-04  Inner second time = 8.0819016930e-04  Inner f = 1.0082791593e+05
+Newton raphson 1
+ f = 100827.9159293928 max g = 2.5159906603e-08
+Newton raphson 2
+ f = 100827.9159293928 max g = 2.2730883842e-10
+ inner maxg = 7.4840605480e-04  Inner second time = 7.4840605480e-04  Inner f = 1.0081878059e+05
+Newton raphson 1
+ f = 100818.7805941439 max g = 4.6517736774e-08
+Newton raphson 2
+ f = 100818.7805941439 max g = 2.7569768690e-10
+ inner maxg = 6.6116095234e-04  Inner second time = 6.6116095234e-04  Inner f = 1.0073574319e+05
+Newton raphson 1
+ f = 100735.7431945854 max g = 3.4992629239e-08
+Newton raphson 2
+ f = 100735.7431945852 max g = 2.7000446323e-10
+ inner maxg = -8.8710322526e-04  Inner second time = -8.8710322526e-04  Inner f = 1.0055921552e+05
+Newton raphson 1
+ f = 100559.2155165990 max g = 2.6947514331e-08
+Newton raphson 2
+ f = 100559.2155165992 max g = 2.7473312514e-10
+ inner maxg = 8.7802148899e-04  Inner second time = 8.7802148899e-04  Inner f = 9.9698579086e+04
+Newton raphson 1
+ f = 99698.5790863682 max g = 3.1412810020e-08
+Newton raphson 2
+ f = 99698.5790863683 max g = 2.8757529691e-10
+ inner maxg = 7.7511038333e-04  Inner second time = 7.7511038333e-04  Inner f = 9.9673495353e+04
+Newton raphson 1
+ f = 99673.4953525792 max g = 1.2925777226e-08
+Newton raphson 2
+ f = 99673.4953525793 max g = 2.8973712318e-10
+ inner maxg = 9.8693989261e-04  Inner second time = 9.8693989261e-04  Inner f = 9.9671506745e+04
+Newton raphson 1
+ f = 99671.5067453964 max g = 1.5673690312e-07
+Newton raphson 2
+ f = 99671.5067453962 max g = 2.8420377163e-10
+ inner maxg = -8.8984607048e-04  Inner second time = -8.8984607048e-04  Inner f = 9.9671391749e+04
+Newton raphson 1
+ f = 99671.3917494388 max g = 2.7460156515e-07
+Newton raphson 2
+ f = 99671.3917494390 max g = 2.4154189759e-10
+ inner maxg = 9.7409437754e-04  Inner second time = 9.7409437754e-04  Inner f = 9.9671384197e+04
+Newton raphson 1
+ f = 99671.3841970627 max g = 4.1711164966e-08
+Newton raphson 2
+ f = 99671.3841970627 max g = 2.8420510390e-10
+ inner maxg = -9.7792308786e-04  Inner second time = -9.7792308786e-04  Inner f = 9.9671384620e+04
+Newton raphson 1
+ f = 99671.3846201710 max g = 7.1319137263e-09
+Newton raphson 2
+ f = 99671.3846201709 max g = 2.5735280573e-10
+ inner maxg = 9.3851550668e-04  Inner second time = 9.3851550668e-04  Inner f = 9.9671384635e+04
+Newton raphson 1
+ f = 99671.3846353621 max g = 1.1802972044e-08
+Newton raphson 2
+ f = 99671.3846353622 max g = 2.8934143970e-10
+ inner maxg = 9.8703934669e-04  Inner second time = 9.8703934669e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6459910657e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.6592372748e-10
+ inner maxg = 6.6548535975e-04  Inner second time = 6.6548535975e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846406280 max g = 1.2999374577e-08
+Newton raphson 2
+ f = 99671.3846406279 max g = 2.9006530511e-10
+ inner maxg = 9.7394546051e-04  Inner second time = 9.7394546051e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412068 max g = 1.6318224438e-08
+Newton raphson 2
+ f = 99671.3846412069 max g = 2.6498092609e-10
+ inner maxg = 9.8702241243e-04  Inner second time = 9.8702241243e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412234 max g = 1.6456832119e-08
+Newton raphson 2
+ f = 99671.3846412234 max g = 2.7964164317e-10
+ inner maxg = 9.8703934669e-04  Inner second time = 9.8703934669e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6459910657e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.6592372748e-10
+ inner maxg = 9.8703933768e-04  Inner second time = 9.8703933768e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6459906216e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.8059687907e-10
+ inner maxg = 9.8704217325e-04  Inner second time = 9.8704217325e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460676489e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.7465940633e-10
+ inner maxg = 9.8704304292e-04  Inner second time = 9.8704304292e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461236929e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7070390374e-10
+ inner maxg = 9.8704104347e-04  Inner second time = 9.8704104347e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6457773477e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.8886759651e-10
+ inner maxg = 9.8704304292e-04  Inner second time = 9.8704304292e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461236929e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7070390374e-10
+ inner maxg = 9.8704304292e-04  Inner second time = 9.8704304292e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461236929e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7070390374e-10
+ inner maxg = 9.8704304292e-04  Inner second time = 9.8704304292e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461236929e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7070390374e-10
+ inner maxg = 9.8704304292e-04  Inner second time = 9.8704304292e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461236929e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7070390374e-10
+ inner maxg = 9.8704303006e-04  Inner second time = 9.8704303006e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460094288e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7561419813e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8703895502e-04  Inner second time = 9.8703895502e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6458621577e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.8398217111e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293654e-04  Inner second time = 9.8704293654e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461146335e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7876989606e-10
+ inner maxg = 9.8704293447e-04  Inner second time = 9.8704293447e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6461257912e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7322411000e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704010981e-04  Inner second time = 9.8704010981e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6458456598e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.8978108801e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+  ic > imax  in fminim is answer attained ?
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.24051  5.62253e-03 |  2 -0.20214  1.60079e-02 |  3 -0.22700 -1.09468e-02
+  4  0.04116 -7.32997e-05 |  5  0.22802  1.06213e-05 |  6  0.45633  4.31360e-06
+  7  0.62986 -1.71075e-04 |  8  0.74594 -7.77369e-04 |  9  0.85018  1.33223e-04
+ 10  0.91349  1.08798e-04 | 11  0.93168  4.30019e-05 | 12  0.94467  2.19233e-05
+ 13  0.96995  4.20412e-06 | 14  0.11871 -3.15899e-06 | 15  0.46577  1.65193e-05
+ 16  0.76406  9.07172e-06 | 17  0.88608 -3.37280e-05 | 18  0.91243 -1.17773e-04
+ 19  0.93155  8.14638e-05 | 20  0.93253  7.04242e-05 | 21  0.92659  3.41497e-05
+ 22  0.93404  1.21280e-05 | 23  0.97275  1.04205e-05 |
+Function minimizer not making progress ... is minimum attained?
+Minimprove criterion = 0.0000e+00
+
+ - final statistics:
+23 variables; iteration 32; function evaluation 74
+Function value 9.9786e+04; maximum gradient component mag 1.6008e-02
+Exit code = 1;  converg criter 1.0000e-04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.24051  5.62253e-03 |  2 -0.20214  1.60079e-02 |  3 -0.22700 -1.09468e-02
+  4  0.04116 -7.32997e-05 |  5  0.22802  1.06213e-05 |  6  0.45633  4.31360e-06
+  7  0.62986 -1.71075e-04 |  8  0.74594 -7.77369e-04 |  9  0.85018  1.33223e-04
+ 10  0.91349  1.08798e-04 | 11  0.93168  4.30019e-05 | 12  0.94467  2.19233e-05
+ 13  0.96995  4.20412e-06 | 14  0.11871 -3.15899e-06 | 15  0.46577  1.65193e-05
+ 16  0.76406  9.07172e-06 | 17  0.88608 -3.37280e-05 | 18  0.91243 -1.17773e-04
+ 19  0.93155  8.14638e-05 | 20  0.93253  7.04242e-05 | 21  0.92659  3.41497e-05
+ 22  0.93404  1.21280e-05 | 23  0.97275  1.04205e-05 |
+ inner maxg = 9.8704329362e-04  Inner second time = 9.8704329362e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412230 max g = 1.6460779961e-08
+Newton raphson 2
+ f = 99671.3846412229 max g = 2.7823165993e-10
+ inner maxg = 9.8704286389e-04  Inner second time = 9.8704286389e-04  Inner f = 9.9671384641e+04
+Newton raphson 1
+ f = 99671.3846412229 max g = 1.6460679042e-08
+Newton raphson 2
+ f = 99671.3846412230 max g = 2.8292168608e-10
+
+Initial statistics: 24 variables; iteration 0; function evaluation 0; phase 5
+Function value 9.9785712e+04; maximum gradient component mag -9.7135e+03
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.24051  5.62253e-03 |  2 -0.20214  1.60079e-02 |  3 -0.22700 -1.09468e-02
+  4  0.04116 -7.32997e-05 |  5  0.22802  1.06213e-05 |  6  0.45633  4.31360e-06
+  7  0.62986 -1.71075e-04 |  8  0.74594 -7.77369e-04 |  9  0.85018  1.33223e-04
+ 10  0.91349  1.08798e-04 | 11  0.93168  4.30019e-05 | 12  0.94467  2.19233e-05
+ 13  0.96995  4.20412e-06 | 14  0.11871 -3.15899e-06 | 15  0.46577  1.65193e-05
+ 16  0.76406  9.07172e-06 | 17  0.88608 -3.37279e-05 | 18  0.91243 -1.17773e-04
+ 19  0.93155  8.14638e-05 | 20  0.93253  7.04242e-05 | 21  0.92659  3.41497e-05
+ 22  0.93404  1.21280e-05 | 23  0.97275  1.04205e-05 | 24 -0.38870 -9.71351e+03
+ inner maxg = 6.2872354787e-04  Inner second time = 6.2872354787e-04  Inner f = 9.9671363749e+04
+Newton raphson 1
+ f = 99671.3637490663 max g = 2.1633876912e-09
+Newton raphson 2
+ f = 99671.3637490661 max g = 2.4843460622e-10
+ inner maxg = -8.6862246472e-04  Inner second time = -8.6862246472e-04  Inner f = 9.9671154860e+04
+Newton raphson 1
+ f = 99671.1548598438 max g = 1.8291751447e-08
+Newton raphson 2
+ f = 99671.1548598440 max g = 2.4930590925e-10
+ inner maxg = -4.6977814312e-04  Inner second time = -4.6977814312e-04  Inner f = 9.9669069200e+04
+Newton raphson 1
+ f = 99669.0691996366 max g = 8.0776714539e-08
+Newton raphson 2
+ f = 99669.0691996366 max g = 2.9125679646e-10
+ inner maxg = -7.0658709539e-04  Inner second time = -7.0658709539e-04  Inner f = 9.9648533218e+04
+Newton raphson 1
+ f = 99648.5332177047 max g = 2.8475001923e-07
+Newton raphson 2
+ f = 99648.5332177048 max g = 2.9438762539e-10
+ inner maxg = 7.8653905919e-04  Inner second time = 7.8653905919e-04  Inner f = 9.9472690011e+04
+Newton raphson 1
+ f = 99472.6900105816 max g = 9.8417786754e-08
+Newton raphson 2
+ f = 99472.6900105816 max g = 2.9379165767e-10
+ inner maxg = 9.3369368938e-04  Inner second time = 9.3369368938e-04  Inner f = 1.0509997378e+05
+Newton raphson 1
+ f = 105099.9737754660 max g = 2.6263809627e-07
+Newton raphson 2
+ f = 105099.9737754662 max g = 2.4559732026e-10
+ inner maxg = 9.2233892162e-04  Inner second time = 9.2233892162e-04  Inner f = 9.9465762640e+04
+Newton raphson 1
+ f = 99465.7626399655 max g = 3.8964401594e-08
+Newton raphson 2
+ f = 99465.7626399656 max g = 2.9105429178e-10
+ inner maxg = 2.6261764943e-03  Inner second time = -8.5865153448e-04  Inner f = 9.9456800676e+04
+Newton raphson 1
+ f = 99456.8006757878 max g = 2.8333788538e-07
+Newton raphson 2
+ f = 99456.8006757881 max g = 2.7778357392e-10
+ inner maxg = -7.6353410135e-04  Inner second time = -7.6353410135e-04  Inner f = 9.9441192510e+04
+Newton raphson 1
+ f = 99441.1925103986 max g = 2.5157192862e-07
+Newton raphson 2
+ f = 99441.1925103987 max g = 2.4558266531e-10
+ inner maxg = -9.2522802436e-04  Inner second time = -9.2522802436e-04  Inner f = 9.9531792465e+04
+Newton raphson 1
+ f = 99531.7924654435 max g = 2.1220254043e-07
+Newton raphson 2
+ f = 99531.7924654434 max g = 2.9448665728e-10
+ inner maxg = 8.8867423043e-04  Inner second time = 8.8867423043e-04  Inner f = 9.9439188739e+04
+Newton raphson 1
+ f = 99439.1887385417 max g = 7.4158956864e-08
+Newton raphson 2
+ f = 99439.1887385418 max g = 2.5470381360e-10
+ inner maxg = -9.9367889109e-04  Inner second time = -9.9367889109e-04  Inner f = 9.9437834691e+04
+Newton raphson 1
+ f = 99437.8346906586 max g = 4.3881832223e-08
+Newton raphson 2
+ f = 99437.8346906584 max g = 2.8203617219e-10
+ inner maxg = -8.5871507855e-04  Inner second time = -8.5871507855e-04  Inner f = 9.9435838358e+04
+Newton raphson 1
+ f = 99435.8383575282 max g = 1.2837749874e-07
+Newton raphson 2
+ f = 99435.8383575280 max g = 2.7669955216e-10
+ inner maxg = -8.1911593831e-04  Inner second time = -8.1911593831e-04  Inner f = 9.9437374545e+04
+Newton raphson 1
+ f = 99437.3745452812 max g = 4.5376488567e-08
+Newton raphson 2
+ f = 99437.3745452811 max g = 2.5873703180e-10
+ inner maxg = 1.1341207917e-03  Inner second time = -8.9669040772e-04  Inner f = 9.9435145333e+04
+Newton raphson 1
+ f = 99435.1453326707 max g = 2.5527971087e-07
+Newton raphson 2
+ f = 99435.1453326709 max g = 2.4110935470e-10
+ inner maxg = 8.8060087447e-04  Inner second time = 8.8060087447e-04  Inner f = 9.9435370927e+04
+Newton raphson 1
+ f = 99435.3709269822 max g = 8.3467726858e-07
+Newton raphson 2
+ f = 99435.3709269822 max g = 2.5039126328e-10
+ inner maxg = 8.2098196068e-04  Inner second time = 8.2098196068e-04  Inner f = 9.9434856774e+04
+Newton raphson 1
+ f = 99434.8567735276 max g = 8.2923533817e-08
+Newton raphson 2
+ f = 99434.8567735276 max g = 2.4166446622e-10
+ inner maxg = 1.8906487622e-03  Inner second time = 8.9806445818e-04  Inner f = 9.9434637388e+04
+Newton raphson 1
+ f = 99434.6373884834 max g = 1.1750932222e-07
+Newton raphson 2
+ f = 99434.6373884833 max g = 3.0270008722e-10
+ inner maxg = -9.4063272314e-04  Inner second time = -9.4063272314e-04  Inner f = 9.9434832320e+04
+Newton raphson 1
+ f = 99434.8323202788 max g = 1.1772811365e-07
+Newton raphson 2
+ f = 99434.8323202789 max g = 2.9399904733e-10
+ inner maxg = -7.0494168975e-04  Inner second time = -7.0494168975e-04  Inner f = 9.9434567563e+04
+Newton raphson 1
+ f = 99434.5675628897 max g = 2.2347931228e-07
+Newton raphson 2
+ f = 99434.5675628898 max g = 2.9751179298e-10
+ inner maxg = 9.4448929826e-04  Inner second time = 9.4448929826e-04  Inner f = 9.9434466263e+04
+Newton raphson 1
+ f = 99434.4662631332 max g = 2.5289444400e-07
+Newton raphson 2
+ f = 99434.4662631331 max g = 2.9180657890e-10
+ inner maxg = -8.8171237922e-04  Inner second time = -8.8171237922e-04  Inner f = 9.9434427839e+04
+Newton raphson 1
+ f = 99434.4278387084 max g = 6.3710786918e-07
+Newton raphson 2
+ f = 99434.4278387083 max g = 2.7458924023e-10
+ inner maxg = 1.6433347052e-03  Inner second time = -9.9507700950e-04  Inner f = 9.9434364414e+04
+Newton raphson 1
+ f = 99434.3644142767 max g = 5.8148331150e-08
+Newton raphson 2
+ f = 99434.3644142768 max g = 2.9036550941e-10
+ inner maxg = 8.9984106044e-04  Inner second time = 8.9984106044e-04  Inner f = 9.9434246606e+04
+Newton raphson 1
+ f = 99434.2466062517 max g = 2.4184476533e-07
+Newton raphson 2
+ f = 99434.2466062517 max g = 2.7662361290e-10
+ inner maxg = 7.2301675283e-04  Inner second time = 7.2301675283e-04  Inner f = 9.9434032047e+04
+Newton raphson 1
+ f = 99434.0320465385 max g = 1.6952173743e-07
+Newton raphson 2
+ f = 99434.0320465385 max g = 2.9678259850e-10
+ inner maxg = -7.0007380924e-04  Inner second time = -7.0007380924e-04  Inner f = 9.9433613301e+04
+Newton raphson 1
+ f = 99433.6133013980 max g = 3.4688097190e-06
+Newton raphson 2
+ f = 99433.6133013978 max g = 2.8510971362e-10
+ inner maxg = -8.5469874619e-04  Inner second time = -8.5469874619e-04  Inner f = 9.9432805929e+04
+Newton raphson 1
+ f = 99432.8059289967 max g = 2.3961112556e-06
+Newton raphson 2
+ f = 99432.8059289968 max g = 2.9471047824e-10
+ inner maxg = -7.0219497409e-04  Inner second time = -7.0219497409e-04  Inner f = 9.9426806158e+04
+Newton raphson 1
+ f = 99426.8061581948 max g = 5.8298504690e-08
+Newton raphson 2
+ f = 99426.8061581947 max g = 2.6396929087e-10
+ inner maxg = 9.4107751646e-04  Inner second time = 9.4107751646e-04  Inner f = 9.9420310994e+04
+Newton raphson 1
+ f = 99420.3109942762 max g = 6.0878512120e-08
+Newton raphson 2
+ f = 99420.3109942762 max g = 3.0399149864e-10
+ inner maxg = -1.2118281100e-03  Inner second time = 8.2839862364e-04  Inner f = 9.9408586933e+04
+Newton raphson 1
+ f = 99408.5869329136 max g = 2.5815530103e-08
+Newton raphson 2
+ f = 99408.5869329136 max g = 2.7551383397e-10
+ inner maxg = -8.3157473366e-04  Inner second time = -8.3157473366e-04  Inner f = 9.9326442729e+04
+Newton raphson 1
+ f = 99326.4427292336 max g = 4.4830803292e-08
+Newton raphson 2
+ f = 99326.4427292337 max g = 2.7494317933e-10
+
+Intermediate statistics: 24 variables; iteration 20; function evaluation 31; phase 5
+Function value 9.9462554e+04; maximum gradient component mag -5.0879e+03
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.26008 -1.63450e+03 |  2 -0.20235 -1.21381e+03 |  3 -0.23586  3.17531e+03
+  4 -0.06831 -3.25534e+01 |  5  0.34883  2.59898e+02 |  6  0.45244 -5.41201e+01
+  7  0.62943  3.57225e+01 |  8  0.74446 -1.91722e+02 |  9  0.84815 -2.86491e+02
+ 10  0.91674  1.18980e+02 | 11  0.93881  1.13448e+02 | 12  0.95543  9.24346e+01
+ 13  0.98032  3.32680e+01 | 14 -0.07741 -2.74086e+01 | 15  0.34386 -1.21744e+02
+ 16  0.76507  1.28187e+01 | 17  0.88559  2.12036e+01 | 18  0.90868 -4.15881e+02
+ 19  0.93116 -2.26765e+01 | 20  0.93474  2.44563e+01 | 21  0.93920  1.43046e+02
+ 22  0.95793  1.56522e+02 | 23  0.98587  3.35388e+01 | 24 -0.33941 -5.08787e+03
+ inner maxg = 8.1327277026e-04  Inner second time = 8.1327277026e-04  Inner f = 9.9227371664e+04
+Newton raphson 1
+ f = 99227.3716636061 max g = 3.0220367117e-07
+Newton raphson 2
+ f = 99227.3716636062 max g = 2.6442714685e-10
+ inner maxg = 8.6161088469e-04  Inner second time = 8.6161088469e-04  Inner f = 9.9159651241e+04
+Newton raphson 1
+ f = 99159.6512408557 max g = 1.8523697799e-06
+Newton raphson 2
+ f = 99159.6512408557 max g = 2.7940183500e-10
+ inner maxg = -8.4778481506e-04  Inner second time = -8.4778481506e-04  Inner f = 9.9314032660e+04
+Newton raphson 1
+ f = 99314.0326596795 max g = 1.8580242753e-07
+Newton raphson 2
+ f = 99314.0326596797 max g = 2.9498847809e-10
+ inner maxg = -9.8304329536e-04  Inner second time = -9.8304329536e-04  Inner f = 9.9147742388e+04
+Newton raphson 1
+ f = 99147.7423878282 max g = 1.4479676038e-08
+Newton raphson 2
+ f = 99147.7423878281 max g = 2.8642110905e-10
+ inner maxg = 5.8808183944e-04  Inner second time = 5.8808183944e-04  Inner f = 9.9127589575e+04
+Newton raphson 1
+ f = 99127.5895749393 max g = 2.0160763274e-08
+Newton raphson 2
+ f = 99127.5895749394 max g = 2.9520608180e-10
+ inner maxg = -9.0386610083e-04  Inner second time = -9.0386610083e-04  Inner f = 9.9114948502e+04
+Newton raphson 1
+ f = 99114.9485017431 max g = 1.3441749797e-08
+Newton raphson 2
+ f = 99114.9485017432 max g = 2.4753310512e-10
+ inner maxg = -8.1977751031e-04  Inner second time = -8.1977751031e-04  Inner f = 9.9094756237e+04
+Newton raphson 1
+ f = 99094.7562374217 max g = 7.4298725394e-08
+Newton raphson 2
+ f = 99094.7562374217 max g = 2.6835111910e-10
+ inner maxg = -6.9685000593e-04  Inner second time = -6.9685000593e-04  Inner f = 9.9058311147e+04
+Newton raphson 1
+ f = 99058.3111470351 max g = 3.4723606529e-07
+Newton raphson 2
+ f = 99058.3111470353 max g = 2.9020652548e-10
+ inner maxg = -9.2482119973e-04  Inner second time = -9.2482119973e-04  Inner f = 9.9009424790e+04
+Newton raphson 1
+ f = 99009.4247903607 max g = 1.2926356042e-06
+Newton raphson 2
+ f = 99009.4247903609 max g = 2.9152591452e-10
+ inner maxg = 2.2556335092e-03  Inner second time = -9.9346120843e-04  Inner f = 9.9000970585e+04
+Newton raphson 1
+ f = 99000.9705846750 max g = 1.2220008286e-06
+Newton raphson 2
+ f = 99000.9705846751 max g = 2.6669688680e-10
+ inner maxg = 1.5434814312e-03  Inner second time = 1.5796526610e-03  Inner f = 9.8994472955e+04
+Newton raphson 1
+ f = 98994.4729554067 max g = 1.3759686469e-06
+Newton raphson 2
+ f = 98994.4729554068 max g = 2.3789015202e-10
+ inner maxg = -7.7680120457e-04  Inner second time = -7.7680120457e-04  Inner f = 9.8993845904e+04
+Newton raphson 1
+ f = 98993.8459043631 max g = 8.2126241571e-06
+Newton raphson 2
+ f = 98993.8459043631 max g = 2.8439872679e-10
+ inner maxg = -7.6421230217e-04  Inner second time = -7.6421230217e-04  Inner f = 9.8993860830e+04
+Newton raphson 1
+ f = 98993.8608304376 max g = 3.6300101880e-07
+Newton raphson 2
+ f = 98993.8608304374 max g = 2.7058755236e-10
+ inner maxg = 9.8998842106e-04  Inner second time = 9.8998842106e-04  Inner f = 9.8993876865e+04
+Newton raphson 1
+ f = 98993.8768649848 max g = 7.3058492811e-08
+Newton raphson 2
+ f = 98993.8768649848 max g = 2.5773205792e-10
+ inner maxg = -8.8870299653e-04  Inner second time = -8.8870299653e-04  Inner f = 9.8993879043e+04
+Newton raphson 1
+ f = 98993.8790429024 max g = 4.2060723282e-07
+Newton raphson 2
+ f = 98993.8790429026 max g = 3.0169466925e-10
+ inner maxg = -5.0887258853e-04  Inner second time = -5.0887258853e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 1.9464875267e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7490898447e-10
+ inner maxg = 9.6784974096e-04  Inner second time = 9.6784974096e-04  Inner f = 9.8993879068e+04
+Newton raphson 1
+ f = 98993.8790675673 max g = 1.2081129980e-06
+Newton raphson 2
+ f = 98993.8790675674 max g = 2.8326718748e-10
+ inner maxg = 5.2948109621e-04  Inner second time = 5.2948109621e-04  Inner f = 9.8993879096e+04
+Newton raphson 1
+ f = 98993.8790964075 max g = 1.3745160313e-06
+Newton raphson 2
+ f = 98993.8790964074 max g = 2.8519719919e-10
+ inner maxg = 8.4405021247e-04  Inner second time = 8.4405021247e-04  Inner f = 9.8993879099e+04
+Newton raphson 1
+ f = 98993.8790994911 max g = 1.2736382982e-07
+Newton raphson 2
+ f = 98993.8790994911 max g = 2.9378321997e-10
+ inner maxg = 7.0886981459e-04  Inner second time = 7.0886981459e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 3.9753293990e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.6180169144e-10
+ inner maxg = -5.0887258853e-04  Inner second time = -5.0887258853e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 1.9464875267e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7490898447e-10
+ inner maxg = -5.0887258853e-04  Inner second time = -5.0887258853e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 1.9464875267e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7490898447e-10
+ inner maxg = -5.0887258853e-04  Inner second time = -5.0887258853e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 1.9464875267e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7490898447e-10
+ inner maxg = -7.0150194315e-04  Inner second time = -7.0150194315e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995351 max g = 2.6758651295e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8575009026e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = 9.1805853913e-04  Inner second time = 9.1805853913e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 2.8991086642e-08
+Newton raphson 2
+ f = 98993.8790995351 max g = 3.0437474763e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = -9.8651026415e-04  Inner second time = -9.8651026415e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 7.4637315217e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.7469893027e-10
+ inner maxg = 3.6213848759e-04  Inner second time = 3.6213848759e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 2.1642890813e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8497693094e-10
+ inner maxg = -5.0258537713e-04  Inner second time = -5.0258537713e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 1.1545434608e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8191671220e-10
+ inner maxg = 5.0135926441e-04  Inner second time = 5.0135926441e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 3.0880937807e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 3.0357893976e-10
+ inner maxg = -5.0258537713e-04  Inner second time = -5.0258537713e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 1.1545434608e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8191671220e-10
+ inner maxg = -5.0258537713e-04  Inner second time = -5.0258537713e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 1.1545434608e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8191671220e-10
+ inner maxg = -5.0258537713e-04  Inner second time = -5.0258537713e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 1.1545434608e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8191671220e-10
+ inner maxg = -5.0258537713e-04  Inner second time = -5.0258537713e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 1.1545434608e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8191671220e-10
+ inner maxg = -5.0258537713e-04  Inner second time = -5.0258537713e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995349 max g = 1.1545434608e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8191671220e-10
+ inner maxg = -6.9057266349e-04  Inner second time = -6.9057266349e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995348 max g = 1.4961409889e-09
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8594948631e-10
+ inner maxg = -8.2937953585e-04  Inner second time = -8.2937953585e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995352 max g = 5.0706213561e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8096636129e-10
+ inner maxg = 7.3973305288e-04  Inner second time = 7.3973305288e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995350 max g = 2.3219768774e-08
+Newton raphson 2
+ f = 98993.8790995351 max g = 2.9008573321e-10
+ inner maxg = -8.2937953585e-04  Inner second time = -8.2937953585e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995352 max g = 5.0706213561e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8096636129e-10
+ inner maxg = -8.2937953585e-04  Inner second time = -8.2937953585e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995352 max g = 5.0706213561e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8096636129e-10
+ inner maxg = -8.2937953585e-04  Inner second time = -8.2937953585e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995352 max g = 5.0706213561e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8096636129e-10
+ inner maxg = -8.2937953585e-04  Inner second time = -8.2937953585e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995352 max g = 5.0706213561e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8096636129e-10
+  ic > imax  in fminim is answer attained ?
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.27484 -5.04948e-03 |  2 -0.20355 -6.73287e-03 |  3 -0.24522  6.73633e-03
+  4  0.03907 -6.81099e-05 |  5  0.22755 -7.99610e-05 |  6  0.45560 -2.31464e-04
+  7  0.62865 -2.55860e-04 |  8  0.74407 -1.48388e-04 |  9  0.84973  1.00569e-04
+ 10  0.91637  1.10079e-04 | 11  0.93850  7.30619e-05 | 12  0.95569  4.12661e-05
+ 13  0.98514  2.75378e-05 | 14  0.11437 -1.58187e-05 | 15  0.46254  1.72280e-05
+ 16  0.76523  8.63431e-05 | 17  0.88471 -1.49480e-04 | 18  0.91072 -6.51397e-05
+ 19  0.93119  6.66291e-05 | 20  0.93552  6.05822e-05 | 21  0.93276  5.01201e-05
+ 22  0.94492  4.29902e-05 | 23  0.98739  1.35960e-05 | 24 -0.21550 -1.09826e-03
+Function minimizer not making progress ... is minimum attained?
+Minimprove criterion = 0.0000e+00
+
+ - final statistics:
+24 variables; iteration 36; function evaluation 77
+Function value 9.9195e+04; maximum gradient component mag 6.7363e-03
+Exit code = 1;  converg criter 1.0000e-04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.27484 -5.04948e-03 |  2 -0.20355 -6.73287e-03 |  3 -0.24522  6.73633e-03
+  4  0.03907 -6.81099e-05 |  5  0.22755 -7.99610e-05 |  6  0.45560 -2.31464e-04
+  7  0.62865 -2.55860e-04 |  8  0.74407 -1.48388e-04 |  9  0.84973  1.00569e-04
+ 10  0.91637  1.10079e-04 | 11  0.93850  7.30619e-05 | 12  0.95569  4.12661e-05
+ 13  0.98514  2.75378e-05 | 14  0.11437 -1.58187e-05 | 15  0.46254  1.72280e-05
+ 16  0.76523  8.63431e-05 | 17  0.88471 -1.49480e-04 | 18  0.91072 -6.51397e-05
+ 19  0.93119  6.66291e-05 | 20  0.93552  6.05822e-05 | 21  0.93276  5.01201e-05
+ 22  0.94492  4.29902e-05 | 23  0.98739  1.35960e-05 | 24 -0.21550 -1.09826e-03
+ inner maxg = -8.2937953585e-04  Inner second time = -8.2937953585e-04  Inner f = 9.8993879100e+04
+Newton raphson 1
+ f = 98993.8790995352 max g = 5.0706213561e-08
+Newton raphson 2
+ f = 98993.8790995350 max g = 2.8096636129e-10
+ inner maxg = -6.4935396504e-04  Inner second time = -6.4935396504e-04  Inner f = 9.9004395537e+04
+Newton raphson 1
+ f = 99004.3955366357 max g = 2.6540712517e-07
+Newton raphson 2
+ f = 99004.3955366357 max g = 2.0663470934e-11
+
+Initial statistics: 25 variables; iteration 0; function evaluation 0; phase 6
+Function value 9.9205955e+04; maximum gradient component mag -1.7526e+03
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.27484 -1.23973e+01 |  2 -0.20355  1.49776e+02 |  3 -0.24522 -5.96611e+00
+  4  0.03907 -6.93674e-03 |  5  0.22755 -1.59735e-01 |  6  0.45560 -1.23252e+00
+  7  0.62865 -3.42513e+00 |  8  0.74407  1.95977e+00 |  9  0.84973  4.57189e+00
+ 10  0.91637  3.55076e+00 | 11  0.93850  2.08899e+00 | 12  0.95569  1.39490e+00
+ 13  0.98514  1.00497e+00 | 14  0.11437 -9.64297e-03 | 15  0.46254 -1.79626e-01
+ 16  0.76523 -1.11614e+00 | 17  0.88471 -3.37484e+00 | 18  0.91072 -1.12541e+00
+ 19  0.93119  1.25180e+00 | 20  0.93552  1.34300e+00 | 21  0.93276  8.06566e-01
+ 22  0.94492  5.57107e-01 | 23  0.98739  3.99502e-01 | 24 -0.21550 -3.24931e+00
+ 25 -0.29193 -1.75262e+03 |
+ inner maxg = -9.8719579720e-04  Inner second time = -9.8719579720e-04  Inner f = 9.9004370034e+04
+Newton raphson 1
+ f = 99004.3700340445 max g = 1.4932565201e-05
+Newton raphson 2
+ f = 99004.3700340444 max g = 8.6589846404e-11
+ inner maxg = 9.1311053619e-04  Inner second time = 9.1311053619e-04  Inner f = 9.9004117707e+04
+Newton raphson 1
+ f = 99004.1177068456 max g = 1.5890019033e-05
+Newton raphson 2
+ f = 99004.1177068458 max g = 1.2880363442e-11
+ inner maxg = 8.8279409101e-04  Inner second time = 8.8279409101e-04  Inner f = 9.9001864076e+04
+Newton raphson 1
+ f = 99001.8640758666 max g = 5.7485306265e-06
+Newton raphson 2
+ f = 99001.8640758666 max g = 6.5685012984e-11
+ inner maxg = -8.7997273985e-04  Inner second time = -8.7997273985e-04  Inner f = 9.8997052838e+04
+Newton raphson 1
+ f = 98997.0528382707 max g = 1.8878292952e-05
+Newton raphson 2
+ f = 98997.0528382706 max g = 4.8908210815e-11
+ inner maxg = 9.4853932213e-04  Inner second time = 9.4853932213e-04  Inner f = 9.8958356385e+04
+Newton raphson 1
+ f = 98958.3563843752 max g = 6.1349250753e-06
+Newton raphson 2
+ f = 98958.3563843751 max g = 1.1464251770e-10
+ inner maxg = 2.0928317549e-03  Inner second time = 1.9643863042e-02  Inner f = 9.9214869939e+04
+Newton raphson 1
+ f = 99214.8699387504 max g = 3.3159752027e-04
+Newton raphson 2
+ f = 99214.8699387503 max g = 4.4275949573e-10
+ inner maxg = -4.9420117197e-04  Inner second time = -4.9420117197e-04  Inner f = 9.8953058639e+04
+Newton raphson 1
+ f = 98953.0586385568 max g = 6.5589439471e-06
+Newton raphson 2
+ f = 98953.0586385568 max g = 1.2667977778e-10
+ inner maxg = -4.7583190557e-04  Inner second time = -4.7583190557e-04  Inner f = 9.9141790969e+04
+Newton raphson 1
+ f = 99141.7909684974 max g = 1.4537535607e-05
+Newton raphson 2
+ f = 99141.7909684977 max g = 1.6030021754e-10
+ inner maxg = -9.8832831643e-04  Inner second time = -9.8832831643e-04  Inner f = 9.8952996760e+04
+Newton raphson 1
+ f = 98952.9967603471 max g = 5.4385586753e-06
+Newton raphson 2
+ f = 98952.9967603472 max g = 1.3140555311e-10
+ inner maxg = 9.6544203426e-04  Inner second time = 9.6544203426e-04  Inner f = 9.8953009884e+04
+Newton raphson 1
+ f = 98953.0098835892 max g = 1.3257864023e-05
+Newton raphson 2
+ f = 98953.0098835890 max g = 1.6048895546e-10
+ inner maxg = 8.9732101823e-04  Inner second time = 8.9732101823e-04  Inner f = 9.8952978120e+04
+Newton raphson 1
+ f = 98952.9781203537 max g = 3.5962474830e-06
+Newton raphson 2
+ f = 98952.9781203537 max g = 1.0629341851e-10
+ inner maxg = 6.8593424434e-04  Inner second time = 6.8593424434e-04  Inner f = 9.8952999745e+04
+Newton raphson 1
+ f = 98952.9997447350 max g = 1.0032475749e-05
+Newton raphson 2
+ f = 98952.9997447350 max g = 4.0988989980e-11
+ inner maxg = -8.0543606935e-04  Inner second time = -8.0543606935e-04  Inner f = 9.8953018992e+04
+Newton raphson 1
+ f = 98953.0189921780 max g = 1.4515256699e-05
+Newton raphson 2
+ f = 98953.0189921778 max g = 1.0426481900e-10
+ inner maxg = 6.6428943138e-04  Inner second time = 6.6428943138e-04  Inner f = 9.8953035331e+04
+Newton raphson 1
+ f = 98953.0353313974 max g = 1.1176886070e-05
+Newton raphson 2
+ f = 98953.0353313973 max g = 8.3225648595e-11
+ inner maxg = -2.6542313963e-04  Inner second time = -2.6542313963e-04  Inner f = 9.8953018928e+04
+Newton raphson 1
+ f = 98953.0189282058 max g = 2.7159047221e-06
+Newton raphson 2
+ f = 98953.0189282059 max g = 1.7287282716e-10
+ inner maxg = -5.2864102259e-04  Inner second time = -5.2864102259e-04  Inner f = 9.8953024277e+04
+Newton raphson 1
+ f = 98953.0242768454 max g = 5.0081184280e-06
+Newton raphson 2
+ f = 98953.0242768451 max g = 1.2912160230e-10
+ inner maxg = -1.4265474221e-03  Inner second time = -1.7413923835e-03  Inner f = 9.8952997715e+04
+Newton raphson 1
+ f = 98952.9977147168 max g = 2.7397650548e-07
+Newton raphson 2
+ f = 98952.9977147168 max g = 6.0982996430e-11
+ inner maxg = 9.6688585577e-04  Inner second time = 9.6688585577e-04  Inner f = 9.8952971875e+04
+Newton raphson 1
+ f = 98952.9718747135 max g = 1.0961591979e-07
+Newton raphson 2
+ f = 98952.9718747135 max g = 1.1234324582e-10
+ inner maxg = -9.0404532684e-04  Inner second time = -9.0404532684e-04  Inner f = 9.8952954878e+04
+Newton raphson 1
+ f = 98952.9548772233 max g = 2.3739807670e-05
+Newton raphson 2
+ f = 98952.9548772233 max g = 4.4239722996e-11
+ inner maxg = -9.2988872147e-04  Inner second time = -9.2988872147e-04  Inner f = 9.8952946954e+04
+Newton raphson 1
+ f = 98952.9469535695 max g = 2.4489159997e-05
+Newton raphson 2
+ f = 98952.9469535696 max g = 1.2172685082e-10
+ inner maxg = 9.6306048884e-04  Inner second time = 9.6306048884e-04  Inner f = 9.8952931704e+04
+Newton raphson 1
+ f = 98952.9317043369 max g = 5.6139569093e-06
+Newton raphson 2
+ f = 98952.9317043368 max g = 5.3580251347e-11
+ inner maxg = -5.8255093793e-04  Inner second time = -5.8255093793e-04  Inner f = 9.8952923204e+04
+Newton raphson 1
+ f = 98952.9232043133 max g = 5.1285650282e-07
+Newton raphson 2
+ f = 98952.9232043133 max g = 6.7811312121e-11
+ inner maxg = -9.0376149627e-04  Inner second time = -9.0376149627e-04  Inner f = 9.8952822244e+04
+Newton raphson 1
+ f = 98952.8222438486 max g = 1.9748719065e-05
+Newton raphson 2
+ f = 98952.8222438487 max g = 1.6909318390e-10
+ inner maxg = 5.7346983141e-04  Inner second time = 5.7346983141e-04  Inner f = 9.8952733591e+04
+Newton raphson 1
+ f = 98952.7335913063 max g = 1.2663629477e-06
+Newton raphson 2
+ f = 98952.7335913061 max g = 8.4447338011e-11
+ inner maxg = -9.1032425093e-04  Inner second time = -9.1032425093e-04  Inner f = 9.8952633315e+04
+Newton raphson 1
+ f = 98952.6333146642 max g = 1.6816389860e-06
+Newton raphson 2
+ f = 98952.6333146642 max g = 2.4406254795e-11
+ inner maxg = -9.0857869484e-04  Inner second time = -9.0857869484e-04  Inner f = 9.8952372650e+04
+Newton raphson 1
+ f = 98952.3726496558 max g = 6.5106663367e-06
+Newton raphson 2
+ f = 98952.3726496557 max g = 5.9090954352e-11
+ inner maxg = 9.2086448359e-04  Inner second time = 9.2086448359e-04  Inner f = 9.8951860937e+04
+Newton raphson 1
+ f = 98951.8609368637 max g = 8.0088128359e-06
+Newton raphson 2
+ f = 98951.8609368637 max g = 6.5163763274e-11
+
+Intermediate statistics: 25 variables; iteration 20; function evaluation 27; phase 6
+Function value 9.9168735e+04; maximum gradient component mag 5.8595e+03
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.27573  6.34092e+01 |  2 -0.20308  5.85953e+03 |  3 -0.24465 -7.26022e+02
+  4  0.03776 -3.41645e-01 |  5  0.23081  8.50313e+00 |  6  0.45502 -1.74137e+00
+  7  0.62825 -3.96989e+01 |  8  0.74411 -1.58923e+01 |  9  0.84979  1.16955e+00
+ 10  0.91683  3.42952e+01 | 11  0.93905  2.17872e+01 | 12  0.95647  1.89110e+01
+ 13  0.98648  2.01630e+01 | 14  0.11145 -3.07725e-01 | 15  0.45228 -8.69856e+00
+ 16  0.76273 -1.12515e+01 | 17  0.88328 -5.21688e+01 | 18  0.91027 -5.56075e+01
+ 19  0.93091 -6.94417e+00 | 20  0.93579  1.40939e+01 | 21  0.93378  2.01230e+01
+ 22  0.94518  5.41662e+00 | 23  0.98706  1.84176e+00 | 24 -0.21548 -1.18323e-01
+ 25 -0.26226 -8.96038e+02 |
+ inner maxg = 9.1962552328e-04  Inner second time = 9.1962552328e-04  Inner f = 9.8951201815e+04
+Newton raphson 1
+ f = 98951.2018149088 max g = 3.1101231041e-06
+Newton raphson 2
+ f = 98951.2018149088 max g = 6.4247496212e-11
+ inner maxg = -4.9064361060e-04  Inner second time = -4.9064361060e-04  Inner f = 9.8949330447e+04
+Newton raphson 1
+ f = 98949.3304473871 max g = 5.9641121464e-06
+Newton raphson 2
+ f = 98949.3304473872 max g = 6.0828231341e-11
+ inner maxg = 3.3874361474e-04  Inner second time = 3.3874361474e-04  Inner f = 9.8932724705e+04
+Newton raphson 1
+ f = 98932.7247045877 max g = 1.3076231773e-06
+Newton raphson 2
+ f = 98932.7247045877 max g = 5.7342353088e-11
+ inner maxg = 1.2808871085e-03  Inner second time = -7.5643325349e-03  Inner f = 9.9062725419e+04
+Newton raphson 1
+ f = 99062.7254189484 max g = 2.5162254434e-04
+Newton raphson 2
+ f = 99062.7254189481 max g = 5.3903548292e-11
+ inner maxg = 6.9897109088e-04  Inner second time = 6.9897109088e-04  Inner f = 9.8936895670e+04
+Newton raphson 1
+ f = 98936.8956694602 max g = 1.8435162729e-05
+Newton raphson 2
+ f = 98936.8956694603 max g = 3.9810377217e-11
+ inner maxg = 6.5381326131e-04  Inner second time = 6.5381326131e-04  Inner f = 9.8935078973e+04
+Newton raphson 1
+ f = 98935.0789728000 max g = 3.5436731600e-05
+Newton raphson 2
+ f = 98935.0789728001 max g = 3.5700331580e-11
+ inner maxg = 9.5580931552e-04  Inner second time = 9.5580931552e-04  Inner f = 9.8935511010e+04
+Newton raphson 1
+ f = 98935.5110104356 max g = 4.8518635254e-06
+Newton raphson 2
+ f = 98935.5110104357 max g = 3.1024072200e-11
+ inner maxg = -1.0804822647e-03  Inner second time = -9.6842190913e-04  Inner f = 9.8934137124e+04
+Newton raphson 1
+ f = 98934.1371242633 max g = 3.1111691631e-05
+Newton raphson 2
+ f = 98934.1371242632 max g = 9.0301099931e-12
+ inner maxg = 2.2576806489e-04  Inner second time = 2.2576806489e-04  Inner f = 9.8932662618e+04
+Newton raphson 1
+ f = 98932.6626183964 max g = 6.4131138713e-06
+Newton raphson 2
+ f = 98932.6626183965 max g = 8.3418272290e-11
+ inner maxg = -8.6060290681e-04  Inner second time = -8.6060290681e-04  Inner f = 9.8931509702e+04
+Newton raphson 1
+ f = 98931.5097021432 max g = 4.0432830308e-06
+Newton raphson 2
+ f = 98931.5097021432 max g = 1.4491718936e-10
+ inner maxg = 7.5046213470e-04  Inner second time = 7.5046213470e-04  Inner f = 9.8921053732e+04
+Newton raphson 1
+ f = 98921.0537316395 max g = 5.9896295217e-06
+Newton raphson 2
+ f = 98921.0537316394 max g = 5.9126065155e-11
+ inner maxg = -2.1707020146e-03  Inner second time = 1.9159670779e-02  Inner f = 9.8908512022e+04
+Newton raphson 1
+ f = 98908.5120215466 max g = 4.1722462762e-05
+Newton raphson 2
+ f = 98908.5120215464 max g = 1.4372208978e-10
+ inner maxg = 9.0070383224e-04  Inner second time = 9.0070383224e-04  Inner f = 9.8907611807e+04
+Newton raphson 1
+ f = 98907.6118069293 max g = 8.1262504007e-05
+Newton raphson 2
+ f = 98907.6118069294 max g = 2.0366724973e-10
+ inner maxg = 7.9708083975e-04  Inner second time = 7.9708083975e-04  Inner f = 9.8907563476e+04
+Newton raphson 1
+ f = 98907.5634753847 max g = 1.0633872329e-04
+Newton raphson 2
+ f = 98907.5634753848 max g = 1.4541001736e-10
+ inner maxg = 6.3668995752e-04  Inner second time = 6.3668995752e-04  Inner f = 9.8907563732e+04
+Newton raphson 1
+ f = 98907.5637317797 max g = 1.7108624950e-07
+Newton raphson 2
+ f = 98907.5637317797 max g = 5.4499668667e-11
+ inner maxg = 1.0135167480e-03  Inner second time = 5.3343728634e-03  Inner f = 9.8907563763e+04
+Newton raphson 1
+ f = 98907.5637630837 max g = 4.7348818090e-05
+Newton raphson 2
+ f = 98907.5637630840 max g = 2.2667057120e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = -9.5256320986e-04  Inner second time = -9.5256320986e-04  Inner f = 9.8907563760e+04
+Newton raphson 1
+ f = 98907.5637594007 max g = 4.3261232106e-05
+Newton raphson 2
+ f = 98907.5637594005 max g = 1.6378937095e-10
+ inner maxg = 1.9784222324e-03  Inner second time = 1.2548765906e-02  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637351600 max g = 1.8960602587e-04
+Newton raphson 2
+ f = 98907.5637351600 max g = 1.7532808538e-10
+ inner maxg = 1.5123247885e-03  Inner second time = -1.0694443730e-02  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342908 max g = 1.8670055105e-04
+Newton raphson 2
+ f = 98907.5637342908 max g = 4.7045256579e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 1.1959546221e-03  Inner second time = 6.3715259057e-03  Inner f = 9.8907563764e+04
+Newton raphson 1
+ f = 98907.5637634125 max g = 6.7420590688e-05
+Newton raphson 2
+ f = 98907.5637634125 max g = 1.8215068343e-10
+ inner maxg = 2.9001816055e-03  Inner second time = 1.7201067206e-02  Inner f = 9.8907563736e+04
+Newton raphson 1
+ f = 98907.5637353158 max g = 2.6715065287e-04
+Newton raphson 2
+ f = 98907.5637353159 max g = 6.5536476246e-10
+ inner maxg = 1.6656085469e-03  Inner second time = -8.9739421584e-03  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342908 max g = 1.6346078084e-04
+Newton raphson 2
+ f = 98907.5637342906 max g = 5.1692516934e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 1.3264837366e-03  Inner second time = -1.1630431150e-02  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 2.0973380483e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 4.0966152692e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 1.3264837366e-03  Inner second time = -1.1630431150e-02  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 2.0973380483e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 4.0966152692e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 1.3264837366e-03  Inner second time = -1.1630431150e-02  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 2.0973380483e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 4.0966152692e-10
+  ic > imax  in fminim is answer attained ?
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.27483 -6.80107e-04 |  2 -0.20351 -1.61932e-02 |  3 -0.24512  3.32937e-03
+  4  0.03883  5.35481e-05 |  5  0.22682 -1.01690e-05 |  6  0.45492 -6.28905e-05
+  7  0.62834  7.12442e-05 |  8  0.74408  6.09871e-05 |  9  0.84989  1.47455e-05
+ 10  0.91668 -5.38265e-05 | 11  0.93893 -3.48232e-05 | 12  0.95619 -1.52344e-05
+ 13  0.98570 -5.35491e-05 | 14  0.11345 -1.45017e-05 | 15  0.46026  1.57430e-05
+ 16  0.76330 -2.54362e-05 | 17  0.88361  5.81327e-05 | 18  0.91031  6.74294e-05
+ 19  0.93096 -8.33585e-06 | 20  0.93558 -3.19924e-05 | 21  0.93292 -1.08641e-04
+ 22  0.94521 -1.92255e-04 | 23  0.98767  2.61208e-05 | 24 -0.21533  6.44455e-04
+ 25 -0.21650  2.44890e-04 |
+Function minimizer not making progress ... is minimum attained?
+Minimprove criterion = 0.0000e+00
+
+ - final statistics:
+25 variables; iteration 33; function evaluation 78
+Function value 9.9149e+04; maximum gradient component mag -1.6193e-02
+Exit code = 1;  converg criter 1.0000e-04
+Var    Value     Gradient |Var    Value     Gradient |Var    Value     Gradient
+  1 -0.27483 -6.80107e-04 |  2 -0.20351 -1.61932e-02 |  3 -0.24512  3.32937e-03
+  4  0.03883  5.35481e-05 |  5  0.22682 -1.01690e-05 |  6  0.45492 -6.28905e-05
+  7  0.62834  7.12442e-05 |  8  0.74408  6.09871e-05 |  9  0.84989  1.47455e-05
+ 10  0.91668 -5.38265e-05 | 11  0.93893 -3.48232e-05 | 12  0.95619 -1.52344e-05
+ 13  0.98570 -5.35491e-05 | 14  0.11345 -1.45017e-05 | 15  0.46026  1.57430e-05
+ 16  0.76330 -2.54362e-05 | 17  0.88361  5.81327e-05 | 18  0.91031  6.74294e-05
+ 19  0.93096 -8.33585e-06 | 20  0.93558 -3.19924e-05 | 21  0.93292 -1.08641e-04
+ 22  0.94521 -1.92255e-04 | 23  0.98767  2.61208e-05 | 24 -0.21533  6.44455e-04
+ 25 -0.21650  2.44890e-04 |
+ inner maxg = 8.4802765423e-04  Inner second time = 8.4802765423e-04  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342904 max g = 1.2599043422e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 2.4894231121e-10
+ inner maxg = 1.6151419471e-03  Inner second time = -1.3088643426e-02  Inner f = 9.8907563735e+04
+Newton raphson 1
+ f = 98907.5637342905 max g = 2.3746546141e-04
+Newton raphson 2
+ f = 98907.5637342904 max g = 8.3682616392e-10
+Newton raphson 3
+ f = 98907.5637342904 max g = 2.0617302310e-10
+120 25
+Estimating row 1 out of 25 for hessian
+ inner maxg = 7.7376609775e-04  Inner second time = 7.7376609775e-04  Inner f = 9.8907578226e+04
+Newton raphson 1
+ f = 98907.5782262386 max g = 9.1174471000e-05
+Newton raphson 2
+ f = 98907.5782262386 max g = 1.4775614066e-10
+Newton raphson 3
+ f = 98907.5782262386 max g = 1.3173584446e-10
+ inner maxg = 2.4494715670e-03  Inner second time = 1.0704976860e-02  Inner f = 9.8907563382e+04
+Newton raphson 1
+ f = 98907.5633819749 max g = 2.8511467940e-04
+Newton raphson 2
+ f = 98907.5633819748 max g = 1.3278322886e-10
+Newton raphson 3
+ f = 98907.5633819748 max g = 1.2859036058e-10
+ inner maxg = 5.0049550734e-04  Inner second time = 5.0049550734e-04  Inner f = 9.8907579290e+04
+Newton raphson 1
+ f = 98907.5792896256 max g = 2.0007838542e-06
+Newton raphson 2
+ f = 98907.5792896256 max g = 1.6764378774e-10
+Newton raphson 3
+ f = 98907.5792896256 max g = 1.6077289500e-10
+ inner maxg = -1.0545856960e-03  Inner second time = -9.7900708170e-04  Inner f = 9.8907610055e+04
+Newton raphson 1
+ f = 98907.6100544206 max g = 8.3078530149e-05
+Newton raphson 2
+ f = 98907.6100544204 max g = 1.7398377183e-10
+Newton raphson 3
+ f = 98907.6100544204 max g = 1.6281420656e-10
+Estimating row 2 out of 25 for hessian
+ inner maxg = 1.0429886458e-03  Inner second time = -1.9602701255e-02  Inner f = 9.8908529856e+04
+Newton raphson 1
+ f = 98908.5298559612 max g = 9.9158296419e-05
+Newton raphson 2
+ f = 98908.5298559614 max g = 1.8927492906e-10
+Newton raphson 3
+ f = 98908.5298559613 max g = 1.8443147010e-10
+ inner maxg = -4.8312104349e-04  Inner second time = -4.8312104349e-04  Inner f = 9.8907810850e+04
+Newton raphson 1
+ f = 98907.8108503376 max g = 2.9991885395e-05
+Newton raphson 2
+ f = 98907.8108503376 max g = 2.1138546469e-10
+Newton raphson 3
+ f = 98907.8108503376 max g = 2.4320406800e-10
+ f = 98907.8108503376 max g = 2.1138546469e-10
+ inner maxg = -6.3942947731e-04  Inner second time = -6.3942947731e-04  Inner f = 9.8907789000e+04
+Newton raphson 1
+ f = 98907.7890002967 max g = 2.3673149801e-05
+Newton raphson 2
+ f = 98907.7890002967 max g = 1.1465089989e-10
+Newton raphson 3
+ f = 98907.7890002968 max g = 1.4521450709e-10
+ f = 98907.7890002967 max g = 1.1465089989e-10
+ inner maxg = 2.0072091880e-03  Inner second time = 1.4144086177e-02  Inner f = 9.8908487141e+04
+Newton raphson 1
+ f = 98908.4871411285 max g = 2.0831685061e-04
+Newton raphson 2
+ f = 98908.4871411284 max g = 1.9740153956e-10
+Newton raphson 3
+ f = 98908.4871411284 max g = 1.4646894808e-10
+Estimating row 3 out of 25 for hessian
+ inner maxg = 9.3069290744e-04  Inner second time = 9.3069290744e-04  Inner f = 9.8907771626e+04
+Newton raphson 1
+ f = 98907.7716255231 max g = 1.4936298309e-04
+Newton raphson 2
+ f = 98907.7716255230 max g = 1.5843243384e-10
+Newton raphson 3
+ f = 98907.7716255230 max g = 1.5282891619e-10
+ inner maxg = -2.4496013187e-03  Inner second time = -1.2873254511e-02  Inner f = 9.8907628113e+04
+Newton raphson 1
+ f = 98907.6281116928 max g = 2.4517948014e-04
+Newton raphson 2
+ f = 98907.6281116927 max g = 1.4009438054e-10
+Newton raphson 3
+ f = 98907.6281116927 max g = 1.3431145085e-10
+ inner maxg = 9.7780990563e-04  Inner second time = 9.7780990563e-04  Inner f = 9.8907578508e+04
+Newton raphson 1
+ f = 98907.5785074491 max g = 7.7873875501e-05
+Newton raphson 2
+ f = 98907.5785074491 max g = 1.4923384750e-10
+Newton raphson 3
+ f = 98907.5785074491 max g = 1.4204859511e-10
+ inner maxg = 9.4795548723e-04  Inner second time = 9.4795548723e-04  Inner f = 9.8907672446e+04
+Newton raphson 1
+ f = 98907.6724452681 max g = 2.8003599032e-04
+Newton raphson 2
+ f = 98907.6724452680 max g = 1.7383827711e-10
+Newton raphson 3
+ f = 98907.6724452680 max g = 1.6408080450e-10
+Estimating row 4 out of 25 for hessian
+ inner maxg = 1.5721329636e-03  Inner second time = 7.2138115574e-03  Inner f = 9.8907563780e+04
+Newton raphson 1
+ f = 98907.5637795923 max g = 1.9515420457e-04
+Newton raphson 2
+ f = 98907.5637795925 max g = 3.7927172514e-10
+Newton raphson 3
+ f = 98907.5637795925 max g = 1.8028528670e-10
+ inner maxg = 1.1481439660e-03  Inner second time = -1.0287464974e-02  Inner f = 9.8907563756e+04
+Newton raphson 1
+ f = 98907.5637554077 max g = 1.2312383928e-04
+Newton raphson 2
+ f = 98907.5637554077 max g = 1.9125129258e-10
+Newton raphson 3
+ f = 98907.5637554077 max g = 1.9158558073e-10
+ f = 98907.5637554077 max g = 1.9125129258e-10
+ inner maxg = 1.2709206713e-03  Inner second time = -1.0935494115e-02  Inner f = 9.8907563716e+04
+Newton raphson 1
+ f = 98907.5637162408 max g = 1.5579069552e-04
+Newton raphson 2
+ f = 98907.5637162409 max g = 2.0447477045e-10
+Newton raphson 3
+ f = 98907.5637162409 max g = 2.0345392038e-10
+ inner maxg = 1.2777093959e-03  Inner second time = -9.9229827927e-03  Inner f = 9.8907563702e+04
+Newton raphson 1
+ f = 98907.5637012587 max g = 1.8168286315e-04
+Newton raphson 2
+ f = 98907.5637012588 max g = 2.3179014264e-10
+Newton raphson 3
+ f = 98907.5637012588 max g = 1.9667761864e-10
+Estimating row 5 out of 25 for hessian
+ inner maxg = -8.9231162713e-04  Inner second time = -8.9231162713e-04  Inner f = 9.8907563715e+04
+Newton raphson 1
+ f = 98907.5637146934 max g = 7.9798705408e-05
+Newton raphson 2
+ f = 98907.5637146934 max g = 2.0285084723e-10
+Newton raphson 3
+ f = 98907.5637146934 max g = 1.9655921335e-10
+ inner maxg = 2.0439333161e-03  Inner second time = 9.0937674911e-03  Inner f = 9.8907563714e+04
+Newton raphson 1
+ f = 98907.5637138257 max g = 1.2665024473e-04
+Newton raphson 2
+ f = 98907.5637138256 max g = 1.7961743204e-10
+Newton raphson 3
+ f = 98907.5637138256 max g = 1.9950413543e-10
+ f = 98907.5637138256 max g = 1.7961743204e-10
+ inner maxg = 8.6733932819e-04  Inner second time = 8.6733932819e-04  Inner f = 9.8907563776e+04
+Newton raphson 1
+ f = 98907.5637760874 max g = 7.5464425927e-05
+Newton raphson 2
+ f = 98907.5637760874 max g = 1.7113094275e-10
+Newton raphson 3
+ f = 98907.5637760874 max g = 2.0445928284e-10
+ f = 98907.5637760874 max g = 1.7113094275e-10
+ inner maxg = 1.6223699353e-03  Inner second time = 1.0501827633e-03  Inner f = 9.8907563839e+04
+Newton raphson 1
+ f = 98907.5638392166 max g = 6.8306521057e-05
+Newton raphson 2
+ f = 98907.5638392166 max g = 1.9608387136e-10
+Newton raphson 3
+ f = 98907.5638392166 max g = 1.7901913285e-10
+Estimating row 6 out of 25 for hessian
+ inner maxg = 5.6150969499e-03  Inner second time = -7.8025142138e-03  Inner f = 9.8907563584e+04
+Newton raphson 1
+ f = 98907.5635832096 max g = 4.2981283560e-04
+Newton raphson 2
+ f = 98907.5635832095 max g = 2.0069734763e-10
+Newton raphson 3
+ f = 98907.5635832095 max g = 1.9654333716e-10
+ inner maxg = 6.0128479317e-04  Inner second time = 6.0128479317e-04  Inner f = 9.8907563569e+04
+Newton raphson 1
+ f = 98907.5635685258 max g = 3.1908614195e-07
+Newton raphson 2
+ f = 98907.5635685258 max g = 1.7572843181e-10
+Newton raphson 3
+ f = 98907.5635685258 max g = 2.0023854796e-10
+ f = 98907.5635685258 max g = 1.7572843181e-10
+ inner maxg = 5.7683986459e-03  Inner second time = -5.0860869393e-03  Inner f = 9.8907564081e+04
+Newton raphson 1
+ f = 98907.5640804983 max g = 3.7748765011e-04
+Newton raphson 2
+ f = 98907.5640804983 max g = 1.9465862255e-10
+Newton raphson 3
+ f = 98907.5640804983 max g = 1.9240425919e-10
+ inner maxg = 9.0423786059e-04  Inner second time = 9.0423786059e-04  Inner f = 9.8907564608e+04
+Newton raphson 1
+ f = 98907.5646071444 max g = 2.6211027853e-04
+Newton raphson 2
+ f = 98907.5646071442 max g = 1.8783680167e-10
+Newton raphson 3
+ f = 98907.5646071442 max g = 1.8835399906e-10
+ f = 98907.5646071442 max g = 1.8783680167e-10
+Estimating row 7 out of 25 for hessian
+ inner maxg = 7.4828226965e-03  Inner second time = -6.0486682059e-03  Inner f = 9.8907563766e+04
+Newton raphson 1
+ f = 98907.5637660512 max g = 1.8030711049e-04
+Newton raphson 2
+ f = 98907.5637660512 max g = 1.9732498968e-10
+Newton raphson 3
+ f = 98907.5637660512 max g = 1.7962842325e-10
+ inner maxg = -4.8257068157e-04  Inner second time = -4.8257068157e-04  Inner f = 9.8907563174e+04
+Newton raphson 1
+ f = 98907.5631736598 max g = 2.6265418999e-06
+Newton raphson 2
+ f = 98907.5631736600 max g = 1.8695650583e-10
+Newton raphson 3
+ f = 98907.5631736600 max g = 1.9438806120e-10
+ f = 98907.5631736600 max g = 1.8695650583e-10
+ inner maxg = 6.4815524057e-04  Inner second time = 6.4815524057e-04  Inner f = 9.8907565448e+04
+Newton raphson 1
+ f = 98907.5654478811 max g = 1.7062310948e-05
+Newton raphson 2
+ f = 98907.5654478813 max g = 1.9543533458e-10
+Newton raphson 3
+ f = 98907.5654478813 max g = 1.7386203588e-10
+ inner maxg = -7.0775504000e-04  Inner second time = -7.0775504000e-04  Inner f = 9.8907568315e+04
+Newton raphson 1
+ f = 98907.5683143707 max g = 7.0649302719e-05
+Newton raphson 2
+ f = 98907.5683143706 max g = 2.0089252484e-10
+Newton raphson 3
+ f = 98907.5683143706 max g = 1.9661500206e-10
+Estimating row 8 out of 25 for hessian
+ inner maxg = 7.6699992713e-03  Inner second time = 1.2868774448e-02  Inner f = 9.8907567718e+04
+Newton raphson 1
+ f = 98907.5677176394 max g = 5.3318534878e-04
+Newton raphson 2
+ f = 98907.5677176393 max g = 1.0180440935e-09
+Newton raphson 3
+ f = 98907.5677176393 max g = 1.9472068402e-10
+ inner maxg = -1.9818768933e-03  Inner second time = 7.3503620898e-03  Inner f = 9.8907564280e+04
+Newton raphson 1
+ f = 98907.5642796946 max g = 1.1309497993e-04
+Newton raphson 2
+ f = 98907.5642796947 max g = 2.0146573299e-10
+Newton raphson 3
+ f = 98907.5642796947 max g = 1.9619256220e-10
+ inner maxg = 3.8342847637e-03  Inner second time = -1.0702369751e-02  Inner f = 9.8907566082e+04
+Newton raphson 1
+ f = 98907.5660812189 max g = 3.1238647807e-04
+Newton raphson 2
+ f = 98907.5660812190 max g = 2.0006390988e-10
+Newton raphson 3
+ f = 98907.5660812190 max g = 1.9179258182e-10
+ inner maxg = -1.0205168922e-03  Inner second time = 4.9916970231e-03  Inner f = 9.8907571320e+04
+Newton raphson 1
+ f = 98907.5713202722 max g = 3.6144770583e-05
+Newton raphson 2
+ f = 98907.5713202723 max g = 1.7646134554e-10
+Newton raphson 3
+ f = 98907.5713202723 max g = 1.9547513608e-10
+ f = 98907.5713202723 max g = 1.7646134554e-10
+Estimating row 9 out of 25 for hessian
+ inner maxg = -1.0054656164e-02  Inner second time = -7.0126350688e-03  Inner f = 9.8907568061e+04
+Newton raphson 1
+ f = 98907.5680612199 max g = 6.4044616186e-06
+Newton raphson 2
+ f = 98907.5680612198 max g = 2.0625423591e-10
+Newton raphson 3
+ f = 98907.5680612198 max g = 1.7260232132e-10
+ inner maxg = 3.2121695180e-03  Inner second time = -1.2296806773e-02  Inner f = 9.8907565179e+04
+Newton raphson 1
+ f = 98907.5651784927 max g = 2.0870852567e-04
+Newton raphson 2
+ f = 98907.5651784928 max g = 1.9405588247e-10
+Newton raphson 3
+ f = 98907.5651784928 max g = 1.9224766223e-10
+ inner maxg = 1.1709068483e-03  Inner second time = -2.9955812419e-03  Inner f = 9.8907563729e+04
+Newton raphson 1
+ f = 98907.5637285483 max g = 5.6165183592e-05
+Newton raphson 2
+ f = 98907.5637285482 max g = 2.0979229465e-10
+Newton raphson 3
+ f = 98907.5637285482 max g = 2.0608437179e-10
+ inner maxg = 9.9857315813e-04  Inner second time = 9.9857315813e-04  Inner f = 9.8907565161e+04
+Newton raphson 1
+ f = 98907.5651612012 max g = 6.8797875288e-05
+Newton raphson 2
+ f = 98907.5651612015 max g = 1.8969109616e-10
+Newton raphson 3
+ f = 98907.5651612014 max g = 2.0256246680e-10
+ f = 98907.5651612015 max g = 1.8969109616e-10
+Estimating row 10 out of 25 for hessian
+ inner maxg = 4.6347934828e-04  Inner second time = 4.6347934828e-04  Inner f = 9.8907566226e+04
+Newton raphson 1
+ f = 98907.5662256651 max g = 6.6409564363e-05
+Newton raphson 2
+ f = 98907.5662256651 max g = 1.9583257238e-10
+Newton raphson 3
+ f = 98907.5662256651 max g = 1.9155693698e-10
+ inner maxg = 8.6263548342e-04  Inner second time = 8.6263548342e-04  Inner f = 9.8907564657e+04
+Newton raphson 1
+ f = 98907.5646571622 max g = 1.2523848973e-04
+Newton raphson 2
+ f = 98907.5646571623 max g = 1.8913448585e-10
+Newton raphson 3
+ f = 98907.5646571623 max g = 1.7662432628e-10
+ inner maxg = -9.7816901482e-04  Inner second time = -9.7816901482e-04  Inner f = 9.8907563457e+04
+Newton raphson 1
+ f = 98907.5634570320 max g = 2.9234785510e-04
+Newton raphson 2
+ f = 98907.5634570321 max g = 2.0346868634e-10
+Newton raphson 3
+ f = 98907.5634570321 max g = 1.8350204689e-10
+ inner maxg = 3.4109473057e-03  Inner second time = 3.1349731154e-03  Inner f = 9.8907563826e+04
+Newton raphson 1
+ f = 98907.5638253690 max g = 2.0631024886e-04
+Newton raphson 2
+ f = 98907.5638253692 max g = 1.9064672063e-10
+Newton raphson 3
+ f = 98907.5638253691 max g = 1.8894397158e-10
+Estimating row 11 out of 25 for hessian
+ inner maxg = -1.2029341461e-03  Inner second time = -6.2785107560e-03  Inner f = 9.8907565199e+04
+Newton raphson 1
+ f = 98907.5651981842 max g = 2.7636090014e-04
+Newton raphson 2
+ f = 98907.5651981842 max g = 1.9532125917e-10
+Newton raphson 3
+ f = 98907.5651981842 max g = 1.7972123789e-10
+ inner maxg = 1.0689934859e-03  Inner second time = 1.0439704572e-03  Inner f = 9.8907564318e+04
+Newton raphson 1
+ f = 98907.5643178548 max g = 1.0212021875e-04
+Newton raphson 2
+ f = 98907.5643178548 max g = 2.0415424906e-10
+Newton raphson 3
+ f = 98907.5643178548 max g = 1.7920720463e-10
+ inner maxg = -8.0696235519e-04  Inner second time = -8.0696235519e-04  Inner f = 9.8907563448e+04
+Newton raphson 1
+ f = 98907.5634474863 max g = 2.1849052031e-05
+Newton raphson 2
+ f = 98907.5634474862 max g = 2.0446833116e-10
+Newton raphson 3
+ f = 98907.5634474862 max g = 1.9011120456e-10
+ inner maxg = 3.4610578075e-03  Inner second time = -1.0230387724e-02  Inner f = 9.8907563458e+04
+Newton raphson 1
+ f = 98907.5634574371 max g = 3.3563419409e-04
+Newton raphson 2
+ f = 98907.5634574372 max g = 1.8589613182e-10
+Newton raphson 3
+ f = 98907.5634574372 max g = 1.7308376954e-10
+Estimating row 12 out of 25 for hessian
+ inner maxg = 8.3820993150e-04  Inner second time = 8.3820993150e-04  Inner f = 9.8907564672e+04
+Newton raphson 1
+ f = 98907.5646715676 max g = 7.7813637369e-05
+Newton raphson 2
+ f = 98907.5646715677 max g = 1.9692680819e-10
+Newton raphson 3
+ f = 98907.5646715676 max g = 2.0801799172e-10
+ f = 98907.5646715677 max g = 1.9692680819e-10
+ inner maxg = -8.6811299109e-03  Inner second time = -8.2322990645e-03  Inner f = 9.8907564119e+04
+Newton raphson 1
+ f = 98907.5641181072 max g = 5.9369872396e-04
+Newton raphson 2
+ f = 98907.5641181069 max g = 1.8637930088e-10
+Newton raphson 3
+ f = 98907.5641181069 max g = 1.9802887108e-10
+ f = 98907.5641181069 max g = 1.8637930088e-10
+ inner maxg = 1.1608669692e-03  Inner second time = -8.0858045619e-03  Inner f = 9.8907563520e+04
+Newton raphson 1
+ f = 98907.5635201158 max g = 3.7182114533e-05
+Newton raphson 2
+ f = 98907.5635201159 max g = 1.9612078628e-10
+Newton raphson 3
+ f = 98907.5635201159 max g = 1.8045442918e-10
+ inner maxg = 1.5637432234e-03  Inner second time = -1.4620981132e-02  Inner f = 9.8907563476e+04
+Newton raphson 1
+ f = 98907.5634755810 max g = 4.8614252477e-05
+Newton raphson 2
+ f = 98907.5634755812 max g = 1.9385720806e-10
+Newton raphson 3
+ f = 98907.5634755812 max g = 1.8103352151e-10
+Estimating row 13 out of 25 for hessian
+ inner maxg = 1.6643134922e-03  Inner second time = -1.2633321885e-02  Inner f = 9.8907564411e+04
+Newton raphson 1
+ f = 98907.5644111026 max g = 1.3412863536e-04
+Newton raphson 2
+ f = 98907.5644111026 max g = 2.6537849696e-10
+Newton raphson 3
+ f = 98907.5644111026 max g = 1.7989193468e-10
+ inner maxg = 1.3493625889e-03  Inner second time = -1.0429449482e-02  Inner f = 9.8907564018e+04
+Newton raphson 1
+ f = 98907.5640174825 max g = 1.0845736562e-04
+Newton raphson 2
+ f = 98907.5640174824 max g = 1.8858747897e-10
+Newton raphson 3
+ f = 98907.5640174824 max g = 1.9299545295e-10
+ f = 98907.5640174824 max g = 1.8858747897e-10
+ inner maxg = 4.4303495045e-03  Inner second time = -3.3015240156e-03  Inner f = 9.8907563562e+04
+Newton raphson 1
+ f = 98907.5635615257 max g = 4.6908093781e-05
+Newton raphson 2
+ f = 98907.5635615258 max g = 1.8941731517e-10
+Newton raphson 3
+ f = 98907.5635615258 max g = 2.0008966706e-10
+ f = 98907.5635615258 max g = 1.8941731517e-10
+ inner maxg = 7.4110470869e-03  Inner second time = -5.2337881086e-03  Inner f = 9.8907563500e+04
+Newton raphson 1
+ f = 98907.5634991874 max g = 4.7406963746e-04
+Newton raphson 2
+ f = 98907.5634991873 max g = 1.7678586373e-10
+Newton raphson 3
+ f = 98907.5634991873 max g = 1.8671908464e-10
+ f = 98907.5634991873 max g = 1.7678586373e-10
+Estimating row 14 out of 25 for hessian
+ inner maxg = 2.0394223313e-03  Inner second time = -1.5826474487e-02  Inner f = 9.8907563751e+04
+Newton raphson 1
+ f = 98907.5637503683 max g = 2.0805392490e-04
+Newton raphson 2
+ f = 98907.5637503682 max g = 1.8665924362e-10
+Newton raphson 3
+ f = 98907.5637503682 max g = 1.9392581985e-10
+ f = 98907.5637503682 max g = 1.8665924362e-10
+ inner maxg = 1.8456957618e-03  Inner second time = 1.6880177478e-02  Inner f = 9.8907563742e+04
+Newton raphson 1
+ f = 98907.5637416095 max g = 2.8803115316e-04
+Newton raphson 2
+ f = 98907.5637416095 max g = 4.9261950075e-10
+Newton raphson 3
+ f = 98907.5637416096 max g = 1.8356410836e-10
+ inner maxg = 1.1996203823e-03  Inner second time = -8.1949575360e-03  Inner f = 9.8907563729e+04
+Newton raphson 1
+ f = 98907.5637284110 max g = 1.8501314688e-04
+Newton raphson 2
+ f = 98907.5637284110 max g = 2.5521562641e-10
+Newton raphson 3
+ f = 98907.5637284111 max g = 1.8489998421e-10
+ inner maxg = 6.0996306943e-04  Inner second time = 6.0996306943e-04  Inner f = 9.8907563724e+04
+Newton raphson 1
+ f = 98907.5637239713 max g = 3.1771117115e-07
+Newton raphson 2
+ f = 98907.5637239713 max g = 2.0527385347e-10
+Newton raphson 3
+ f = 98907.5637239713 max g = 2.1029755715e-10
+ f = 98907.5637239713 max g = 2.0527385347e-10
+Estimating row 15 out of 25 for hessian
+ inner maxg = 1.2817889916e-03  Inner second time = -1.3149599365e-02  Inner f = 9.8907563730e+04
+Newton raphson 1
+ f = 98907.5637302191 max g = 1.0139662221e-04
+Newton raphson 2
+ f = 98907.5637302191 max g = 1.8537732460e-10
+Newton raphson 3
+ f = 98907.5637302191 max g = 1.9457346845e-10
+ f = 98907.5637302191 max g = 1.8537732460e-10
+ inner maxg = 2.3836267940e-03  Inner second time = -1.2743493138e-02  Inner f = 9.8907563727e+04
+Newton raphson 1
+ f = 98907.5637271201 max g = 8.6882286642e-05
+Newton raphson 2
+ f = 98907.5637271202 max g = 2.0080653806e-10
+Newton raphson 3
+ f = 98907.5637271202 max g = 2.0307450166e-10
+ f = 98907.5637271202 max g = 2.0080653806e-10
+ inner maxg = -5.7598057745e-04  Inner second time = -5.7598057745e-04  Inner f = 9.8907563752e+04
+Newton raphson 1
+ f = 98907.5637517302 max g = 3.3675240246e-05
+Newton raphson 2
+ f = 98907.5637517301 max g = 1.7502632677e-10
+Newton raphson 3
+ f = 98907.5637517301 max g = 1.7416335041e-10
+ inner maxg = 8.3156393264e-03  Inner second time = -1.8607330412e-02  Inner f = 9.8907563780e+04
+Newton raphson 1
+ f = 98907.5637794389 max g = 3.6181701648e-04
+Newton raphson 2
+ f = 98907.5637794389 max g = 1.9568074938e-10
+Newton raphson 3
+ f = 98907.5637794389 max g = 1.8964529946e-10
+Estimating row 16 out of 25 for hessian
+ inner maxg = 2.1515824849e-03  Inner second time = 1.3810324146e-02  Inner f = 9.8907563755e+04
+Newton raphson 1
+ f = 98907.5637551885 max g = 1.2617831763e-04
+Newton raphson 2
+ f = 98907.5637551886 max g = 1.8922058365e-10
+Newton raphson 3
+ f = 98907.5637551886 max g = 1.9193058254e-10
+ f = 98907.5637551886 max g = 1.8922058365e-10
+ inner maxg = 1.4021013703e-03  Inner second time = 5.5937891131e-03  Inner f = 9.8907563704e+04
+Newton raphson 1
+ f = 98907.5637039416 max g = 3.2372758079e-04
+Newton raphson 2
+ f = 98907.5637039417 max g = 1.9573453969e-10
+Newton raphson 3
+ f = 98907.5637039417 max g = 1.8963280946e-10
+ inner maxg = -9.9261814399e-04  Inner second time = -9.9261814399e-04  Inner f = 9.8907563847e+04
+Newton raphson 1
+ f = 98907.5638462328 max g = 2.6763635212e-04
+Newton raphson 2
+ f = 98907.5638462328 max g = 1.8112900069e-10
+Newton raphson 3
+ f = 98907.5638462327 max g = 2.0835116965e-10
+ f = 98907.5638462328 max g = 1.8112900069e-10
+ inner maxg = 9.7343428323e-04  Inner second time = 9.7343428323e-04  Inner f = 9.8907564040e+04
+Newton raphson 1
+ f = 98907.5640397663 max g = 2.0043114735e-04
+Newton raphson 2
+ f = 98907.5640397663 max g = 1.8543760971e-10
+Newton raphson 3
+ f = 98907.5640397663 max g = 1.9311602317e-10
+ f = 98907.5640397663 max g = 1.8543760971e-10
+Estimating row 17 out of 25 for hessian
+ inner maxg = 3.2172713080e-04  Inner second time = 3.2172713080e-04  Inner f = 9.8907563818e+04
+Newton raphson 1
+ f = 98907.5638176530 max g = 2.5141370789e-05
+Newton raphson 2
+ f = 98907.5638176529 max g = 1.6528917124e-10
+Newton raphson 3
+ f = 98907.5638176529 max g = 1.8859203088e-10
+ f = 98907.5638176529 max g = 1.6528917124e-10
+ inner maxg = 4.9705145331e-04  Inner second time = 4.9705145331e-04  Inner f = 9.8907563526e+04
+Newton raphson 1
+ f = 98907.5635258956 max g = 1.3029051217e-05
+Newton raphson 2
+ f = 98907.5635258956 max g = 1.9414975183e-10
+Newton raphson 3
+ f = 98907.5635258956 max g = 1.9210361080e-10
+ inner maxg = 1.5015961002e-03  Inner second time = -1.3625804735e-02  Inner f = 9.8907564443e+04
+Newton raphson 1
+ f = 98907.5644427970 max g = 1.0324552851e-04
+Newton raphson 2
+ f = 98907.5644427969 max g = 1.9905133097e-10
+Newton raphson 3
+ f = 98907.5644427969 max g = 2.0360613195e-10
+ f = 98907.5644427969 max g = 1.9905133097e-10
+ inner maxg = 7.1590539485e-04  Inner second time = 7.1590539485e-04  Inner f = 9.8907565652e+04
+Newton raphson 1
+ f = 98907.5656513738 max g = 1.1851629836e-04
+Newton raphson 2
+ f = 98907.5656513739 max g = 2.0135465517e-10
+Newton raphson 3
+ f = 98907.5656513739 max g = 2.0267992840e-10
+ f = 98907.5656513739 max g = 2.0135465517e-10
+Estimating row 18 out of 25 for hessian
+ inner maxg = 1.4423840801e-03  Inner second time = -6.0686543699e-03  Inner f = 9.8907567110e+04
+Newton raphson 1
+ f = 98907.5671098128 max g = 2.8914775386e-04
+Newton raphson 2
+ f = 98907.5671098128 max g = 2.0161222691e-10
+Newton raphson 3
+ f = 98907.5671098127 max g = 1.7964596477e-10
+ inner maxg = 8.6123009613e-04  Inner second time = 8.6123009613e-04  Inner f = 9.8907564776e+04
+Newton raphson 1
+ f = 98907.5647760159 max g = 2.4334435963e-05
+Newton raphson 2
+ f = 98907.5647760159 max g = 1.7828627463e-10
+Newton raphson 3
+ f = 98907.5647760159 max g = 1.7602280744e-10
+ inner maxg = 6.9128099276e-03  Inner second time = 1.0330177837e-02  Inner f = 9.8907563985e+04
+Newton raphson 1
+ f = 98907.5639845071 max g = 4.7029271355e-04
+Newton raphson 2
+ f = 98907.5639845071 max g = 1.9056262124e-10
+Newton raphson 3
+ f = 98907.5639845071 max g = 1.8879359187e-10
+ inner maxg = 3.3560920190e-03  Inner second time = -2.7083948197e-02  Inner f = 9.8907565527e+04
+Newton raphson 1
+ f = 98907.5655265368 max g = 3.3508248069e-04
+Newton raphson 2
+ f = 98907.5655265367 max g = 1.1414446055e-09
+Newton raphson 3
+ f = 98907.5655265367 max g = 1.8687040804e-10
+Estimating row 19 out of 25 for hessian
+ inner maxg = 3.5762907801e-03  Inner second time = -8.7791140258e-03  Inner f = 9.8907566269e+04
+Newton raphson 1
+ f = 98907.5662683279 max g = 7.2965873633e-04
+Newton raphson 2
+ f = 98907.5662683280 max g = 3.4135250182e-10
+Newton raphson 3
+ f = 98907.5662683279 max g = 1.8603463214e-10
+ inner maxg = 4.1547173758e-03  Inner second time = 1.1166764119e-02  Inner f = 9.8907564667e+04
+Newton raphson 1
+ f = 98907.5646662543 max g = 2.6838631855e-04
+Newton raphson 2
+ f = 98907.5646662542 max g = 1.9760337810e-10
+Newton raphson 3
+ f = 98907.5646662543 max g = 1.7500456639e-10
+ inner maxg = -5.9470055655e-04  Inner second time = -5.9470055655e-04  Inner f = 9.8907563472e+04
+Newton raphson 1
+ f = 98907.5634724039 max g = 2.3659375329e-05
+Newton raphson 2
+ f = 98907.5634724038 max g = 1.9790663552e-10
+Newton raphson 3
+ f = 98907.5634724038 max g = 1.8067447538e-10
+ inner maxg = 9.8357908155e-04  Inner second time = 9.8357908155e-04  Inner f = 9.8907563881e+04
+Newton raphson 1
+ f = 98907.5638805620 max g = 2.5763365419e-05
+Newton raphson 2
+ f = 98907.5638805619 max g = 1.9432022658e-10
+Newton raphson 3
+ f = 98907.5638805619 max g = 1.9461343648e-10
+ f = 98907.5638805619 max g = 1.9432022658e-10
+Estimating row 20 out of 25 for hessian
+ inner maxg = 9.8488482881e-04  Inner second time = 9.8488482881e-04  Inner f = 9.8907565262e+04
+Newton raphson 1
+ f = 98907.5652620066 max g = 5.7822226261e-05
+Newton raphson 2
+ f = 98907.5652620069 max g = 1.8886647801e-10
+Newton raphson 3
+ f = 98907.5652620069 max g = 1.8027457305e-10
+ inner maxg = 8.0562332863e-04  Inner second time = 8.0562332863e-04  Inner f = 9.8907564344e+04
+Newton raphson 1
+ f = 98907.5643438424 max g = 1.1846186983e-04
+Newton raphson 2
+ f = 98907.5643438424 max g = 1.9010143459e-10
+Newton raphson 3
+ f = 98907.5643438424 max g = 1.8516227440e-10
+ inner maxg = 1.2394525118e-03  Inner second time = -2.1162273806e-03  Inner f = 9.8907563434e+04
+Newton raphson 1
+ f = 98907.5634333445 max g = 1.4281352534e-04
+Newton raphson 2
+ f = 98907.5634333445 max g = 1.8948148606e-10
+Newton raphson 3
+ f = 98907.5634333445 max g = 1.7920737116e-10
+ inner maxg = 1.4582768209e-03  Inner second time = 1.3360855090e-02  Inner f = 9.8907563441e+04
+Newton raphson 1
+ f = 98907.5634409974 max g = 1.1639128140e-04
+Newton raphson 2
+ f = 98907.5634409974 max g = 2.0158025249e-10
+Newton raphson 3
+ f = 98907.5634409974 max g = 1.9957990816e-10
+Estimating row 21 out of 25 for hessian
+ inner maxg = 6.5708531915e-03  Inner second time = 1.2376371348e-02  Inner f = 9.8907564447e+04
+Newton raphson 1
+ f = 98907.5644459854 max g = 5.7409116385e-04
+Newton raphson 2
+ f = 98907.5644459853 max g = 2.1916057857e-10
+Newton raphson 3
+ f = 98907.5644459853 max g = 1.9343027180e-10
+ inner maxg = -9.2951746603e-04  Inner second time = -9.2951746603e-04  Inner f = 9.8907564018e+04
+Newton raphson 1
+ f = 98907.5640172299 max g = 2.5562777908e-04
+Newton raphson 2
+ f = 98907.5640172301 max g = 1.9449675204e-10
+Newton raphson 3
+ f = 98907.5640172301 max g = 1.7852136436e-10
+ inner maxg = 9.7279911810e-04  Inner second time = 9.7279911810e-04  Inner f = 9.8907563597e+04
+Newton raphson 1
+ f = 98907.5635971652 max g = 7.1701058052e-05
+Newton raphson 2
+ f = 98907.5635971653 max g = 1.8399048951e-10
+Newton raphson 3
+ f = 98907.5635971653 max g = 1.9087048608e-10
+ f = 98907.5635971653 max g = 1.8399048951e-10
+ inner maxg = -2.1719652559e-03  Inner second time = 6.6120839101e-03  Inner f = 9.8907563606e+04
+Newton raphson 1
+ f = 98907.5636058532 max g = 1.7743790698e-04
+Newton raphson 2
+ f = 98907.5636058532 max g = 1.9977264287e-10
+Newton raphson 3
+ f = 98907.5636058532 max g = 1.9417434327e-10
+Estimating row 22 out of 25 for hessian
+ inner maxg = 1.6626247559e-03  Inner second time = 6.7789376300e-03  Inner f = 9.8907564243e+04
+Newton raphson 1
+ f = 98907.5642429856 max g = 1.8109680198e-04
+Newton raphson 2
+ f = 98907.5642429858 max g = 1.8102241928e-10
+Newton raphson 3
+ f = 98907.5642429858 max g = 1.9207441193e-10
+ f = 98907.5642429858 max g = 1.8102241928e-10
+ inner maxg = -3.3391539074e-04  Inner second time = -3.3391539074e-04  Inner f = 9.8907563948e+04
+Newton raphson 1
+ f = 98907.5639475602 max g = 1.5946882410e-06
+Newton raphson 2
+ f = 98907.5639475601 max g = 1.8046275585e-10
+Newton raphson 3
+ f = 98907.5639475601 max g = 1.9478574309e-10
+ f = 98907.5639475601 max g = 1.8046275585e-10
+ inner maxg = -1.7042683688e-03  Inner second time = -1.7491738444e-02  Inner f = 9.8907563604e+04
+Newton raphson 1
+ f = 98907.5636031761 max g = 2.8679768138e-04
+Newton raphson 2
+ f = 98907.5636031759 max g = 1.8696927340e-10
+Newton raphson 3
+ f = 98907.5636031760 max g = 1.9527052197e-10
+ f = 98907.5636031759 max g = 1.8696927340e-10
+ inner maxg = 7.3344529622e-04  Inner second time = 7.3344529622e-04  Inner f = 9.8907563554e+04
+Newton raphson 1
+ f = 98907.5635542165 max g = 4.1376777688e-05
+Newton raphson 2
+ f = 98907.5635542164 max g = 1.8734924723e-10
+Newton raphson 3
+ f = 98907.5635542164 max g = 1.8409929137e-10
+Estimating row 23 out of 25 for hessian
+ inner maxg = 2.9769750193e-03  Inner second time = -8.8218747792e-03  Inner f = 9.8907564067e+04
+Newton raphson 1
+ f = 98907.5640668541 max g = 2.1153114745e-04
+Newton raphson 2
+ f = 98907.5640668541 max g = 2.0427587399e-10
+Newton raphson 3
+ f = 98907.5640668541 max g = 1.7454293566e-10
+ inner maxg = -9.3481363366e-04  Inner second time = -9.3481363366e-04  Inner f = 9.8907563874e+04
+Newton raphson 1
+ f = 98907.5638733796 max g = 6.6736453374e-05
+Newton raphson 2
+ f = 98907.5638733797 max g = 2.0296386793e-10
+Newton raphson 3
+ f = 98907.5638733797 max g = 1.9755791447e-10
+ inner maxg = 6.0073232876e-04  Inner second time = 6.0073232876e-04  Inner f = 9.8907563650e+04
+Newton raphson 1
+ f = 98907.5636495861 max g = 1.8839990674e-05
+Newton raphson 2
+ f = 98907.5636495861 max g = 1.8266216317e-10
+Newton raphson 3
+ f = 98907.5636495861 max g = 1.8892182263e-10
+ f = 98907.5636495861 max g = 1.8266216317e-10
+ inner maxg = 1.1145076896e-03  Inner second time = 6.4860562238e-03  Inner f = 9.8907563619e+04
+Newton raphson 1
+ f = 98907.5636192664 max g = 8.0667234564e-05
+Newton raphson 2
+ f = 98907.5636192665 max g = 1.7193607649e-10
+Newton raphson 3
+ f = 98907.5636192665 max g = 1.8654267020e-10
+ f = 98907.5636192665 max g = 1.7193607649e-10
+Estimating row 24 out of 25 for hessian
+ inner maxg = 8.3769053091e-04  Inner second time = 8.3769053091e-04  Inner f = 9.8907684677e+04
+Newton raphson 1
+ f = 98907.6846766249 max g = 6.3000305906e-05
+Newton raphson 2
+ f = 98907.6846766249 max g = 2.0126728062e-10
+Newton raphson 3
+ f = 98907.6846766249 max g = 1.9386331429e-10
+ inner maxg = 1.7616556407e-03  Inner second time = -9.9244856659e-03  Inner f = 9.8907624122e+04
+Newton raphson 1
+ f = 98907.6241218058 max g = 1.7993094172e-04
+Newton raphson 2
+ f = 98907.6241218058 max g = 1.8837348348e-10
+Newton raphson 3
+ f = 98907.6241218058 max g = 2.0179458105e-10
+ f = 98907.6241218058 max g = 1.8837348348e-10
+ inner maxg = -5.9172648869e-04  Inner second time = -5.9172648869e-04  Inner f = 9.8907503514e+04
+Newton raphson 1
+ f = 98907.5035139416 max g = 6.4481929145e-06
+Newton raphson 2
+ f = 98907.5035139416 max g = 1.8546630898e-10
+Newton raphson 3
+ f = 98907.5035139416 max g = 1.8489410003e-10
+ inner maxg = 6.6763859543e-04  Inner second time = 6.6763859543e-04  Inner f = 9.8907443461e+04
+Newton raphson 1
+ f = 98907.4434606225 max g = 2.2482945339e-04
+Newton raphson 2
+ f = 98907.4434606227 max g = 1.9888363179e-10
+Newton raphson 3
+ f = 98907.4434606226 max g = 1.7525697560e-10
+Estimating row 25 out of 25 for hessian
+ inner maxg = -4.8383645910e-04  Inner second time = -4.8383645910e-04  Inner f = 9.8907673749e+04
+Newton raphson 1
+ f = 98907.6737487180 max g = 5.6971664854e-05
+Newton raphson 2
+ f = 98907.6737487180 max g = 2.0002305368e-10
+Newton raphson 3
+ f = 98907.6737487180 max g = 1.8804285906e-10
+ inner maxg = 4.5503891625e-04  Inner second time = 4.5503891625e-04  Inner f = 9.8907618666e+04
+Newton raphson 1
+ f = 98907.6186654625 max g = 2.6736705998e-05
+Newton raphson 2
+ f = 98907.6186654624 max g = 3.5860481251e-11
+Newton raphson 3
+ f = 98907.6186654624 max g = 5.4641402514e-11
+ f = 98907.6186654624 max g = 3.5860481251e-11
+ inner maxg = -1.1671907105e-03  Inner second time = -6.6415201692e-03  Inner f = 9.8907508956e+04
+Newton raphson 1
+ f = 98907.5089551090 max g = 1.2607169467e-04
+Newton raphson 2
+ f = 98907.5089551091 max g = 4.9375115108e-11
+Newton raphson 3
+ f = 98907.5089551091 max g = 6.0318194883e-11
+ f = 98907.5089551091 max g = 4.9375115108e-11
+ inner maxg = -9.0068634143e-04  Inner second time = -9.0068634143e-04  Inner f = 9.8907454328e+04
+Newton raphson 1
+ f = 98907.4543278261 max g = 2.8342397279e-04
+Newton raphson 2
+ f = 98907.4543278261 max g = 3.9814984643e-11
+Newton raphson 3
+ f = 98907.4543278261 max g = 4.8916759532e-11
+ f = 98907.4543278261 max g = 3.9814984643e-11
+size of file gradfil1.tmp = 0
+size of file gradfil2.tmp = 0
+size of file varssave.tmp = 0
+size of file cmpdiff.tmp = 0
