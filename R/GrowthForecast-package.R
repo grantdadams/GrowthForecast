@@ -1,4 +1,4 @@
-#' @rawNamespace useDynLib(GrowthForecast, .registration=TRUE); useDynLib(GrowthForecast_TMBExports)
+#' @rawNamespace useDynLib(GrowthForecast, .registration=TRUE); useDynLib(GMRF_WAA)
 #' @keywords internal
 "_PACKAGE"
 

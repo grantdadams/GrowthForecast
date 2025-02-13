@@ -68,6 +68,14 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
       n_proj_years = n_proj_years,
       last_year = last_year)
 
+    # * LSTM ----
+    lstm <- fit_lstm_rtmb(data = train,
+                          nhidden_layer = 3,
+                          hidden_dim = 5,
+                          input_par = NULL,
+                          n_proj_years = n_proj_years,
+                          last_year = last_year)
+
 
     # Combine ----
     peel_list[[i]] <- list(vbgf = vbgf,
@@ -76,7 +84,8 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                            gmrf2 = gmrf[[2]],
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
-                           nn = nn)
+                           nn = nn,
+                           lstm = lstm)
 
     projection_list[[i]] <- do.call("rbind",
                                     lapply(peel_list[[i]],

@@ -8,12 +8,9 @@ simulate_weight(
   nyrs = 10,
   nsamples = 1000,
   nages = 20,
-  winf = 5,
-  k = 0.3,
-  t0 = -0.5,
+  mu = c(5, 0.3, -0.5),
+  vcov = diag(c(0.05, 0.05, 0.2)),
   sigma_obs = 0.05,
-  sigma.year = c(0.05, 0.05, 0.2),
-  rho = 0.3,
   rho_ar1 = 0.95,
   trend_beta = 0,
   seed = 1234
@@ -26,21 +23,17 @@ simulate_weight(
 
 \item{nages}{Number of ages (starting at 1)}
 
-\item{winf}{Mean asymptoptic weight}
+\item{mu}{Vector of mean asymptoptic weight, growth coefficient, and t0}
 
-\item{k}{Mean growth coefficient}
-
-\item{t0}{Mean t0}
+\item{vcov}{Variance-covariance matrix for von Bertalanfy parameters (Winf, K, t0)}
 
 \item{sigma_obs}{Variance of lognormal observation error}
-
-\item{sigma.year}{Vector of length 3 of MVN variances for von Bertalanfy parameter annual deviates (Winf, K, t0)}
-
-\item{rho}{Correlation for von Bertalanfy growth parameters (Winf, K, t0) MVN annual deviates}
 
 \item{rho_ar1}{Vector of length 3 of AR1 correlation for von Bertalanfy growth parameters (Winf, K, t0)}
 
 \item{seed}{}
+
+\item{rho}{Correlation for von Bertalanfy growth parameters (Winf, K, t0) MVN annual deviates}
 }
 \description{
 This code simulates weight-at-age data for individuals from a population where there are multiple years

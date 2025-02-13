@@ -26,11 +26,11 @@ lstm_fun_rtmb <- function(pars, data_list) {
   # Model ----
   for (i in 1:nrow(data_list$mat)) {
     lstm_out <- lstm_neuron(x= data_list$mat[i, ],
-                          h_prev=h[i, ], ## output layer
-                          c_prev=c[i, ], ## long term memory
-                          W,
-                          U,
-                          b)  # Compute LSTM cell output
+                            h_prev=h[i, ], ## output layer
+                            c_prev=c[i, ], ## long term memory
+                            W,
+                            U,
+                            b)  # Compute LSTM cell output
     h[i,] <- lstm_out$h ## update stm
     c[i,] <- lstm_out$c ## update cell
   }
@@ -40,7 +40,12 @@ lstm_fun_rtmb <- function(pars, data_list) {
   output <- exp(logoutput)  # Apply exponential to the output
 
   # Likelihood
-  nll <- sum((logweight - logoutput)^2)  # Compute the negative log-likelihood
+  nll = 0
+  for(i in 1:length(logweight)){
+    if(!is.na(logweight[i])){
+      nll = nll + (logweight[i] - logoutput[i])^2 # Compute the negative log-likelihood
+    }
+  }
   nll <- nll + tiny * sum(W^2)  # Add regularization for W
   nll <- nll + tiny * sum(U^2)  # Add regularization for U
 
@@ -63,14 +68,31 @@ lstm_fun_rtmb <- function(pars, data_list) {
 #' @export
 #'
 #' @examples
-fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = NULL){
+fit_lstm_rtmb <- function(data,
+                          nhidden_layer = 3,
+                          hidden_dim = 5,
+                          input_par = NULL,
+                          n_proj_years = 2,
+                          last_year = NA){
 
-  # - Rearrange data
+  # - Settings
   nlayer = nhidden_layer + 2
   nnform = formula(~age+year)
+
+  # - Projection data
+  years <- do.call(seq, as.list(range(data$year)))
+  proj_years <- (max(years) + 1):(max(years) + n_proj_years)
+  ages <- do.call(seq, as.list(range(data$age)))
+
+  pred_df <- expand.grid(proj_years, ages)
+  colnames(pred_df) <- c("year", "age")
+  pred_df$weight = NA
+
+  # - Combine
   data_list <- list(
-    weight = data$weight,
-    mat = model.matrix(nnform, data),
+    weight = c(data$weight, pred_df$weight),
+    mat = rbind(model.matrix(nnform, data),
+                model.matrix(nnform, pred_df)),
     nlayer = nlayer
   )
 
@@ -104,9 +126,20 @@ fit_lstm_rtmb <- function(data, nhidden_layer = 3, hidden_dim = 5, input_par = N
   report <- obj$report(obj$env$last.par.best)
   par_list <- obj$env$parList(obj$env$last.par.best)
 
+  # Prediction ----
+  # - Prediction for each obs
+  data$pred_weight = report$output
+
+  # - Predicted for projection
+  pred_weight <- data %>%
+    dplyr::filter(year %in% proj_years) %>%
+    dplyr::select(-weight, -weights) %>%
+    mutate(model = "lstm",
+           last_year = last_year) %>%
+    as.data.frame()
+
   # Return ----
-  return(list(obj = obj, data = data, fit = fit, report = report,
-              parList = par_list, input_par = input_par))
+  return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_weight))
 }
 
 

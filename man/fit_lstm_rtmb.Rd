@@ -4,7 +4,14 @@
 \alias{fit_lstm_rtmb}
 \title{Function to fit LSTM recurrent neural net in RTMB}
 \usage{
-fit_lstm_rtmb(data, nhidden_layer = 1, hidden_dim = 1, input_par = NULL)
+fit_lstm_rtmb(
+  data,
+  nhidden_layer = 3,
+  hidden_dim = 5,
+  input_par = NULL,
+  n_proj_years = 2,
+  last_year = NA
+)
 }
 \arguments{
 \item{data}{data.frame with weight, year, and age}
