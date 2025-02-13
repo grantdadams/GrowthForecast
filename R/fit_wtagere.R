@@ -1,6 +1,20 @@
+#' WtAgeRE in RTMB
+#' Adopted from Jim Ianelli for RTMB
+#' https://github.com/afsc-assessments/WtAgeRe
+#'
+#' @param pars
+#' @param data_list
+#'
+#' @return
+#' @export
+#'
 WtAgeRE <- function(pars, data_list){
   require(RTMB)
   RTMB::getAll(pars)
+
+
+  # Unsure what is tripping the function
+  "[<-" <- ADoverload("[<-") # https://groups.google.com/g/tmb-users/c/HlPqkfcCa1g
 
   # Parameter transform ----
   L1 = exp(log_L1)
@@ -88,19 +102,22 @@ FitWtAgeRE <- function(
     n_proj_years = 2
 ){
 
-  # Reformat data for GMRF ----
+  # Reformat data ----
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(proj_years, ages)
+
+  # - Projections and fill missing years
+  years_ages <- expand.grid(c(years, proj_years), ages)
   colnames(years_ages) <- c("year", "age")
 
-  # Deal with weights
+  # - Deal with weights
   if(is.null(weights)){
     weights = rep(1, nrow(data))
   }
   data$weights <- weights
 
+  # - Find mean and sd per year
   gmrf_data <- data %>%
     dplyr::group_by(year, age) %>%
     dplyr::summarise(mn_weight = weighted.mean(weight, weights, na.rm = TRUE),
@@ -108,6 +125,7 @@ FitWtAgeRE <- function(
                      n = n()
     )
 
+  # - Join with projection and reformat
   gmrf_mn <- gmrf_data %>%
     dplyr::filter(!is.na(sd)) %>%
     dplyr::select(year, age, mn_weight) %>%
@@ -133,13 +151,6 @@ FitWtAgeRE <- function(
   # - Convert to CV and sd in lognormal space
   Xcv_at <- sqrt( (exp(Xse_at^2) - 1) )
   Xsd_at <- sqrt((log((Xcv_at)^2 + 1))/(log(10)^2))
-
-  # - Create projection columns
-  proj_cols <- matrix(NA, nrow = length(ages), ncol = n_proj_years)
-
-  # - Append NA for projection year
-  X_at <- cbind(X_at, proj_cols)
-  Xsd_at <- cbind(Xsd_at, proj_cols)
 
 
   # Set up TMB inputs  ----
@@ -171,8 +182,9 @@ FitWtAgeRE <- function(
                gr = obj$gr,
                control = list(maxit = 1e6))
   report <- obj$report(obj$env$last.par.best)
-  colnames(report$wt_hat) <- data_list$years
-  rownames(report$wt_hat) <- data_list$age
+  report$wt_hat <- as.matrix(report$wt_hat)
+  colnames(report$wt_hat) <- c(years, proj_years)
+  rownames(report$wt_hat) <- ages
 
   # Prediction ----
   # - Prediction for each obs

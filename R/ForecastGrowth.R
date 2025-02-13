@@ -21,6 +21,10 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     stop(print("Number of retrospective peels is greater than the number of years"))
   }
 
+  if(sum(data$age %% 1 != 0)){
+    stop(print("'age' contains non-integer ages"))
+  }
+
 
   # Run peels
   peel_list <- list()
@@ -29,6 +33,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
     # Peel data ----
     last_year <- max(data$year, na.rm = TRUE) - i
+
     train <- data %>%
       dplyr::filter(year <= last_year)
 
@@ -46,34 +51,36 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     )
 
     # * WtAgeRe ----
-    # wtagere <- FitWtAgeRE(
-    #   data = train,
-    #   weights=NULL,
-    #   # - Number of projection years
-    #   n_proj_years = n_proj_years
-    # )
+    wtagere <- FitWtAgeRE(
+      data = train,
+      weights=NULL,
+      # - Number of projection years
+      n_proj_years = n_proj_years
+    )
 
     # * GMRF ----
-    # gmrf <- FitGMRF(
-    #   data = train,
-    #   weights=NULL,
-    #   n_proj_years = n_proj_years,
-    #   last_year = last_year
-    # )
+    gmrf <- FitGMRF(
+      data = train,
+      weights=NULL,
+      n_proj_years = n_proj_years,
+      last_year = last_year
+    )
 
     # * NN ----
     #FIXME: no likelihood weights
+    nn_init <- NULL
+    if(i != 1){nn_init = nn$obj$weights}
     nn <- fit_nn(
       data = train,
+      startweights = nn_init,
       n_proj_years = n_proj_years,
       last_year = last_year)
 
     # * LSTM ----
     lstm <- fit_lstm_rtmb(data = train,
-                          nhidden_layer = 3,
+                          nhidden_layer = 2,
                           hidden_dim = 5,
                           input_par = NULL,
-                          n_proj_years = n_proj_years,
                           last_year = last_year)
 
 
@@ -93,7 +100,8 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                                                dplyr::select(year, age,
                                                              pred_weight, model)}
     )) %>%
-      tidyr::pivot_wider(names_from = c(model), values_from = pred_weight)
+      tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
+      mutate(terminal_train_year = last_year)
 
   }
 

@@ -23,7 +23,9 @@ FitGMRF <- function(
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(years, ages) # Expanded for missing years
+
+  # - Projections and fill missing years
+  years_ages <- expand.grid(c(years, proj_years), ages)
   colnames(years_ages) <- c("year", "age")
 
   # Weight data
@@ -58,12 +60,6 @@ FitGMRF <- function(
   # - Read in data weight at age matrix
   X_at <- t(as.matrix(gmrf_mn[,-1])) # removing first col (year column)
 
-  # - Create projection columns
-  proj_cols <- matrix(NA, nrow = length(ages), ncol = n_proj_years)
-
-  # - Append NA for projection year
-  X_at <- cbind(X_at, proj_cols)
-
   # - Read in standard deviations for weight at age matrix
   Xse_at <- t(as.matrix(gmrf_sd[,c(-1)])) # removing first col (year column)
 
@@ -89,8 +85,8 @@ FitGMRF <- function(
                       rho_y = 0,
                       rho_c = 0,
                       log_sigma2 = log(0.1),
-                      ln_L0 = log(45),
-                      ln_Linf = log(80),  # Fixed at arbitrary value
+                      ln_L0 = log(min(data$weight, na.rm = TRUE)),
+                      ln_Linf = log(max(data$weight, na.rm = TRUE)),  # Fixed at arbitrary value
                       ln_k = log(0.15),
                       ln_alpha = log(3.5e-7), # Start alpha at a reasonable space
                       # Starting value for alpha derived from a run where none of the rhos were estimated.

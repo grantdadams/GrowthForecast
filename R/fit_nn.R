@@ -11,13 +11,15 @@
 #' @examples
 fit_nn <- function(data,
                    n_proj_years = 2,
+                   startweights = NULL,
                    last_year = NA){
   require(neuralnet)
 
   # Fit deep NN ----
   nn <- neuralnet(log(weight) ~ age+year,
                   data = data,
-                  hidden = c(5,5,5,5),
+                  hidden = c(5,5,5),
+                  startweights = startweights,
                   linear.output = TRUE,
                   stepmax = 1e6,
                   lifesign = 'minimal',
@@ -27,16 +29,18 @@ fit_nn <- function(data,
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(proj_years, ages)
-  colnames(years_ages) <- c("year", "age")
 
+  # - Projections and fill missing years
+  years_ages <- expand.grid(c(years, proj_years), ages)
+  colnames(years_ages) <- c("year", "age")
 
   # - Prediction for each obs
   data$pred_weight = predict(nn, newdata = data)
 
-  # - Predicted for forecast
+  # - Predicted for hind/forecast
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
   years_ages <- years_ages %>%
+    dplyr::filter(year %in% proj_years) %>%
     dplyr::select(year, age, pred_weight) %>%
     dplyr::mutate(model = "nn",
                   last_year = last_year) %>%

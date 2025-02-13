@@ -41,9 +41,12 @@ FitXGBoost <- function(
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  years_ages <- expand.grid(proj_years[1], ages)
+
+  # - Projections and fill missing years
+  years_ages <- expand.grid(c(years, proj_years), ages)
   colnames(years_ages) <- c("year", "age")
 
+  # - Combine
   proj_data <- data %>%
     dplyr::select(-weight) %>%
     dplyr::full_join(years_ages) %>%

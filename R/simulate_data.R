@@ -38,7 +38,7 @@ simulate_weight <- function(
     nyrs = 10,
     nsamples = 1000,
     nages = 20,
-    mu = c(5, 0.3, -0.5), # Wind, K, t0
+    mu = c(log(5), log(0.3), -0.5), # Wind, K, t0
     vcov = diag(c(0.05, 0.05, 0.2)),# Variance-covariance of vgbm parameters (mu)
     sigma_obs = 0.05,
     rho_ar1 = 0.95, # Time series rho
@@ -61,6 +61,8 @@ simulate_weight <- function(
   cov.mat <- vcov %x% cov.ar1.mat
   year.param.mat <- MASS::mvrnorm(1, rep(mu, each = nyrs), cov.mat)
   year.param.mat <- matrix(year.param.mat, nrow = nyrs, ncol = 3, byrow = FALSE) # Rearrange
+  year.param.mat[,1] <- exp(year.param.mat[,1]) # Move to natural scale
+  year.param.mat[,2] <- exp(year.param.mat[,2])
   colnames(year.param.mat) <- c("Winf.year", "k.year", "t0.year")
 
 
@@ -85,20 +87,23 @@ simulate_weight <- function(
 }
 #
 #
-# data = simulate_weight(seed = 2,
-#                         sigma.year = c(0.1, 0.2, 0.2), # Variance in vgbm parameters
-#                         nyrs = 50,
-#                         rho_ar1 = .99, # Time series rho
-# )
-#
-# # - Plot the data
-# ggplot(data, aes(x = age, y = weight, colour = year)) +
-#   geom_point(size = 2) +
-#   scale_color_continuous()
-#
-# data %>%
-#   filter(round(age) == 5) %>%
-#   ggplot(aes(x = year, y = weight)) +
-#   geom_point(size = 2)
+library(dplyr)
+set.seed(123)
+data = simulate_weight(seed = 2,
+                        nyrs = 50,
+                        rho_ar1 = .99, # Time series rho
+) %>%
+  mutate(age = round(age))
+
+# - Plot the data
+library(ggplot2)
+ggplot(data, aes(x = age, y = weight, colour = year)) +
+  geom_point(size = 2) +
+  scale_color_continuous()
+
+data %>%
+  filter(round(age) == 5) %>%
+  ggplot(aes(x = year, y = weight)) +
+  geom_point(size = 2)
 
 

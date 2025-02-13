@@ -1,3 +1,12 @@
+#' von Bert in RTMB
+#'
+#' @param pars
+#' @param data_list
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vbgf <- function(pars, data_list){
   require(RTMB)
   RTMB::getAll(pars, data_list)
@@ -48,26 +57,27 @@ FitVBGF <- function(data,
                     n_proj_years = 2,
                     last_year = NA){
 
-  # Projection ----
+  # Data ranges ----
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
-  pred_df <- expand.grid(proj_years, ages)
-  colnames(pred_df) <- c("year", "age")
-  pred_df$weight = NA
-  pred_df$weights = 1
 
-  # Deal with weights
+  # - Projections and fill missing years
+  years_ages <- expand.grid(c(years, proj_years), ages)
+  colnames(years_ages) <- c("year", "age")
+
+  # - Deal with weights
   if(is.null(weights)){
     weights = rep(1, nrow(data))
   }
   data$weights <- weights
 
 
-  # Data ----
+  # Reformat data ----
   data <- data %>%
     dplyr::select(year, age, weight, weights) %>%
-    rbind(pred_df)
+    dplyr::full_join(years_ages) %>%
+    dplyr::arrange(year, age)
 
   data_list <- list(
     age        = data$age,

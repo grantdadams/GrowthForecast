@@ -84,15 +84,18 @@ fit_lstm_rtmb <- function(data,
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
   ages <- do.call(seq, as.list(range(data$age)))
 
-  pred_df <- expand.grid(proj_years, ages)
-  colnames(pred_df) <- c("year", "age")
-  pred_df$weight = NA
+  # - Projections and fill missing years
+  years_ages <- expand.grid(c(years, proj_years), ages)
+  colnames(years_ages) <- c("year", "age")
+  years_ages$weight = NA
 
   # - Combine
+  data <- data %>%
+    dplyr::full_join(years_ages)
+
   data_list <- list(
-    weight = c(data$weight, pred_df$weight),
-    mat = rbind(model.matrix(nnform, data),
-                model.matrix(nnform, pred_df)),
+    weight = data$weight,
+    mat = rbind(model.matrix(nnform, data)),
     nlayer = nlayer
   )
 
@@ -115,14 +118,11 @@ fit_lstm_rtmb <- function(data,
 
   # Build and fit ----
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
-  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = FALSE)
+  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = TRUE)
 
-  if(is.null(input_par)){
-    fit <- nlminb(obj$par, obj$fn, obj$gr)
-    # fit <- nlminb(obj$par, obj$fn, obj$gr,control=list(eval.max=200000, iter.max=100000, trace=0))
-  }else{
-    fit <- NULL
-  }
+  fit <- nlminb(obj$par, obj$fn, obj$gr)
+  # fit <- nlminb(obj$par, obj$fn, obj$gr,control=list(eval.max=200000, iter.max=100000, trace=0))
+
   report <- obj$report(obj$env$last.par.best)
   par_list <- obj$env$parList(obj$env$last.par.best)
 
@@ -133,7 +133,7 @@ fit_lstm_rtmb <- function(data,
   # - Predicted for projection
   pred_weight <- data %>%
     dplyr::filter(year %in% proj_years) %>%
-    dplyr::select(-weight, -weights) %>%
+    dplyr::select(-weight) %>%
     mutate(model = "lstm",
            last_year = last_year) %>%
     as.data.frame()
