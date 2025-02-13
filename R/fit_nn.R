@@ -32,7 +32,7 @@ fit_nn <- function(data,
 
 
   # - Prediction for each obs
-  data$pred_weight = predict(nn)
+  data$pred_weight = predict(nn, newdata = data)
 
   # - Predicted for forecast
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
