@@ -182,22 +182,22 @@ FitWtAgeRE <- function(
                gr = obj$gr,
                control = list(maxit = 1e6))
   report <- obj$report(obj$env$last.par.best)
+
+  # Prediction ----
   report$wt_hat <- as.matrix(report$wt_hat)
   colnames(report$wt_hat) <- c(years, proj_years)
   rownames(report$wt_hat) <- ages
 
-  # Prediction ----
-  # - Prediction for each obs
-  pred_weight <- reshape2::melt(report$wt_hat)
-  colnames(pred_weight) <- c("age", "year", "pred_weight")
-  data <- merge(data, pred_weight, all.x = TRUE)
-
   # - Predicted for forecast
-  pred_weight <- data %>%
-    dplyr::filter(year %in% proj_years) %>%
-    dplyr::select(-weight, -weights) %>%
-    mutate(model = "WtAgeRe",
-           last_year = last_year) %>%
+  pred_weight <- report$wt_hat[,(length(years)+1):ncol(report$wt_hat)] %>%
+    as.data.frame() %>%
+    mutate(age = ages) %>%
+    tidyr::pivot_longer(!age) %>%
+    dplyr::rename(weight = value, year = name) %>%
+    dplyr::select(year, age, weight) %>%
+    dplyr::rename(pred_weight = weight) %>%
+    dplyr::mutate(model = "WtAgeRe",
+                  last_year = last_year) %>%
     as.data.frame()
 
   # Return ----
