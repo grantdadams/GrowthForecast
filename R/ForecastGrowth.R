@@ -29,6 +29,8 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   # Run peels
   peel_list <- list()
   projection_list <- list()
+  test_list <- list()
+
   for(i in 1:peels){
 
     # Peel data ----
@@ -94,17 +96,23 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                            nn = nn,
                            lstm = lstm)
 
-    combined_data[[i]] <- do.call("rbind",
+    ## retrospective forecast performance (train data, from models)
+    projection_list[[i]]   <-   do.call("rbind",
                                     lapply(peel_list[[i]],
                                            function(x){x$prediction %>%
                                                dplyr::select(year, age, obs_weight,
-                                                             pred_weight, model)}
+                                                             pred_weight, model, projection)}
     )) %>%
       tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
       mutate(terminal_train_year = last_year,
              peel_id = i)
 
-
+    ## test performance (terminal train year + 2)
+    test_list[[i]]   <-   test %>%
+      select(year, age, obs_weight= weight   )   %>%
+      merge(.,  projection_list[[i]]  %>% filter(projection) %>% select(-obs_weight) %>%
+              mutate(year = as.numeric(year)),
+            by = c('year','age'))
 
 
   }
@@ -117,9 +125,9 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   ## want to know who did the best in foreYr 1 and 2 depending on age maybe and peel
 
 
-
-
   # Pick best model ---
   # - Output
 
 }
+
+
