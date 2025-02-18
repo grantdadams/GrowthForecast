@@ -94,14 +94,18 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                            nn = nn,
                            lstm = lstm)
 
-    projection_list[[i]] <- do.call("rbind",
+    combined_data[[i]] <- do.call("rbind",
                                     lapply(peel_list[[i]],
                                            function(x){x$prediction %>%
-                                               dplyr::select(year, age,
+                                               dplyr::select(year, age, obs_weight,
                                                              pred_weight, model)}
     )) %>%
       tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
-      mutate(terminal_train_year = last_year)
+      mutate(terminal_train_year = last_year,
+             peel_id = i)
+
+
+
 
   }
 
