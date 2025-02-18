@@ -106,11 +106,13 @@ FitVBGF <- function(data,
 
   # - Predicted for projection
   pred_weight <- data %>%
-    dplyr::filter(year %in% proj_years) %>%
-    dplyr::select(-weight, -weights) %>%
+    # dplyr::filter(year %in% proj_years) %>%
+    # dplyr::select(-weight, -weights) %>%
     mutate(model = "vbgf",
+           projection = year %in% proj_years,
            last_year = last_year) %>%
-    as.data.frame()
+    as.data.frame() %>%
+    select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
 
   # Return ----
   return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_weight))

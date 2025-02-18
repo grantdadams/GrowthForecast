@@ -132,11 +132,15 @@ fit_lstm_rtmb <- function(data,
 
   # - Predicted for projection
   pred_weight <- data %>%
-    dplyr::filter(year %in% proj_years) %>%
-    dplyr::select(-weight) %>%
+    # dplyr::filter(year %in% proj_years) %>%
+    # dplyr::select(-weight) %>%
     mutate(model = "lstm",
+           projection = year %in% proj_years,
            last_year = last_year) %>%
-    as.data.frame()
+    as.data.frame()%>%
+    arrange(year, age) %>%
+    select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
+
 
   # Return ----
   return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_weight))

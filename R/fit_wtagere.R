@@ -189,16 +189,20 @@ FitWtAgeRE <- function(
   rownames(report$wt_hat) <- ages
 
   # - Predicted for forecast
-  pred_weight <- report$wt_hat[,(length(years)+1):ncol(report$wt_hat)] %>%
+  pred_weight <- report$wt_hat%>%
     as.data.frame() %>%
     mutate(age = ages) %>%
     tidyr::pivot_longer(!age) %>%
-    dplyr::rename(weight = value, year = name) %>%
-    dplyr::select(year, age, weight) %>%
-    dplyr::rename(pred_weight = weight) %>%
+    dplyr::rename(pred_weight = value, year = name) %>%
+    # dplyr::mutate(year = as.numeric(year)) %>%
+    dplyr::select(year, age, pred_weight) %>%
+    merge(., data, by = c('year','age'), all =TRUE) %>%
     dplyr::mutate(model = "WtAgeRe",
+                  projection = year %in% proj_years,
                   last_year = last_year) %>%
-    as.data.frame()
+    as.data.frame()%>%
+    arrange(year, age) %>%
+    select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
 
   # Return ----
   return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_weight))

@@ -35,16 +35,21 @@ fit_nn <- function(data,
   colnames(years_ages) <- c("year", "age")
 
   # - Prediction for each obs
-  data$pred_weight = predict(nn, newdata = data)
+  # data$pred_weight = predict(nn, newdata = data)
 
   # - Predicted for hind/forecast
   years_ages$pred_weight <- exp(predict(nn, newdata = years_ages))
+
   years_ages <- years_ages %>%
-    dplyr::filter(year %in% proj_years) %>%
+    # dplyr::filter(year %in% proj_years) %>%
     dplyr::select(year, age, pred_weight) %>%
+    merge(., data, by = c('year','age'), all = TRUE) %>%
     dplyr::mutate(model = "nn",
+                  projection = year %in% proj_years,
                   last_year = last_year) %>%
-    as.data.frame()
+    as.data.frame()%>%
+    arrange(year, age) %>%
+    select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
 
   # Return ----
   return(list(obj = nn, data = data, prediction = years_ages))
