@@ -98,11 +98,11 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
     ## retrospective forecast performance (train data, from models)
     projection_list[[i]]   <-   do.call("rbind",
-                                    lapply(peel_list[[i]],
-                                           function(x){x$prediction %>%
-                                               dplyr::select(year, age, obs_weight,
-                                                             pred_weight, model, projection)}
-    )) %>%
+                                        lapply(peel_list[[i]],
+                                               function(x){x$prediction %>%
+                                                   dplyr::select(year, age, obs_weight,
+                                                                 pred_weight, model, projection)}
+                                        )) %>%
       tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
       mutate(terminal_train_year = last_year,
              peel_id = i)
@@ -122,7 +122,31 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
 
 
   # Performance metrics ----
-  ## want to know who did the best in foreYr 1 and 2 depending on age maybe and peel
+
+  # Calculate overall RSE for each model and peel
+  rse_table   <- do.call("rbind", lapply(1:length(test_list), function(i) {
+    test_list[[i]]  %>%
+      dplyr::summarise(across(5:12, ~ sqrt(sum((obs_weight - .)^2) / length(.)), .names = "RSE_{col}")) %>%
+      tidyr::pivot_longer(cols = starts_with("RSE_"), names_to = "model", values_to = "RSE") %>%
+      dplyr::mutate(model = sub("RSE_", "", model),
+                    peel_id = i)
+  })) %>%
+    summarise(mean_RSE = mean(RSE),.by = model) %>% ## average across peels
+    arrange(mean_RSE)
+
+  # Calculate RSE by model and age for each peel
+  rse_table_by_age <- do.call("rbind", lapply(1:length(test_list), function(i) {
+    test_list[[i]] %>%
+      select(-projection, - terminal_train_year) %>%
+      reshape2::melt(., id = c('year','age','obs_weight','peel_id')) %>%
+      # pivot_longer(cols = starts_with("pred_weight_"), names_to = "model", values_to = "pred_weight") %>%
+      group_by(variable, age) %>%
+      summarise(RSE = sqrt(sum((obs_weight - value)^2) / n()), .groups = 'drop') %>%
+      mutate(peel_id = i) %>%
+      select(model = variable, age, RSE, peel_id)
+  })) %>%
+    summarise(mean_RSE = mean(RSE), .by = c(model, age)) %>%  # average across peels
+    arrange(mean_RSE)
 
 
   # Pick best model ---
