@@ -103,7 +103,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                                                    dplyr::select(year, age, obs_weight,
                                                                  pred_weight, model, projection)}
                                         )) %>%
-      tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
+      # tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
       mutate(terminal_train_year = last_year,
              peel_id = i)
 
@@ -118,7 +118,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   }
 
   names(peel_list) <- 1:peels
-  names(projection_list) <- 1:peels
+  names(test_list) <- 1:peels
 
 
   # Performance metrics ----
@@ -126,31 +126,30 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   # Calculate overall RSE for each model and peel
   rse_table   <- do.call("rbind", lapply(1:length(test_list), function(i) {
     test_list[[i]]  %>%
-      dplyr::summarise(across(5:12, ~ sqrt(sum((obs_weight - .)^2) / length(.)), .names = "RSE_{col}")) %>%
-      tidyr::pivot_longer(cols = starts_with("RSE_"), names_to = "model", values_to = "RSE") %>%
-      dplyr::mutate(model = sub("RSE_", "", model),
-                    peel_id = i)
+      dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
+      dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,YID,peel_id))
   })) %>%
-    summarise(mean_RSE = mean(RSE),.by = model) %>% ## average across peels
+    summarise(mean_RSE = mean(RSE),.by = c(model, YID)) %>% ## average across peels
     arrange(mean_RSE)
 
   # Calculate RSE by model and age for each peel
   rse_table_by_age <- do.call("rbind", lapply(1:length(test_list), function(i) {
-    test_list[[i]] %>%
-      select(-projection, - terminal_train_year) %>%
-      reshape2::melt(., id = c('year','age','obs_weight','peel_id')) %>%
-      # pivot_longer(cols = starts_with("pred_weight_"), names_to = "model", values_to = "pred_weight") %>%
-      group_by(variable, age) %>%
-      summarise(RSE = sqrt(sum((obs_weight - value)^2) / n()), .groups = 'drop') %>%
-      mutate(peel_id = i) %>%
-      select(model = variable, age, RSE, peel_id)
+    test_list[[i]]  %>%
+      dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
+      dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,age,YID,peel_id))
   })) %>%
-    summarise(mean_RSE = mean(RSE), .by = c(model, age)) %>%  # average across peels
-    arrange(mean_RSE)
+    summarise(mean_RSE = mean(RSE),.by = c(model,age, YID)) %>% ## average across peels
+    arrange(age,mean_RSE)
 
 
-  # Pick best model ---
-  # - Output
+  # Pick best model based on overall RSE
+  best_mods <- rse_table %>%
+    group_by(YID) %>%
+    filter(mean_RSE == min(mean_RSE)) %>%
+    ungroup() %>%
+    select(YID, model, mean_RSE)
+
+  # - Output (lookup projection in )
 
 }
 
