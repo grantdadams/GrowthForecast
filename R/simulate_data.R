@@ -90,7 +90,7 @@ simulate_weight <- function(
 library(dplyr)
 set.seed(123)
 data = simulate_weight(seed = 2,
-                        nyrs = 50,
+                        nyrs = 10,
                         rho_ar1 = .99, # Time series rho
 ) %>%
   mutate(age = round(age))
