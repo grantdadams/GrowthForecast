@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 4){
+ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 4, peels = 4){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
@@ -172,17 +172,47 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     filter(year %in% max(data$year, na.rm = TRUE):(max(data$year, na.rm = TRUE)+n_proj_years)) %>%
     filter(!duplicated(.$pred_weight)) %>%
     dplyr::select(year, age, pred_weight) %>%
-    tidyr::pivot_wider(., names_from = age, values_from = pred_weight)
+    tidyr::pivot_wider(., names_from = age, values_from = pred_weight) %>%
+    arrange(year) %>%
+    mutate(model = paste0("#",best_mods$model))
 
   # summary figures ----
   projection_list_summary$year <- as.numeric(projection_list_summary$year)
-  plotdf <- bind_rows(projection_list_summary,test_list_summary)
-  ggplot(plotdf, aes(x = age)) +
-    geom_point(size = 2,aes(y = obs_weight, color = factor(projection))) +
-    # geom_line
-    # scale_color_continuous()
-    facet_wrap(model~peel_id)
+  plotdf0 <- bind_rows(projection_list_summary,test_list_summary) %>%
+    distinct()
 
+  plot_list <- list()
+
+  ## plot historical data and fits
+  for(i in unique(plotdf0$model)){
+    plotdf <- plotdf0 %>%
+      filter(model == i & year >= (max(plotdf0$year)-5)) ## truncate historical years
+    plot_list[[i]] <- ggplot(data= NULL, aes(x = age)) +
+      geom_point(data = plotdf,
+                 alpha = 0.05,
+                 size = 2,aes(y = obs_weight, color = factor(projection))) +
+      geom_line(data = plotdf,
+                aes(y = pred_weight,
+                    color = factor(projection),
+                    group = interaction(year, peel_id)))+
+      scale_color_manual(values = c('grey22','blue'))+
+      facet_grid(peel_id ~ year) +
+      theme_minimal() +
+      theme(legend.position = 'none') +
+      labs(x = 'age', y = 'weight', title = i)
+  }
+
+  ## plot projected waa
+  plot_list[[length(plot_list)+1]] <- reshape2::melt(projected_waa, id = c('year','model')) %>%
+    ungroup() %>%
+    mutate(age = as.numeric(variable)) %>%
+    ggplot(., aes(x = age, y = value, color = interaction(year, model))) +
+    scale_color_manual(values = grey.colors(n = n_proj_years, start = 0.3, end = 0.5)) +
+    geom_line(lwd = 1)+
+    theme_minimal() +
+    theme(legend.position = 'bottom')+
+    labs(x = 'age', y = 'weight', title = 'projected weight at age',
+         color = '')
 
 
   return(list(peel_list_summary = peel_list_summary,
@@ -191,7 +221,8 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
               rse_table = rse_table,
               rse_table_by_age =rse_table_by_age,
               best_mods = best_mods,
-              projected_waa = projected_waa))
+              projected_waa = projected_waa,
+              plot_list = plot_list))
 
 
 
