@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3){
+ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 4){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
@@ -34,7 +34,8 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   for(i in 1:peels){
 
     # Peel data ----
-    last_year <- max(data$year, na.rm = TRUE) - i
+    last_year <- max(data$year, na.rm = TRUE) - (i-1)
+    # last_year <- max(data$year, na.rm = TRUE) - (n_proj_years+(i-1))
 
     train <- data %>%
       dplyr::filter(year <= last_year)
@@ -108,6 +109,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
              peel_id = i)
 
     ## test performance (terminal train year + 2)
+
     test_list[[i]]   <-   test %>%
       select(year, age, obs_weight= weight   )   %>%
       merge(.,  projection_list[[i]]  %>% filter(projection) %>% select(-obs_weight) %>%
@@ -118,6 +120,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   }
 
   names(peel_list) <- 1:peels
+  names(projection_list) <- 1:peels
   names(test_list) <- 1:peels
 
 
@@ -149,7 +152,17 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     ungroup() %>%
     select(YID, model, mean_RSE)
 
-  # - Output (lookup projection in )
+  # - Output (lookup projection in first peel)
+  test_list[[1]] %>%
+    ## only good performers
+    filter(model %in% best_mods$model) %>%
+    ## get all future (test) years
+    filter(year %in% max(data$year, na.rm = TRUE):(max(data$year, na.rm = TRUE)+n_proj_years)) %>%
+    filter(!duplicated(.$pred_weight)) %>%
+    select(year, age, pred_weight) %>%
+    tidyr::pivot_wider(., names_from = age, values_from = pred_weight)
+
+
 
 }
 
