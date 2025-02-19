@@ -104,24 +104,26 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                                                    dplyr::select(year, age, obs_weight,
                                                                  pred_weight, model, projection)}
                                         )) %>%
-      mutate(terminal_train_year = last_year,
+      dplyr::mutate(terminal_train_year = last_year,
              peel_id = i)
 
     ## fill in test data (what the model has not seen, for RSE calc)
     if(i != 1){
       test_list[[i]]   <-   test %>%
-        select(year, age, obs_weight= weight   )   %>%
-        merge(.,  projection_list[[i]]  %>% filter(projection) %>% select(-obs_weight) %>%
+        dplyr::select(year, age, obs_weight= weight   )   %>%
+        merge(.,  projection_list[[i]]  %>%
+                filter(projection) %>%
+                dplyr::select(-obs_weight) %>%
                 mutate(year = as.numeric(year)),
               by = c('year','age'))
 
     } else{
       ## first peel is pure forecast, obs_weight is NA
       test_list[[i]]   <-     projection_list[[i]]  %>%
-        filter(projection) %>%
-        mutate(year = as.numeric(year))
+        dplyr::filter(projection) %>%
+        dplyr::mutate(year = as.numeric(year))
 
-    } ## end test_list population
+    } ## end test_list
   } ## end peels
 
   names(peel_list) <- 1:peels
@@ -147,32 +149,39 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
   # Calculate RSE by model and age for each peel
   rse_table_by_age <- test_list_summary %>%
-    filter(peel_id > 1) %>%
+    dplyr::filter(peel_id > 1) %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
     dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,age,YID,peel_id)) %>%
-    summarise(mean_RSE = mean(RSE),.by = c(model,age, YID)) %>% ## average across peels
+    dplyr::summarise(mean_RSE = mean(RSE),.by = c(model,age, YID)) %>% ## average across peels
     arrange(age,mean_RSE)
 
 
   # Pick best model based on overall RSE
   best_mods <- rse_table %>%
-    group_by(YID) %>%
-    filter(mean_RSE == min(mean_RSE)) %>%
+    dplyr::group_by(YID) %>%
+    dplyr::filter(mean_RSE == min(mean_RSE)) %>%
     ungroup() %>%
-    select(YID, model, mean_RSE)
+    dplyr::select(YID, model, mean_RSE)
 
   # - Output (lookup projection in first peel)
   projected_waa <- test_list[[1]] %>%
-    ## only good performers
-    filter(model %in% best_mods$model) %>%
+    dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
+    ## pull best model-forecast combination
+    inner_join(best_mods, by = c("YID", "model")) %>%
     ## get all future (test) years
     filter(year %in% max(data$year, na.rm = TRUE):(max(data$year, na.rm = TRUE)+n_proj_years)) %>%
     filter(!duplicated(.$pred_weight)) %>%
-    select(year, age, pred_weight) %>%
+    dplyr::select(year, age, pred_weight) %>%
     tidyr::pivot_wider(., names_from = age, values_from = pred_weight)
 
   # summary figures ----
-
+  projection_list_summary$year <- as.numeric(projection_list_summary$year)
+  plotdf <- bind_rows(projection_list_summary,test_list_summary)
+  ggplot(plotdf, aes(x = age)) +
+    geom_point(size = 2,aes(y = obs_weight, color = factor(projection))) +
+    # geom_line
+    # scale_color_continuous()
+    facet_wrap(model~peel_id)
 
 
 
