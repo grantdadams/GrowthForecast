@@ -121,10 +121,8 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
         filter(projection) %>%
         mutate(year = as.numeric(year))
 
-    }
-
-
-  }
+    } ## end test_list population
+  } ## end peels
 
   names(peel_list) <- 1:peels
   names(projection_list) <- 1:peels
