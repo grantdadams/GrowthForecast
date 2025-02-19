@@ -104,17 +104,24 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
                                                    dplyr::select(year, age, obs_weight,
                                                                  pred_weight, model, projection)}
                                         )) %>%
-      # tidyr::pivot_wider(names_from = c(model), values_from = pred_weight) %>%
       mutate(terminal_train_year = last_year,
              peel_id = i)
 
-    ## test performance (terminal train year + 2)
+    ## fill in test data (what the model has not seen, for RSE calc)
+    if(i != 1){
+      test_list[[i]]   <-   test %>%
+        select(year, age, obs_weight= weight   )   %>%
+        merge(.,  projection_list[[i]]  %>% filter(projection) %>% select(-obs_weight) %>%
+                mutate(year = as.numeric(year)),
+              by = c('year','age'))
 
-    test_list[[i]]   <-   test %>%
-      select(year, age, obs_weight= weight   )   %>%
-      merge(.,  projection_list[[i]]  %>% filter(projection) %>% select(-obs_weight) %>%
-              mutate(year = as.numeric(year)),
-            by = c('year','age'))
+    } else{
+      ## first peel is pure forecast, obs_weight is NA
+      test_list[[i]]   <-     projection_list[[i]]  %>%
+        filter(projection) %>%
+        mutate(year = as.numeric(year))
+
+    }
 
 
   }
