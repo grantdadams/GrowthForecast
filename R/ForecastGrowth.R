@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 4){
+ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 4){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
