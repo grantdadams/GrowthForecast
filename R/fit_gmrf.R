@@ -180,7 +180,7 @@ FitGMRF <- function(
                       last_year = last_year) %>%
         as.data.frame()%>%
         arrange(year, age) %>%
-        select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
+        dplyr::select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
 
       # Save
       models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report, prediction = pred_weight)
