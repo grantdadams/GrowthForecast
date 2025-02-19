@@ -132,21 +132,24 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   # Performance metrics ----
 
   # Calculate overall RSE for each model and peel
+  ## create master dataframes
+  peel_list_summary <-do.call("rbind", lapply(1:length(peel_list), function(i) { peel_list[[i]]}))
+  test_list_summary <-do.call("rbind", lapply(1:length(test_list), function(i) { test_list[[i]]}))
+  projection_list_summary <-do.call("rbind", lapply(1:length(projection_list), function(i) { projection_list[[i]]}))
+
   ## drop first peel as it is raw projection (no observations)
-  rse_table   <- do.call("rbind", lapply(2:length(test_list), function(i) {
-    test_list[[i]]  %>%
-      dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
-      dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,YID,peel_id))
-  })) %>%
+  rse_table   <-  test_list_summary %>%
+    filter(peel_id > 1) %>%
+    dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
+    dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,YID,peel_id)) %>%
     summarise(mean_RSE = mean(RSE),.by = c(model, YID)) %>% ## average across peels
     arrange(mean_RSE)
 
   # Calculate RSE by model and age for each peel
-  rse_table_by_age <- do.call("rbind", lapply(2:length(test_list), function(i) {
-    test_list[[i]]  %>%
-      dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
-      dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,age,YID,peel_id))
-  })) %>%
+  rse_table_by_age <- test_list_summary %>%
+    filter(peel_id > 1) %>%
+    dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
+    dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,age,YID,peel_id)) %>%
     summarise(mean_RSE = mean(RSE),.by = c(model,age, YID)) %>% ## average across peels
     arrange(age,mean_RSE)
 
@@ -159,7 +162,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     select(YID, model, mean_RSE)
 
   # - Output (lookup projection in first peel)
-  test_list[[1]] %>%
+  projected_waa <- test_list[[1]] %>%
     ## only good performers
     filter(model %in% best_mods$model) %>%
     ## get all future (test) years
@@ -168,8 +171,21 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     select(year, age, pred_weight) %>%
     tidyr::pivot_wider(., names_from = age, values_from = pred_weight)
 
+  # summary figures ----
 
 
-}
+
+
+  return(list(peel_list_summary = peel_list_summary,
+              projection_list_summary=projection_list_summary,
+              test_list_summary= test_list_summary,
+              rse_table = rse_table,
+              rse_table_by_age =rse_table_by_age,
+              best_mods = best_mods,
+              projected_waa = projected_waa))
+
+
+
+} ## end function
 
 
