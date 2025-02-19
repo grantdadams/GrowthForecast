@@ -134,7 +134,8 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
   # Performance metrics ----
 
   # Calculate overall RSE for each model and peel
-  rse_table   <- do.call("rbind", lapply(1:length(test_list), function(i) {
+  ## drop first peel as it is raw projection (no observations)
+  rse_table   <- do.call("rbind", lapply(2:length(test_list), function(i) {
     test_list[[i]]  %>%
       dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
       dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,YID,peel_id))
@@ -143,7 +144,7 @@ ForestGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_ye
     arrange(mean_RSE)
 
   # Calculate RSE by model and age for each peel
-  rse_table_by_age <- do.call("rbind", lapply(1:length(test_list), function(i) {
+  rse_table_by_age <- do.call("rbind", lapply(2:length(test_list), function(i) {
     test_list[[i]]  %>%
       dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
       dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,age,YID,peel_id))
