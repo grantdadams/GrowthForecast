@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 4, peels = 4){
+ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 4){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
@@ -188,7 +188,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   for(i in unique(plotdf0$model)){
     plotdf <- plotdf0 %>%
       ## TODO customize the year bounds or change how this is displayed
-      filter(model == i & year > 30) ## truncate historical years
+      filter(model == i & year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
     plot_list[[i]] <- ggplot(data= NULL, aes(x = age)) +
       geom_point(data = plotdf,
                  alpha = 0.05,
@@ -198,7 +198,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                     color = factor(projection),
                     group = interaction(year, peel_id)))+
       scale_color_manual(values = c('grey22','blue'))+
-      facet_grid(peel_id ~ year) +
+      facet_grid(peel_id ~ year, scales = 'free_y') +
       theme_minimal() +
       theme(legend.position = 'none') +
       labs(x = 'age', y = 'weight', title = i)
