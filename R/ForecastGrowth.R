@@ -83,9 +83,9 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     lstm <- fit_lstm_rtmb(data = train,
                           nhidden_layer = 2,
                           hidden_dim = 5,
+                          n_proj_years = n_proj_years,
                           input_par = NULL,
                           last_year = last_year)
-
 
     # Combine ----
     peel_list[[i]] <- list(vbgf = vbgf,
@@ -135,6 +135,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
   # Calculate overall RSE for each model and peel
   ## create master dataframes
+  ## TODO consider if/where to include 5-year mean calc, should it be moving with peel?
   peel_list_summary <-do.call("rbind", lapply(1:length(peel_list), function(i) { peel_list[[i]]}))
   test_list_summary <-do.call("rbind", lapply(1:length(test_list), function(i) { test_list[[i]]}))
   projection_list_summary <-do.call("rbind", lapply(1:length(projection_list), function(i) { projection_list[[i]]}))
@@ -170,7 +171,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     inner_join(best_mods, by = c("YID", "model")) %>%
     ## get all future (test) years
     filter(year %in% max(data$year, na.rm = TRUE):(max(data$year, na.rm = TRUE)+n_proj_years)) %>%
-    filter(!duplicated(.$pred_weight)) %>%
+    # filter(!duplicated(.$pred_weight)) %>%
     dplyr::select(year, age, pred_weight) %>%
     tidyr::pivot_wider(., names_from = age, values_from = pred_weight) %>%
     arrange(year) %>%
@@ -186,7 +187,8 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   ## plot historical data and fits
   for(i in unique(plotdf0$model)){
     plotdf <- plotdf0 %>%
-      filter(model == i & year >= (max(plotdf0$year)-5)) ## truncate historical years
+      ## TODO customize the year bounds or change how this is displayed
+      filter(model == i & year > 30) ## truncate historical years
     plot_list[[i]] <- ggplot(data= NULL, aes(x = age)) +
       geom_point(data = plotdf,
                  alpha = 0.05,
