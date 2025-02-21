@@ -8,7 +8,7 @@ simulate_weight(
   nyrs = 10,
   nsamples = 1000,
   nages = 20,
-  mu = c(5, 0.3, -0.5),
+  mu = c(log(5), log(0.3), -0.5),
   vcov = diag(c(0.05, 0.05, 0.2)),
   sigma_obs = 0.05,
   rho_ar1 = 0.95,

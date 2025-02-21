@@ -99,7 +99,8 @@ FitWtAgeRE <- function(
     data = NULL,
     weights=NULL,
     # - Number of projection years
-    n_proj_years = 2
+    n_proj_years = 2,
+    last_year = NULL
 ){
 
   # Reformat data ----

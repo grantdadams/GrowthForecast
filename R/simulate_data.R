@@ -85,25 +85,5 @@ simulate_weight <- function(
   data <- data.frame(weight = obs_weight, age = age, year = year, true_weight = true_weight)
   return(data)
 }
-#
-#
-library(dplyr)
-set.seed(123)
-data = simulate_weight(seed = 2,
-                        nyrs = 10,
-                        rho_ar1 = .99, # Time series rho
-) %>%
-  mutate(age = round(age))
-
-# - Plot the data
-library(ggplot2)
-ggplot(data, aes(x = age, y = weight, colour = year)) +
-  geom_point(size = 2) +
-  scale_color_continuous()
-
-data %>%
-  filter(round(age) == 5) %>%
-  ggplot(aes(x = year, y = weight)) +
-  geom_point(size = 2)
 
 

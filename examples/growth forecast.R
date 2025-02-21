@@ -1,5 +1,9 @@
 # Load data and packages
 library(GrowthForecast)
+library(dplyr)
+library(ggplot2)
+
+# Observed data ----
 data(LWA)
 
 # Look at data
@@ -15,10 +19,23 @@ pollock <- LWA %>%
 
 colnames(pollock) <- tolower(colnames(pollock))
 
-# Fit models ----
-FitWtAgeRE(
-  data = pollock,
-  weights=NULL,
-  # - Number of projection years
-  n_proj_years = 2
-)
+pollockforecast <- GrowthForecast::ForecastGrowth(form = formula(weight~age+year), data = pollock, n_proj_years = 2, peels = 3)
+pollockforecast$best_forecast
+
+# Simulated data ----
+# - Simulate data
+set.seed(123)
+data = simulate_weight(seed = 2,
+                       nyrs = 10,
+                       rho_ar1 = .99, # Time series rho
+) %>%
+  mutate(age = round(age))
+
+# - Plot the data
+ggplot(data, aes(x = age, y = weight, colour = year)) +
+  geom_point(size = 2) +
+  scale_color_continuous()
+
+# - Test forecasting
+simforecast <- ForecastGrowth(form = formula(weight~age+year), data = data, n_proj_years = 2, peels = 3)
+simforecast$best_forecast

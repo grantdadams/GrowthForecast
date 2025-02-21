@@ -4,7 +4,7 @@
 \alias{FitWtAgeRE}
 \title{Function to fit weight-at-age model from Jim Ianelli}
 \usage{
-FitWtAgeRE(data = NULL, weights = NULL, n_proj_years = 2)
+FitWtAgeRE(data = NULL, weights = NULL, n_proj_years = 2, last_year = NULL)
 }
 \arguments{
 \item{data}{data.frame with columns "year", "age", and "weight". Weight should be in kg so that uncertainty calculations do not cause an issue.}

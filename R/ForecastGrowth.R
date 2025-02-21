@@ -1,16 +1,32 @@
 #' Forecast growth
 #'
-#' Fits various weight-at-age models given input data
+#' Fits various weight-at-age models given input data and evaluates forecast skill using retrospective forecasting. Outputs the forecasted weight-at-age from the "best" performing model.
+#'
 #' @param form model formula for machine learning based methods and selection of covariates
 #' @param data data.frame with columns "year", "age", and "weight" and any covariates. Weight should be in kg so that uncertainty calculations do not cause an issue.
-#' @param weights likelihood weights for model.
 #' @param n_proj_years the max number of years to project forward (default = 2)
+#' @param peels the number of years to peel back for retrospective forecast skill evaluation (default = 3)
+#'
+#' @description
+#' The function takes a \code{data.frame} of weight-at-age data and compares the retrospective forecast skill of a variety of weight-at-age models. This is done by peeling the data \code{peels} times and comparing the observed vs forecasted data using root mean squared error (RMSE) across peels and all ages (or by each age) for each of the projection years set by \code{n_proj_years}. The function then outputs the forecasted weight-at-age based on the model with the lowest RMSE for each projection year.
+#'
 #'
 #' @return
+#' A list with:
+#' * all_predictions = data.frame of observed and model predicted (hindcasts & forecasts) weight-at-age for each model and retrospective peel
+#' * all_forecasts = data.frame of forecasted weight-at-age for each model and retrospective peel
+#' * rmse_table = data.frame of root mean squared error across all ages/peels from retrospective forecasts
+#' * rmse_table_by_age = data.frame of root mean squared error by age across peels from retrospective forecasts
+#' * best_mods = data.frame with of the best model from\code{rmse_table}
+#' * best_mods_by_age = data.frame with of the best model from\code{rmse_table_by_age} for each age
+#' * best_forecast = data.frame with forecasted weight-at-age from\code{best_mods}
+#' * plots = list of plots from each model
+#'
 #' @export
 #'
+#'
 #' @examples
-ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 4){
+ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
@@ -25,17 +41,18 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     stop(print("'age' contains non-integer ages"))
   }
 
+  model_names <- c("vbgf", "wtagere", "gmrf1", "gmrf2", "gmrf3", "gmrf4", "nn", "lstm")
 
-  # Run peels
-  peel_list <- list()
-  projection_list <- list()
-  test_list <- list()
+  # Run peels ----
+  peels = peels + 1
+  peel_list <- list() # List of models for each peel
+  pred_list <- list() # List of hindcast/forecast predictions for each peel
+  test_list <- list() # List of forecast predictions for each peel
 
   for(i in 1:peels){
 
     # Peel data ----
     last_year <- max(data$year, na.rm = TRUE) - (i-1)
-    # last_year <- max(data$year, na.rm = TRUE) - (n_proj_years+(i-1))
 
     train <- data %>%
       dplyr::filter(year <= last_year)
@@ -46,46 +63,68 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
     # Fit models ----
     # * VBGF ----
-    vbgf <- FitVBGF(
-      data = train,
-      weights=NULL,
-      n_proj_years = n_proj_years,
-      last_year = last_year
+    vbgf <-  tryCatch(
+      suppressMessages(
+        FitVBGF(
+          data = train,
+          weights=NULL,
+          n_proj_years = n_proj_years,
+          last_year = last_year
+        )
+      )
     )
 
     # * WtAgeRe ----
-    wtagere <- FitWtAgeRE(
-      data = train,
-      weights=NULL,
-      # - Number of projection years
-      n_proj_years = n_proj_years
-    )
+    wtagere <-
+      tryCatch(
+        suppressMessages(
+          FitWtAgeRE(
+            data = train,
+            weights=NULL,
+            # - Number of projection years
+            n_proj_years = n_proj_years,
+            last_year = last_year
+          )
+        )
+      )
 
     # * GMRF ----
-    gmrf <- FitGMRF(
-      data = train,
-      weights=NULL,
-      n_proj_years = n_proj_years,
-      last_year = last_year
+    gmrf <-  tryCatch(
+      suppressMessages(
+        FitGMRF(
+          data = train,
+          weights=NULL,
+          n_proj_years = n_proj_years,
+          last_year = last_year
+        )
+      )
     )
 
     # * NN ----
     #FIXME: no likelihood weights
     nn_init <- NULL
     if(i != 1){nn_init = nn$obj$weights}
-    nn <- fit_nn(
-      data = train,
-      startweights = nn_init,
-      n_proj_years = n_proj_years,
-      last_year = last_year)
+    nn <-  tryCatch(
+      suppressMessages(
+        fit_nn(
+          data = train,
+          startweights = nn_init,
+          n_proj_years = n_proj_years,
+          last_year = last_year)
+      )
+    )
 
     # * LSTM ----
-    lstm <- fit_lstm_rtmb(data = train,
-                          nhidden_layer = 2,
-                          hidden_dim = 5,
-                          n_proj_years = n_proj_years,
-                          input_par = NULL,
-                          last_year = last_year)
+    lstm <- tryCatch(
+      suppressMessages(
+        fit_lstm_rtmb(data = train,
+                      nhidden_layer = 2,
+                      hidden_dim = 5,
+                      n_proj_years = n_proj_years,
+                      input_par = NULL,
+                      last_year = last_year)
+      )
+    )
 
     # Combine ----
     peel_list[[i]] <- list(vbgf = vbgf,
@@ -96,22 +135,24 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                            gmrf4 = gmrf[[4]],
                            nn = nn,
                            lstm = lstm)
+    names(peel_list[[i]]) <- model_names
 
-    ## retrospective forecast performance (train data, from models)
-    projection_list[[i]]   <-   do.call("rbind",
-                                        lapply(peel_list[[i]],
-                                               function(x){x$prediction %>%
-                                                   dplyr::select(year, age, obs_weight,
-                                                                 pred_weight, model, projection)}
-                                        )) %>%
+    # * Pull predictions (hindcast and forecast) ----
+    ## - Retrospective forecast performance (train data, from models)
+    pred_list[[i]]   <-   do.call("rbind",
+                                  lapply(peel_list[[i]],
+                                         function(x){x$prediction %>%
+                                             dplyr::select(year, age, obs_weight,
+                                                           pred_weight, model, projection)}
+                                  )) %>%
       dplyr::mutate(terminal_train_year = last_year,
-             peel_id = i)
+                    peel_id = i)
 
-    ## fill in test data (what the model has not seen, for RSE calc)
+    ## Fill in test data (what the model has not seen, for rmse calc)
     if(i != 1){
       test_list[[i]]   <-   test %>%
         dplyr::select(year, age, obs_weight= weight   )   %>%
-        merge(.,  projection_list[[i]]  %>%
+        merge(.,  pred_list[[i]]  %>%
                 filter(projection) %>%
                 dplyr::select(-obs_weight) %>%
                 mutate(year = as.numeric(year)),
@@ -119,7 +160,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
     } else{
       ## first peel is pure forecast, obs_weight is NA
-      test_list[[i]]   <-     projection_list[[i]]  %>%
+      test_list[[i]]   <-     pred_list[[i]]  %>%
         dplyr::filter(projection) %>%
         dplyr::mutate(year = as.numeric(year))
 
@@ -127,44 +168,52 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   } ## end peels
 
   names(peel_list) <- 1:peels
-  names(projection_list) <- 1:peels
+  names(pred_list) <- 1:peels
   names(test_list) <- 1:peels
 
 
   # Performance metrics ----
-
-  # Calculate overall RSE for each model and peel
-  ## create master dataframes
+  # * Create master dataframes ----
   ## TODO consider if/where to include 5-year mean calc, should it be moving with peel?
-  peel_list_summary <-do.call("rbind", lapply(1:length(peel_list), function(i) { peel_list[[i]]}))
-  test_list_summary <-do.call("rbind", lapply(1:length(test_list), function(i) { test_list[[i]]}))
-  projection_list_summary <-do.call("rbind", lapply(1:length(projection_list), function(i) { projection_list[[i]]}))
+  peel_list_summary <- do.call("rbind", lapply(1:length(peel_list), function(i) { peel_list[[i]]}))
+  test_list_summary <- do.call("rbind", lapply(1:length(test_list), function(i) { test_list[[i]]}))
+  pred_list_summary <- do.call("rbind", lapply(1:length(pred_list), function(i) { pred_list[[i]]}))
 
+  # * Calculate overall rmse for each model and peel ----
   ## drop first peel as it is raw projection (no observations)
-  rse_table   <-  test_list_summary %>%
+  rmse_table   <-  test_list_summary %>%
     filter(peel_id > 1) %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
-    dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,YID,peel_id)) %>%
-    summarise(mean_RSE = mean(RSE),.by = c(model, YID)) %>% ## average across peels
-    arrange(mean_RSE)
+    dplyr::summarise(SE = (sum((obs_weight - pred_weight)^2) / n()), .by = c(model, YID)) %>%
+    summarise(RMSE = sqrt(mean(SE)),.by = c(model, YID)) %>% ## average across peels and take sqrt
+    arrange(YID, RMSE)
 
-  # Calculate RSE by model and age for each peel
-  rse_table_by_age <- test_list_summary %>%
+  # * Calculate RSE by model and age for each peel ----
+  rmse_table_by_age <- test_list_summary %>%
     dplyr::filter(peel_id > 1) %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
-    dplyr::summarise(RSE = sqrt(sum((obs_weight - pred_weight)^2) / n()), .by = c(model,age,YID,peel_id)) %>%
-    dplyr::summarise(mean_RSE = mean(RSE),.by = c(model,age, YID)) %>% ## average across peels
-    arrange(age,mean_RSE)
+    dplyr::summarise(SE = (sum((obs_weight - pred_weight)^2) / n()), .by = c(model, age, YID)) %>%
+    dplyr::summarise(RMSE = sqrt(mean(SE)),.by = c(model, age, YID)) %>% ## average across peels and take sqrt
+    arrange(age, YID, RMSE)
 
 
-  # Pick best model based on overall RSE
-  best_mods <- rse_table %>%
+  # Pick best model ----
+  # * Based on overall RSE ----
+  best_mods <- rmse_table %>%
     dplyr::group_by(YID) %>%
-    dplyr::filter(mean_RSE == min(mean_RSE)) %>%
+    dplyr::filter(RMSE == min(RMSE)) %>%
     ungroup() %>%
-    dplyr::select(YID, model, mean_RSE)
+    dplyr::select(YID, model, RMSE)
+
+  # * Based on age-specific RSE ----
+  best_mods_by_age <- rmse_table_by_age %>%
+    dplyr::group_by(YID, age) %>%
+    dplyr::filter(RMSE == min(RMSE)) %>%
+    ungroup() %>%
+    dplyr::select(age, YID, model, RMSE)
 
   # - Output (lookup projection in first peel)
+  #FIXME worth doing this using "best_mods_by_age"?
   projected_waa <- test_list[[1]] %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
     ## pull best model-forecast combination
@@ -177,18 +226,19 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     arrange(year) %>%
     mutate(model = paste0("#",best_mods$model))
 
-  # summary figures ----
-  projection_list_summary$year <- as.numeric(projection_list_summary$year)
-  plotdf0 <- bind_rows(projection_list_summary,test_list_summary) %>%
+  # Summary figures ----
+  pred_list_summary$year <- as.numeric(pred_list_summary$year)
+  plotdf0 <- bind_rows(pred_list_summary,test_list_summary) %>%
     distinct()
 
   plot_list <- list()
 
-  ## plot historical data and fits
+  # * Plot historical data and fits ----
   for(i in unique(plotdf0$model)){
     plotdf <- plotdf0 %>%
       ## TODO customize the year bounds or change how this is displayed
       filter(model == i & year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
+
     plot_list[[i]] <- ggplot(data= NULL, aes(x = age)) +
       geom_point(data = plotdf,
                  alpha = 0.05,
@@ -204,7 +254,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
       labs(x = 'age', y = 'weight', title = i)
   }
 
-  ## plot projected waa
+  # * Plot projected waa ----
   plot_list[[length(plot_list)+1]] <- reshape2::melt(projected_waa, id = c('year','model')) %>%
     ungroup() %>%
     mutate(age = as.numeric(variable)) %>%
@@ -216,17 +266,18 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     labs(x = 'age', y = 'weight', title = 'projected weight at age',
          color = '')
 
+  names(plot_list) <- c(model_names, "projection")
 
-  return(list(peel_list_summary = peel_list_summary,
-              projection_list_summary=projection_list_summary,
-              test_list_summary= test_list_summary,
-              rse_table = rse_table,
-              rse_table_by_age =rse_table_by_age,
+
+  # Return ----
+  return(list(all_predictions = pred_list_summary,
+              all_forecasts = test_list_summary,
+              rmse_table = rmse_table,
+              rmse_table_by_age = rmse_table_by_age,
               best_mods = best_mods,
-              projected_waa = projected_waa,
-              plot_list = plot_list))
-
-
+              best_mods_by_age = best_mods_by_age,
+              best_forecast = projected_waa,
+              plots = plot_list))
 
 } ## end function
 

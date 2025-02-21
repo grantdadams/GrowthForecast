@@ -119,8 +119,9 @@ fit_lstm_rtmb <- function(data,
   # Build and fit ----
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
   obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = TRUE)
+  gc()
 
-  fit <- nlminb(obj$par, obj$fn, obj$gr)
+  fit <- optim(obj$par, obj$fn, obj$gr) #FIXME: moving to optim for memory issues
   # fit <- nlminb(obj$par, obj$fn, obj$gr,control=list(eval.max=200000, iter.max=100000, trace=0))
 
   report <- obj$report(obj$env$last.par.best)
