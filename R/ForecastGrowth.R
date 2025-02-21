@@ -126,6 +126,18 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
       )
     )
 
+    # avg5 <- list()
+    # avg5[['prediction']] <- train %>%
+    #   dplyr::filter(year %in% ((max(train$year)-5):max(train$year))) %>%
+    #   dplyr::summarise(pred_weight = mean(weight),.by = age) %>%
+    #   merge(., train) %>% %>%
+    #   dplyr::mutate(last_year = last_year,
+    #          projection = year %in% (max(train$year) + 1):(max(train$year) + n_proj_years),
+    #          model = 'avg5') %>%
+    #   dplyr::select(model, last_year, year, age, obs_weight=weight, pred_weight, projection) %>%
+    #   arrange(year,age)
+
+
     # Combine ----
     peel_list[[i]] <- list(vbgf = vbgf,
                            wtagere = wtagere,
@@ -134,8 +146,10 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
                            nn = nn,
-                           lstm = lstm)
-    names(peel_list[[i]]) <- model_names
+                           lstm = lstm,
+                           avg5 = avg5)
+
+    names(peel_list[[i]]) <- c(model_names, "avg5")
 
     # * Pull predictions (hindcast and forecast) ----
     ## - Retrospective forecast performance (train data, from models)
@@ -156,7 +170,8 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                 filter(projection) %>%
                 dplyr::select(-obs_weight) %>%
                 mutate(year = as.numeric(year)),
-              by = c('year','age'))
+              by = c('year','age'),
+              all = TRUE)
 
     } else{
       ## first peel is pure forecast, obs_weight is NA
@@ -178,6 +193,13 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   peel_list_summary <- do.call("rbind", lapply(1:length(peel_list), function(i) { peel_list[[i]]}))
   test_list_summary <- do.call("rbind", lapply(1:length(test_list), function(i) { test_list[[i]]}))
   pred_list_summary <- do.call("rbind", lapply(1:length(pred_list), function(i) { pred_list[[i]]}))
+
+
+  ## TODO calculate 5-year average WAA for comparison
+  # data %>%
+  #   filter(year %in% ((max(data$year)-5):max(data$year))) %>%
+  #   summarise(pred_weight = mean(weight), .by = age) %>%
+  #   head()
 
   # * Calculate overall rmse for each model and peel ----
   ## drop first peel as it is raw projection (no observations)
