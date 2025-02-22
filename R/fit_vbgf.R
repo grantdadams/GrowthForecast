@@ -87,8 +87,8 @@ FitVBGF <- function(data,
 
   # Parameters ----
   par_list <- list(
-    logWinf   = log(5),
-    logKappa   = log(0.15),
+    logWinf   = log(max(data$weight, na.rm = TRUE)),
+    logKappa   = log(0.3),
     t0  = -0.25,
     logSigma = -0.5
   )

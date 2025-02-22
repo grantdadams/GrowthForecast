@@ -2,6 +2,7 @@
 library(GrowthForecast)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 
 # Observed data ----
 data(LWA)
@@ -19,7 +20,13 @@ pollock <- LWA %>%
 
 colnames(pollock) <- tolower(colnames(pollock))
 
+pollock %>%
+  count(age, year) %>%
+  arrange(year) %>%
+  pivot_wider(names_from = year, values_from = n)
+
 pollockforecast <- GrowthForecast::ForecastGrowth(form = formula(weight~age+year), data = pollock, n_proj_years = 2, peels = 3)
+pollockforecast$rmse_table
 pollockforecast$best_forecast
 
 # Simulated data ----
@@ -38,4 +45,4 @@ ggplot(data, aes(x = age, y = weight, colour = year)) +
 
 # - Test forecasting
 simforecast <- ForecastGrowth(form = formula(weight~age+year), data = data, n_proj_years = 2, peels = 3)
-simforecast$best_forecast
+simforecast$best_mods

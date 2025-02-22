@@ -166,8 +166,8 @@ FitWtAgeRE <- function(
     c_eta = rep(0, length(data_list$years)),
     log_K = log(0.3),
     log_alpha = -11, # Fixed
-    log_L1 = log(10),
-    log_L2 = log(80),
+    log_L1 = log(min(data$weight, na.rm = TRUE)),
+    log_L2 = log(max(data$weight, na.rm = TRUE)),
     log_sd_coh = 0,
     log_sd_yr = 0
   )
