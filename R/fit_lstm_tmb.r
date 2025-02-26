@@ -121,8 +121,7 @@ fit_lstm_rtmb <- function(data,
   obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = TRUE)
   gc()
 
-  fit <- optim(obj$par, obj$fn, obj$gr) #FIXME: moving to optim for memory issues
-  # fit <- nlminb(obj$par, obj$fn, obj$gr,control=list(eval.max=200000, iter.max=100000, trace=0))
+  fit <- nlminb(obj$par, obj$fn, obj$gr,control=list(eval.max=200000, iter.max=100000, trace=0))
 
   report <- obj$report(obj$env$last.par.best)
   par_list <- obj$env$parList(obj$env$last.par.best)
