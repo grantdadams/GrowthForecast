@@ -127,7 +127,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
         suppressMessages(
           fit_lstm_rtmb(data = train,
                         nhidden_layer = 2,
-                        hidden_dim = 5,
+                        hidden_dim = 3,
                         n_proj_years = n_proj_years,
                         input_par = NULL,
                         last_year = last_year)
