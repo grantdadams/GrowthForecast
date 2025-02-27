@@ -82,7 +82,7 @@ simulate_weight <- function(
 
 
   ## Return data object ----
-  data <- data.frame(weight = obs_weight, age = age, year = year, true_weight = true_weight)
+  data <- data.frame(weight = obs_weight, age = age, year = as.numeric(year), true_weight = true_weight)
   return(data)
 }
 
