@@ -172,7 +172,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                            gmrf2 = gmrf[[2]],
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
-                           nn = nn,
+                           # nn = nn,
                            lstm = lstm,
                            avg5 = avg5)
 
@@ -239,8 +239,9 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   rmse_table_by_age <- test_list_summary %>%
     dplyr::filter(peel_id > 1) %>%
     dplyr::mutate(YID = paste0('y+', year - terminal_train_year)) %>%
-    dplyr::group_by(model, age, YID) %>%
-    dplyr::slice_sample(n = min(100, n())) %>%
+    dplyr::group_by(age, YID) %>%
+    dplyr::slice_sample(n = 50 ) %>%
+    ungroup() %>%
     dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)), .groups = 'drop') %>%
     arrange(YID, age, RMSE) %>%
     dplyr::select(YID, age, model, RMSE)
