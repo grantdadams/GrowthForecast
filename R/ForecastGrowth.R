@@ -302,7 +302,6 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   # * Plot historical data and fits ----
   for(i in unique(plotdf0$model)){
     plotdf <- plotdf0 %>%
-      ## TODO customize the year bounds or change how this is displayed
       filter(model == i & year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
 
     plot_list[[i]] <- ggplot(data= NULL, aes(x = age)) +
