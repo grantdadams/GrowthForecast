@@ -281,14 +281,12 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
 
   # - Output (lookup projection in first peel)
-  #FIXME: what to do with biennial surveys or data that is missing years
   projected_waa <- test_list[[1]] %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
     ## pull best model-forecast combination
     inner_join(best_mods, by = c("YID", "model")) %>%
     ## get all future (test) years
     filter(year %in% max(data$year, na.rm = TRUE):(max(data$year, na.rm = TRUE)+n_proj_years)) %>%
-    # filter(!duplicated(.$pred_weight)) %>%
     dplyr::select(year, age, pred_weight) %>%
     tidyr::pivot_wider(., names_from = age, values_from = pred_weight) %>%
     arrange(year) %>%
