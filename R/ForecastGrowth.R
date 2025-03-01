@@ -281,7 +281,6 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
 
   # - Output (lookup projection in first peel)
-  #FIXME worth doing this using "best_mods_by_age"?
   #FIXME: what to do with biennial surveys or data that is missing years
   projected_waa <- test_list[[1]] %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
