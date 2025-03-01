@@ -320,6 +320,31 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
       labs(x = 'age', y = 'weight', title = i)
   }
 
+  # * single plot with best projection
+  plotdf <- plotdf0 %>%
+    filter(model  %in% best_mods$model &
+             year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
+
+  if(length(unique(best_mods$model))>1){ colVec <- c('blue','dodgerblue','#9A031E','#E36923')
+  if(length(unique(best_mods$model))==1) colVec <- c('grey22','blue')
+
+  plot_list[[length(plot_list)+1]] <- ggplot(data= NULL, aes(x = age)) +
+    geom_point(data = plotdf,
+               alpha = 0.05,
+               color = 'grey22',
+               size = 2,aes(y = obs_weight)) +
+    geom_line(data = plotdf,
+              lwd = 1,
+              aes(y = pred_weight,
+                  color = interaction(projection, model),
+                  group = interaction(model, year, peel_id)))+
+    scale_color_manual(values = colVec)+
+    facet_grid(peel_id ~ year, scales = 'free_y') +
+    theme_minimal() +
+    theme(legend.position = 'bottom') +
+    labs(x = 'age', y = 'weight', title = 'best model(s)', color = '')
+
+
   # * Plot projected waa ----
   plot_list[[length(plot_list)+1]] <- reshape2::melt(projected_waa, id = c('year','model')) %>%
     ungroup() %>%
