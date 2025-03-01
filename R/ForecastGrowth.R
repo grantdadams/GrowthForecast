@@ -219,7 +219,6 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   names(test_list) <- 1:peels
   non_converged <- unique(non_converged)
 
-
   # Performance metrics ----
   # * Create master dataframes ----
   test_list_summary <- do.call("rbind", lapply(1:length(test_list), function(i) { test_list[[i]]})) %>%
@@ -245,6 +244,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     ungroup() %>%
     dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)), .by = c(model, YID, age)) %>%
     dplyr::mutate(var_RMSE = var(RMSE, na.rm = TRUE), .by = c(YID, age)) %>%
+    filter(!is.na(RMSE)) %>%
     arrange(YID, age, RMSE) %>%
     dplyr::select(YID, age, model, RMSE, var_RMSE)
 
