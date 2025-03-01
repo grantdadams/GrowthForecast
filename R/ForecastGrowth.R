@@ -242,9 +242,10 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     dplyr::group_by(age, YID) %>%
     dplyr::slice_sample(n = 50 ) %>%
     ungroup() %>%
-    dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)), .groups = 'drop') %>%
+    dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)), .by = c(model, YID, age)) %>%
+    dplyr::mutate(var_RMSE = var(RMSE, na.rm = TRUE), .by = c(YID, age)) %>%
     arrange(YID, age, RMSE) %>%
-    dplyr::select(YID, age, model, RMSE)
+    dplyr::select(YID, age, model, RMSE, var_RMSE)
 
   # Pick best model ----
   # * Based on overall RSE ----
