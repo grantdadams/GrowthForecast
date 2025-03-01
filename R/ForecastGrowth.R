@@ -325,7 +325,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     filter(model  %in% best_mods$model &
              year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
 
-  if(length(unique(best_mods$model))>1){ colVec <- c('blue','dodgerblue','#9A031E','#E36923')
+  if(length(unique(best_mods$model))>1) colVec <- c('blue','dodgerblue','#9A031E','#E36923')
   if(length(unique(best_mods$model))==1) colVec <- c('grey22','blue')
 
   plot_list[[length(plot_list)+1]] <- ggplot(data= NULL, aes(x = age)) +
