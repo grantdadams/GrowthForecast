@@ -108,18 +108,19 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
     # * NN ----
     #FIXME: no likelihood weights
-    nn_init <- NULL
-    if(i != 1){nn_init = nn$obj$weights}
-    nn <-  tryCatch(
-      suppressMessages(
-        fit_nn(
-          data = train,
-          startweights = nn_init,
-          n_proj_years = n_proj_years,
-          last_year = last_year)
-      ),
-      error = function(e) return(NULL)
-    )
+    #FIXME: determine whether this model is worth keeping
+    # nn_init <- NULL
+    # if(i != 1){nn_init = nn$obj$weights}
+    # nn <-  tryCatch(
+    #   suppressMessages(
+    #     fit_nn(
+    #       data = train,
+    #       startweights = nn_init,
+    #       n_proj_years = n_proj_years,
+    #       last_year = last_year)
+    #   ),
+    #   error = function(e) return(NULL)
+    # )
 
     # * LSTM ----
     lstm <- if(!"lstm" %in% non_converged){
