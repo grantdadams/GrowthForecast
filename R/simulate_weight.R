@@ -43,8 +43,7 @@ simulate_weight <- function(
     sigma_obs = 0.05,
     rho_ar1 = 0.95, # Time series rho
     trend_beta = 0, # Slope of trend: 1+(trend_beta/nyrs) * 1:nyrs
-    seed = 1234
-){
+    seed = 1234){
   set.seed(seed)
 
   ## TODO decide whether to call get_growthPars here, pass species as arg
@@ -73,17 +72,15 @@ simulate_weight <- function(
   true_weight = (year.param.mat[year, 1] * (1 - exp(-year.param.mat[year, 2]*(age-year.param.mat[year, 3]))))
   obs_weight = true_weight * exp(rnorm(nsamples, 0, sigma_obs))
 
-
-  # ## Get expected curve -----
-  # pred <- expand.grid(1:nages, 1:nyrs)
-  # colnames(pred) <- c("age", "year")
-  # pred$true_weight = (year.param.mat[pred$year,1] * (1 - exp(-year.param.mat[pred$year,2]*(pred$age-year.param.mat[pred$year,3]))))/100
-  #
+  ## empirical weight at age ----
+  year_age <- expand.grid(year = 1:nyrs, age = 1:nages)
+  true_weight_mat <- (year.param.mat[year_age$year, 1] * (1 - exp(-year.param.mat[year_age$year, 2]*(year_age$age-year.param.mat[year_age$year, 3]))))
+  true_weight_mat <- matrix(true_weight_mat, nrow = nyrs)
 
 
   ## Return data object ----
   data <- data.frame(weight = obs_weight, age = age, year = as.numeric(year), true_weight = true_weight)
-  return(data)
+  return(list(data = data,ewaa=true_weight_mat))
 }
 
 
