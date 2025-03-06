@@ -46,3 +46,32 @@ ggplot(data, aes(x = age, y = weight, colour = year)) +
 # - Test forecasting
 simforecast <- ForecastGrowth(form = formula(weight~age+year), data = data, n_proj_years = 2, peels = 3)
 simforecast$best_mods
+
+
+
+# Simulated data w/ trend ----
+# - Simulate data
+set.seed(123)
+data = simulate_weight(seed = 2,
+                       nyrs = 10,
+                       mu_trend = c(0.2, 0, 0), # 20% increase in Winf across years
+                       vcov = diag(c(0, 0, 0)),
+                       rho_ar1 = 0, # Time series rho
+                       sigma_obs = 0.1
+)
+
+data$data <- data$data %>%
+  mutate(age = round(age))
+
+# - Plot the data
+ggplot(data$data, aes(x = age, y = weight, colour = year)) +
+  geom_point(size = 2) +
+  scale_color_continuous()
+
+ggplot(data$data %>%
+         filter(round(age) == 20), aes(x = year, y = weight)) +
+  geom_point(size = 2)
+
+# - Test forecasting
+simforecast <- ForecastGrowth(form = formula(weight~age+year), data = data, n_proj_years = 2, peels = 3)
+simforecast$best_mods
