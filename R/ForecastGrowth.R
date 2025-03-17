@@ -287,6 +287,22 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     dplyr::select(YID, age, model, RMSE)
 
 
+  # * Based on maturity-weighted RSE ----
+  best_mods_by_mat <- rmse_table %>%
+    dplyr::group_by(YID) %>%
+    dplyr::filter(RMSE_mat == min(RMSE_mat, na.rm = TRUE)) %>%
+    ungroup() %>%
+    dplyr::select(YID, model, RMSE_mat)
+
+  # - Expand if biennial or triennial survey
+  best_mods_by_mat <- best_mods_by_mat %>%
+    dplyr::full_join(rmse_table %>%
+                       dplyr::distinct(YID)) %>%
+    dplyr::arrange(YID) %>%
+    dplyr::mutate(model = ifelse(is.na(model), lead(model), model)) %>%
+    dplyr::mutate(model = ifelse(is.na(model), lead(model), model))
+
+
   # - Output (lookup projection in first peel)
   projected_waa <- test_list[[1]] %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
@@ -373,6 +389,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
               rmse_table_by_age = rmse_table_by_age,
               best_mods = best_mods,
               best_mods_by_age = best_mods_by_age,
+              best_mods_by_mat = best_mods_by_mat,
               best_forecast = projected_waa,
               plots = plot_list))
 
