@@ -6,7 +6,7 @@
 #' @param data data.frame with columns "year", "age", and "weight" and any covariates. Weight should be in kg so that uncertainty calculations do not cause an issue.
 #' @param n_proj_years the max number of years to project forward (default = 2)
 #' @param peels the number of years to peel back for retrospective forecast skill evaluation (default = 3)
-#'
+#' @param maturity_vec a vector of length 1:max(age) indicating proportion mature
 #' @description
 #' The function takes a \code{data.frame} of weight-at-age data and compares the retrospective forecast skill of a variety of weight-at-age models. This is done by peeling the data \code{peels} times and comparing the observed vs forecasted data using root mean squared error (RMSE) across peels and all ages (or by each age) for each of the projection years set by \code{n_proj_years}. The function then outputs the forecasted weight-at-age based on the model with the lowest RMSE for each projection year.
 #'
@@ -26,7 +26,8 @@
 #'
 #'
 #' @examples
-ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3){
+ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3,
+                           maturity_vec = NULL){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
@@ -228,12 +229,17 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
   # * Calculate overall rmse for each model and peel ----
   ## drop first peel as it is raw projection (no observations)
+  maa <- cbind('age' = 1:length(maturity_vec), 'maturity' = maturity_vec)
+
   rmse_table   <-  test_list_summary %>%
     filter(peel_id > 1) %>%
+    merge(.,maa, by = 'age') %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
-    dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)), .by = c(model, YID)) %>%
-    arrange(YID, RMSE) %>%
-    dplyr::select(YID, model, RMSE)
+    dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)),
+                     RMSE_mat =  sqrt(mean(maturity*(obs_weight - pred_weight)^2, na.rm = TRUE)),
+                     .by = c(model, YID)) %>%
+    arrange(YID, RMSE_mat) %>%
+    dplyr::select(YID, model, RMSE, RMSE_mat)
 
   # * Calculate RSE by model and age for each peel ----
   rmse_table_by_age <- test_list_summary %>%
