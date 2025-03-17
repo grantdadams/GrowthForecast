@@ -70,7 +70,7 @@ sim_data <- simulate_weight(seed = 2,
                             nyrs = 10,
                             mu = c(5, 0.15, -0.5), # Winf, K, t0
                             sigma_obs = 0.15,
-                            rho_ar1 = 0.9999  # Time series rho
+                            rho_ar1 = 0.99  # Time series rho
 
 )
 
@@ -102,6 +102,7 @@ simforecast <- ForecastGrowth(form = formula(weight~age+year),
                               peels = 3,
                               maturity_vec =  maturity)
 simforecast$best_mods
+simforecast$best_mods_by_mat
 
 simforecast$plots
 
@@ -133,7 +134,7 @@ ggplot(data = NULL, aes(x = year)) +
   # geom_point(data = subset(predicted_values,best), aes(y = pred_ssb,   color = interaction(model, best)) ,size = 2, shape = 4) +
   facet_wrap(~YID) +
   scale_color_manual(values = c('red',
-                                grey.colors(6, start = 0.5, end = 0.7),
+                                grey.colors(6, start = 0.1, end = 0.7),
                                 'blue','purple'))+
   theme_minimal() +
   labs(x = 'year', y= 'SSB', title = 'forecasted vs true ssb')
@@ -145,20 +146,21 @@ set.seed(123)
 data = simulate_weight(seed = 2,
                        nyrs = 10,
                        mu_trend = c(0.2, 0, 0), # 20% increase in Winf across years
+                       mu = c(5, 0.15, -0.5), # Winf, K, t0
                        vcov = diag(c(0, 0, 0)),
                        rho_ar1 = 0, # Time series rho
-                       sigma_obs = 0.1
+                       sigma_obs = 0.15
 )
 
-data$data <- data$data %>%
+data <- data$data %>%
   mutate(age = round(age))
 
 # - Plot the data
-ggplot(data$data, aes(x = age, y = weight, colour = year)) +
+ggplot(data, aes(x = age, y = weight, colour = year)) +
   geom_point(size = 2) +
   scale_color_continuous()
 
-ggplot(data$data %>%
+ggplot(data %>%
          filter(round(age) == 20), aes(x = year, y = weight)) +
   geom_point(size = 2)
 
