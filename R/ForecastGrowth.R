@@ -302,7 +302,6 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     dplyr::mutate(model = ifelse(is.na(model), lead(model), model)) %>%
     dplyr::mutate(model = ifelse(is.na(model), lead(model), model))
 
-
   # - Output (lookup projection in first peel)
   projected_waa <- test_list[[1]] %>%
     dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
@@ -347,7 +346,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     filter(model  %in% best_mods$model &
              year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
 
-  if(length(unique(best_mods$model))>1) colVec <- c('blue','dodgerblue','#9A031E','#E36923')
+  if(length(unique(best_mods$model))>1) colVec <- c('grey30','dodgerblue','grey30','blue')
   if(length(unique(best_mods$model))==1) colVec <- c('grey22','blue')
 
   plot_list[[length(plot_list)+1]] <- ggplot(data= NULL, aes(x = age)) +
