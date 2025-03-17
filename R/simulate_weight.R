@@ -39,7 +39,7 @@ simulate_weight <- function(
     nyrs = 10,
     nsamples = 1000,
     nages = 20,
-    mu = c(5, 0.3, -0.5), # Wind, K, t0
+    mu = c(5, 0.3, -0.5), # Winf, K, t0
     mu_trend = c(0, 0, 0),
     vcov = diag(c(0.05, 0.05, 0.2)),# Variance-covariance of vgbm parameters (mu)
     sigma_obs = 0.1,
