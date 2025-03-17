@@ -229,7 +229,15 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
   # * Calculate overall rmse for each model and peel ----
   ## drop first peel as it is raw projection (no observations)
-  maa <- cbind('age' = 1:length(maturity_vec), 'maturity' = maturity_vec)
+  if(!is.null(maturity_vec)){
+    maa <- cbind('age' = 1:length(maturity_vec), 'maturity' = maturity_vec)
+
+
+  } else{
+    message('No maturity vector provided. rmse_by_mat will match base RMSE')
+    maa <- cbind('age' = 1:length(maturity_vec), 'maturity' = 1)
+
+  }
 
   rmse_table   <-  test_list_summary %>%
     filter(peel_id > 1) %>%
