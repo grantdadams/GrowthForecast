@@ -70,7 +70,7 @@ sim_data <- simulate_weight(seed = 2,
                             nyrs = 10,
                             mu = c(5, 0.15, -0.5), # Winf, K, t0
                             sigma_obs = 0.15,
-                            rho_ar1 = 1-1e-6  # Time series rho
+                            rho_ar1 = 0.9999  # Time series rho
 
 )
 
