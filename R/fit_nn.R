@@ -1,22 +1,27 @@
-
+# https://www.tidymodels.org/learn/models/parsnip-nnet/
 
 #' Fit deep neural net
 #'
-#' @param data
-#' @param n_proj_years
+#' @param form model formula to use for neural net
+#' @param data data.frame with columns "year", "age", and "weight". Weight should be in kg so that uncertainty calculations do not cause an issue.
+#' @param n_proj_years the number of years to project forward
+#' @param startweights starting parameters
+#' @param last_year final year of data
 #'
 #' @return
 #' @export
 #'
 #' @examples
-fit_nn <- function(data,
-                   n_proj_years = 2,
-                   startweights = NULL,
-                   last_year = NA){
+fit_nn <- function(
+    form = formula(log(weight) ~ age + year),
+    data,
+    n_proj_years = 2,
+    startweights = NULL,
+    last_year = NA){
   require(neuralnet)
 
   # Fit deep NN ----
-  nn <- neuralnet(log(weight) ~ age+year,
+  nn <- neuralnet(formula = form,
                   data = data,
                   hidden = c(5,5,5),
                   startweights = startweights,
@@ -48,7 +53,7 @@ fit_nn <- function(data,
                   projection = year %in% proj_years,
                   last_year = last_year) %>%
     as.data.frame()%>%
-    arrange(year, age) %>%
+    dplyr::arrange(year, age) %>%
     dplyr::select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
 
   # Return ----

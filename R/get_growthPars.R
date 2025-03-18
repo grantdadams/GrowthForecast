@@ -27,14 +27,14 @@ get_growthPars <- function(species_name){
   # Get mean ----
   mu.Linf <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'Loo')$mean
   mu.k <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'K')$mean
-  mu.t0 <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'tm')$mean #FIXME: correct?
+  mu.t0 <-  -0.1 # FishLife fixes it t0 at -0.1
   mu.Winf <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'Winfinity')$mean ## also known as a*linf^b
   mu.parms <- c(mu.Winf, mu.k, mu.t0, mu.Linf)
   npar <- length(mu.parms)
 
   # Covariance ----
   # * Winf, k, t0, Loo
-  cov.group.mat <-  cbind(predict0[[1]]$Cov_pred[c(3,2,5,1),c(3,2,5,1)]) #FIXME: tm = t0?
+  cov.group.mat <-  cbind(predict0[[1]]$Cov_pred[c(3,2,1),c(3,2,1)]) #FIXME: tm = t0?
   names(mu.parms) <- rownames(cov.group.mat)
 
   # Combine and save

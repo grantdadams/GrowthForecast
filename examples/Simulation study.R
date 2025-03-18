@@ -4,21 +4,27 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(FishLife) # devtools::install_github("James-Thorson-NOAA/FishLife")
+# devtools::install_github("ropensci/rfishbase@fb-21.06")
 data("FishBase_and_Morphometrics")
 
 # Simulation set-up
 nsim = 300
+
+# - Max age
 edge_names = c( FishBase_and_Morphometrics$tree$tip.label,
-                FishBase_and_Morphometrics$tree$node.label[-1] ) # Removing root
+                FishBase_and_Morphometrics$tree$node.label[-1] )
 
 
 
 # Life history 1 (Pcod) ----
+# - Cod vbgm pars
 cod_pars <- get_growthPars(species_name = 'pcod')
 cod_pars$mu[1] <- cod_pars$mu[1]/1000 # G to KG
 cod_pars$mu <- cod_pars$mu[1:3]
-cod_pars$vcov <- cod_pars$vcov[1:3,1:3]
+vcov_mat <- matrix(0, 3, 3)
+vcov_mat[1:2,1:2] <- cod_pars$vcov[1:2,1:2]
 
+# - Max age
 which_g = match( "Gadus macrocephalus", edge_names )
 lifehist_table = cbind(
   Mean = FishBase_and_Morphometrics$beta_gv[which_g,],
@@ -26,7 +32,7 @@ lifehist_table = cbind(
 ) %>%
   as.data.frame()
 
-max_age <- exp(lifehist_table$Mean[1])
+max_age <- ceiling(exp(lifehist_table$Mean[1]))
 # get_growthPars(species_name = 'pop')
 # get_growthPars(species_name = 'flathead')
 
@@ -35,7 +41,7 @@ max_age <- exp(lifehist_table$Mean[1])
 static_data = simulate_weight(
   nyrs = 40,
   nsamples = 10000,
-  nages = ceiling(max_age),
+  nages = max_age,
   mu = cod_pars$mu, # Winf, K, t0
   trend_beta = c(0, 0, 0),
   vcov = diag(c(0, 0, 0)),
@@ -61,10 +67,10 @@ simforecast$best_mods
 vbgm_n01 = simulate_weight(
   nyrs = 40,
   nsamples = 10000,
-  nages = ceiling(max_age),
+  nages = max_age,
   mu = cod_pars$mu, # Winf, K, t0
   trend_beta = c(0, 0, 0),
-  vcov = cod_pars$vcov,
+  vcov = vcov_mat,
   sigma_obs = 0.2,
   rho_ar1 = 0,
   seed = 1234
@@ -87,10 +93,10 @@ simforecast$best_mods
 vbgm_ar1 = simulate_weight(
   nyrs = 40,
   nsamples = 10000,
-  nages = ceiling(max_age),
+  nages = max_age,
   mu = cod_pars$mu, # Winf, K, t0
   trend_beta = c(0, 0, 0),
-  vcov = cod_pars$vcov,
+  vcov = vcov_mat,
   sigma_obs = 0.2,
   rho_ar1 = 0.95,
   seed = 1234
@@ -113,10 +119,10 @@ simforecast$best_mods
 vbgm_trend = simulate_weight(
   nyrs = 40,
   nsamples = 10000,
-  nages = ceiling(max_age),
+  nages = max_age,
   mu = cod_pars$mu, # Winf, K, t0
   trend_beta = c(-0.2, 0.2, 0),
-  vcov = cod_pars$vcov,
+  vcov = vcov_mat,
   sigma_obs = 0.2,
   rho_ar1 = 0.95,
   seed = 1234

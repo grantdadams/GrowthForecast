@@ -114,6 +114,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     # nn <-  tryCatch(
     #   suppressMessages(
     #     fit_nn(
+    #       form = form,
     #       data = train,
     #       startweights = nn_init,
     #       n_proj_years = n_proj_years,
@@ -174,7 +175,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
                            # nn = nn,
-                           lstm = lstm,
+                           # lstm = lstm,
                            avg5 = avg5)
 
     # * Filter non-converged models ----
