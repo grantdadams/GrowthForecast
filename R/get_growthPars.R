@@ -9,35 +9,39 @@
 
 
 get_growthPars <- function(species_name){
+
+  # Get bivariate info ----
   # devtools::install_github("James-Thorson-NOAA/FishLife")
   if(species_name == 'pcod'){
-    predict0 <- FishLife::Plot_taxa( Search_species(Genus="Gadus", Species = "macrocephalus")$match_taxonomy)
+    predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus="Gadus", Species = "macrocephalus")$match_taxonomy)
   } else if(species_name == 'pop'){
-    predict0 <- FishLife::Plot_taxa( Search_species(Genus="Sebastes", Species = "alutus")$match_taxonomy)
+    predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus="Sebastes", Species = "alutus")$match_taxonomy)
   } else if(species_name == 'flathead'){
-    predict0 <- FishLife::Plot_taxa( Search_species(Genus="Hippoglossoides", Species = "elassodon")$match_taxonomy)
+    predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus="Hippoglossoides", Species = "elassodon")$match_taxonomy)
   } else{
-    predict0 <- FishLife::Plot_taxa( Search_species(Genus= strsplit(species_name,' ')[[1]][1],
+    predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus= strsplit(species_name,' ')[[1]][1],
                                           Species =  strsplit(species_name,' ')[[1]][2])$match_taxonomy)
   }
 
-  ## Get mean
+
+  # Get mean ----
   mu.Linf <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'Loo')$mean
   mu.k <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'K')$mean
-  mut.t0 <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'tm')$mean
+  mu.t0 <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'tm')$mean #FIXME: correct?
   mu.Winf <- GrowthForecast::reformat_FishLife(predict = predict0, trait = 'Winfinity')$mean ## also known as a*linf^b
-  mu.parms <- c(mu.Winf, mu.k, mut.t0, mu.Linf)
+  mu.parms <- c(mu.Winf, mu.k, mu.t0, mu.Linf)
   npar <- length(mu.parms)
 
-  ## Winf, k, t0, Loo
-  cov.group.mat <-  cbind(predict0[[1]]$Cov_pred[c(3,2,4,1),c(3,2,4,1)])
+  # Covariance ----
+  # * Winf, k, t0, Loo
+  cov.group.mat <-  cbind(predict0[[1]]$Cov_pred[c(3,2,5,1),c(3,2,5,1)]) #FIXME: tm = t0?
   names(mu.parms) <- rownames(cov.group.mat)
 
-  save(mu.parms, file = file.path('data', paste0(species_name, "_muparms.Rda")))
-  save(cov.group.mat, file = file.path('data', paste0(species_name, "_covgroupmat.rda")))
+  # Combine and save
+  dataList <- list(mu = mu.parms, vcov = cov.group.mat)
+  save(dataList, file = file.path('data', paste0(species_name, "_parameters.Rda")))
 
-  return(list(mu.parms, cov.group.mat))
-
+  return(dataList)
 }
 
 

@@ -145,7 +145,7 @@ ggplot(data = NULL, aes(x = year)) +
 set.seed(123)
 data = simulate_weight(seed = 2,
                        nyrs = 10,
-                       mu_trend = c(0.2, 0, 0), # 20% increase in Winf across years
+                       trend_beta = c(0.2, 0, 0), # 20% increase in Winf across years
                        mu = c(5, 0.15, -0.5), # Winf, K, t0
                        vcov = diag(c(0, 0, 0)),
                        rho_ar1 = 0, # Time series rho

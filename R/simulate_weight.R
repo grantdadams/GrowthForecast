@@ -6,9 +6,9 @@
 #' @param nsamples Number of samples across years and ages
 #' @param nages Number of ages (starting at 1)
 #' @param mu Vector of mean asymptoptic weight, growth coefficient, and t0 on natural scale
-#' @param mu_trend Percent linear increase or decrease in mu: \code{mu * (1 + (mu_trend/nyrs) * 1:nyrs)}. Vector of length 3.
+#' @param trend_beta Percent linear increase or decrease in mu: \code{mu * seq(1, 1 + trend_beta, length.out = nyrs)}. Vector of length 3.
 #' @param vcov Variance-covariance matrix for von Bertalanfy parameters (Winf, K, t0)
-#' @param sigma_obs Variance of lognormal observation error
+#' @param sigma_obs Variance of lognormal observation error "sdlog"
 #' @param rho Correlation for von Bertalanfy growth parameters (Winf, K, t0) MVN annual deviates
 #' @param rho_ar1 Vector of length 3 of AR1 correlation for von Bertalanfy growth parameters (Winf, K, t0)
 #' @param seed
@@ -40,11 +40,10 @@ simulate_weight <- function(
     nsamples = 1000,
     nages = 20,
     mu = c(5, 0.3, -0.5), # Winf, K, t0
-    mu_trend = c(0, 0, 0),
+    trend_beta = c(0, 0, 0),
     vcov = diag(c(0.05, 0.05, 0.2)),# Variance-covariance of vgbm parameters (mu)
     sigma_obs = 0.1,
     rho_ar1 = 0.95, # Time series rho
-    trend_beta = 0, # Slope of trend: 1+(trend_beta/nyrs) * 1:nyrs
     seed = 1234){
   set.seed(seed)
 
@@ -59,11 +58,15 @@ simulate_weight <- function(
 
 
   # Trend ----
-  mu_vec <- c()
-  for(i in 1:3){
-    mu_vec <- c(mu_vec, mu[i] * (1+(mu_trend[i]/nyrs) * 1:nyrs))
-  }
-  mu_vec[1:(nyrs*2)] <- log( mu_vec[1:(nyrs*2)]) # Move winf and k to log scale
+  # - Multiply trend by mu and convert to vector
+  trend_df <- sapply(trend_beta, function(x) seq(1, 1 + x, length.out = nyrs))
+  mut_df <- t(t(trend_df) * mu)
+  mut_df[,1:2] <- log(mut_df[,1:2]) # Move winf and k to log scale
+  mu_vec <- c(mut_df) # Convert to vector
+
+  # - Create "indices"
+  trend_df <- cbind(1:nyrs, trend_df)
+  colnames(trend_df) <- c("year", "winf_trend", "k_trend", "t0_trend")
 
 
   # Simulate year specific parameters ----
@@ -81,17 +84,18 @@ simulate_weight <- function(
   age = runif(nsamples, 1, nages) # Sample random age from age range
 
   true_weight = (year.param.mat[year, 1] * (1 - exp(-year.param.mat[year, 2]*(age-year.param.mat[year, 3]))))
-  obs_weight = true_weight * exp(rnorm(nsamples, 0, sigma_obs))
+  obs_weight = true_weight * rlnorm(nsamples, meanlog = 0, sdlog = sigma_obs)
 
-  ## empirical weight at age ----
+  # Expected weight at age ----
   year_age <- expand.grid(year = 1:nyrs, age = 1:nages)
   true_weight_mat <- (year.param.mat[year_age$year, 1] * (1 - exp(-year.param.mat[year_age$year, 2]*(year_age$age-year.param.mat[year_age$year, 3]))))
   true_weight_mat <- matrix(true_weight_mat, nrow = nyrs)
 
 
-  ## Return data object ----
+  # Return data object ----
   data <- data.frame(weight = obs_weight, age = age, year = as.numeric(year), true_weight = true_weight)
-  return(list(data = data,ewaa=true_weight_mat))
+  data <- merge(data, trend_df, by = "year")
+  return(list(data = data, ewaa = true_weight_mat))
 }
 
 

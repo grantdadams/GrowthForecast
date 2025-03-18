@@ -26,8 +26,7 @@
 #'
 #'
 #' @examples
-ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3,
-                           maturity_vec = NULL){
+ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3, maturity_vec = NULL){
 
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
@@ -123,22 +122,22 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     #   error = function(e) return(NULL)
     # )
 
-    # * LSTM ----
-    lstm <- if(!"lstm" %in% non_converged){
-      tryCatch(
-        suppressMessages(
-          fit_lstm_rtmb(data = train,
-                        nhidden_layer = 2,
-                        hidden_dim = 3,
-                        n_proj_years = n_proj_years,
-                        input_par = NULL,
-                        last_year = last_year)
-        ),
-        error = function(e) return(NA)
-      )
-    }else{
-      NA
-    }
+    # # * LSTM ----
+    # lstm <- if(!"lstm" %in% non_converged){
+    #   tryCatch(
+    #     suppressMessages(
+    #       fit_lstm_rtmb(data = train,
+    #                     nhidden_layer = 2,
+    #                     hidden_dim = 3,
+    #                     n_proj_years = n_proj_years,
+    #                     input_par = NULL,
+    #                     last_year = last_year)
+    #     ),
+    #     error = function(e) return(NA)
+    #   )
+    # }else{
+    #   NA
+    # }
 
     # * Average of previous 5-years ----
     avg5 <- list(mean = train %>%
