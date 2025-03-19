@@ -4,10 +4,24 @@
 \alias{fit_nn}
 \title{Fit deep neural net}
 \usage{
-fit_nn(data, n_proj_years = 2, startweights = NULL, last_year = NA)
+fit_nn(
+  form = formula(log(weight) ~ age + year),
+  data,
+  n_proj_years = 2,
+  startweights = NULL,
+  last_year = NA
+)
 }
 \arguments{
-\item{n_proj_years}{}
+\item{form}{model formula to use for neural net}
+
+\item{data}{data.frame with columns "year", "age", and "weight". Weight should be in kg so that uncertainty calculations do not cause an issue.}
+
+\item{n_proj_years}{the number of years to project forward}
+
+\item{startweights}{starting parameters}
+
+\item{last_year}{final year of data}
 }
 \description{
 Fit deep neural net

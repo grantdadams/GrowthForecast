@@ -9,11 +9,10 @@ simulate_weight(
   nsamples = 1000,
   nages = 20,
   mu = c(5, 0.3, -0.5),
-  mu_trend = c(0.2, 0, 0),
+  trend_beta = c(0, 0, 0),
   vcov = diag(c(0.05, 0.05, 0.2)),
-  sigma_obs = 0.05,
+  sigma_obs = 0.1,
   rho_ar1 = 0.95,
-  trend_beta = 0,
   seed = 1234
 )
 }
@@ -26,11 +25,11 @@ simulate_weight(
 
 \item{mu}{Vector of mean asymptoptic weight, growth coefficient, and t0 on natural scale}
 
-\item{mu_trend}{Percent linear increase or decrease in mu: \code{mu * (1 + (mu_trend/nyrs) * 1:nyrs)}. Vector of length 3.}
+\item{trend_beta}{Percent linear increase or decrease in mu: \code{mu * seq(1, 1 + trend_beta, length.out = nyrs)}. Vector of length 3.}
 
 \item{vcov}{Variance-covariance matrix for von Bertalanfy parameters (Winf, K, t0)}
 
-\item{sigma_obs}{Variance of lognormal observation error}
+\item{sigma_obs}{Variance of lognormal observation error "sdlog"}
 
 \item{rho_ar1}{Vector of length 3 of AR1 correlation for von Bertalanfy growth parameters (Winf, K, t0)}
 

@@ -8,7 +8,8 @@ ForecastGrowth(
   form = formula(weight ~ age + year),
   data = NULL,
   n_proj_years = 2,
-  peels = 3
+  peels = 3,
+  maturity_vec = NULL
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ ForecastGrowth(
 \item{n_proj_years}{the max number of years to project forward (default = 2)}
 
 \item{peels}{the number of years to peel back for retrospective forecast skill evaluation (default = 3)}
+
+\item{maturity_vec}{a vector of length 1:max(age) indicating proportion mature}
 }
 \value{
 A list with:
