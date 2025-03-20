@@ -96,7 +96,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     # * GMRF ----
     gmrf <-  tryCatch(
       suppressMessages(
-        FitGMRF(
+        FitGMRF_RTMB(
           data = train,
           weights=NULL,
           n_proj_years = n_proj_years,

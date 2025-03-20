@@ -84,7 +84,7 @@ Get_3d_precision <- function(n_ages, n_yrs, pcorr_age, pcorr_year, pcorr_cohort,
 #' @export
 #'
 #' @examples
-growth_3d = function(pars) {
+growth_3d = function(pars, data_list) {
 
   RTMB::getAll(pars, data_list) # load in starting values and data
 
@@ -264,7 +264,8 @@ FitGMRF_RTMB <- function(
                        "ln_beta" = factor(NA)))
 
     # Build AD model function
-    obj <- RTMB::MakeADFun(growth_3d, parameters = parameters, map = map, random = 'ln_Y_at', silent = TRUE)
+    cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
+    obj <- RTMB::MakeADFun(cmb(growth_3d, data_list), parameters = parameters, map = map, random = 'ln_Y_at', silent = TRUE)
 
     # Fit model
     kill_mod <- tryCatch({

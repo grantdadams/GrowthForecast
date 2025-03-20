@@ -33,8 +33,6 @@ lifehist_table = cbind(
   as.data.frame()
 
 max_age <- ceiling(exp(lifehist_table$Mean[1]))
-# get_growthPars(species_name = 'pop')
-# get_growthPars(species_name = 'flathead')
 
 
 # * Static ----
