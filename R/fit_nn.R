@@ -23,7 +23,7 @@ fit_nn <- function(
   # Fit deep NN ----
   nn <- neuralnet(formula = form,
                   data = data,
-                  hidden = c(5,5,5),
+                  hidden = c(5,5,5,5),
                   startweights = startweights,
                   linear.output = TRUE,
                   stepmax = 1e6,

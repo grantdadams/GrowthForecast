@@ -4,7 +4,7 @@
 \alias{growth_3d}
 \title{GMRF (Cheng et al 2023)}
 \usage{
-growth_3d(pars)
+growth_3d(pars, data_list)
 }
 \arguments{
 \item{pars}{}

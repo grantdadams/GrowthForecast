@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 
-# Observed data ----
+# Observed data (pollock) ----
 data(LWA)
 
 # Look at data
@@ -25,7 +25,7 @@ pollock %>%
   arrange(year) %>%
   pivot_wider(names_from = year, values_from = n)
 
-pollockforecast <- GrowthForecast::ForecastGrowth(form = formula(weight~age+year), data = pollock, n_proj_years = 4, peels = 3)
+pollockforecast <- ForecastGrowth(form = formula(weight~age+year), data = pollock, n_proj_years = 4, peels = 3)
 pollockforecast$best_mods[c(2,4),]
 pollockforecast$rmse_table
 pollockforecast$best_forecast
@@ -96,15 +96,18 @@ ggplot(data, aes(x = age, y = weight, colour = year)) +
   scale_color_continuous()
 
 # - Test forecasting
-simforecast <- ForecastGrowth(form = formula(weight~age+year),
-                              data = data,
-                              n_proj_years = 2,
-                              peels = 3,
-                              maturity_vec =  maturity)
-simforecast$best_mods
-simforecast$best_mods_by_mat
+simforecast1 <- ForecastGrowth(
+  form = formula(weight~age+year),
+  data = data,
+  n_proj_years = 2,
+  peels = 3,
+  maturity_vec =  maturity)
 
-simforecast$plots
+# Output
+simforecast1$best_mods
+simforecast1$best_mods_by_mat
+simforecast1$best_forecast
+simforecast1$plots
 
 
 
@@ -117,14 +120,14 @@ predicted_values <- population_matrix %>%
   mutate(age = as.numeric(gsub("X","", variable))) %>%
   select(year,age,numbers) %>%
   arrange(year) %>%
-  merge(.,simforecast$all_predictions %>%
+  merge(.,simforecast1$all_predictions %>%
           filter(projection),
         by = c('year','age'), all.y = FALSE) %>%
   merge(.,cbind(age = 1:20, maturity), by = 'age') %>%
   dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
   mutate(pred_sb = numbers*pred_weight *maturity) %>%
   dplyr::summarise(pred_ssb = sum(pred_sb),.by = c(projection,year, YID,model)) %>%
-  merge(., simforecast$best_mods, by = c('YID', 'model'), all.x = TRUE) %>%
+  merge(., simforecast1$best_mods, by = c('YID', 'model'), all.x = TRUE) %>%
   mutate(best = ifelse(is.na(RMSE), FALSE, TRUE)) %>%
   select(-RMSE)
 
@@ -165,5 +168,5 @@ ggplot(data %>%
   geom_point(size = 2)
 
 # - Test forecasting
-simforecast <- ForecastGrowth(form = formula(weight~age+year), data = data, n_proj_years = 2, peels = 3)
-simforecast$best_mods
+simforecast2 <- ForecastGrowth(form = formula(weight~age+year), data = data, n_proj_years = 2, peels = 3)
+simforecast2$best_mods

@@ -178,10 +178,8 @@ FitWtAgeRE <- function(
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
   map <- list(log_alpha = factor(NA))
   obj <- RTMB::MakeADFun(cmb(WtAgeRE, data_list), par_list, silent = TRUE, map = map, random = c("y_eta", "c_eta"))
-  fit <- optim(par = obj$par,
-               fn = obj$fn,
-               gr = obj$gr,
-               control = list(maxit = 1e6))
+  fit <- stats::nlminb(obj$par, obj$fn, obj$gr,
+                       control = list(iter.max = 1e5, eval.max = 1e5, rel.tol = 1e-15))
   report <- obj$report(obj$env$last.par.best)
 
   # Prediction ----

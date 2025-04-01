@@ -68,7 +68,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     # * VBGF ----
     vbgf <-  tryCatch(
       suppressMessages(
-        FitVBGF(
+        GrowthForecast::FitVBGF(
           data = train,
           weights=NULL,
           n_proj_years = n_proj_years,
@@ -82,7 +82,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     wtagere <-
       tryCatch(
         suppressMessages(
-          FitWtAgeRE(
+          GrowthForecast::FitWtAgeRE(
             data = train,
             weights=NULL,
             # - Number of projection years
@@ -94,6 +94,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
       )
 
     # * GMRF ----
+    #FIXME: only works when loaded locally?
     gmrf <-  tryCatch(
       suppressMessages(
         FitGMRF_RTMB(
@@ -107,8 +108,8 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     )
 
     # * NN ----
-    #FIXME: no likelihood weights
-    #FIXME: determine whether this model is worth keeping
+    # FIXME: no likelihood weights
+    # FIXME: determine whether this model is worth keeping
     # nn_init <- NULL
     # if(i != 1){nn_init = nn$obj$weights}
     # nn <-  tryCatch(
@@ -123,22 +124,22 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     #   error = function(e) return(NULL)
     # )
 
-    # # * LSTM ----
-    # lstm <- if(!"lstm" %in% non_converged){
-    #   tryCatch(
-    #     suppressMessages(
-    #       fit_lstm_rtmb(data = train,
-    #                     nhidden_layer = 2,
-    #                     hidden_dim = 3,
-    #                     n_proj_years = n_proj_years,
-    #                     input_par = NULL,
-    #                     last_year = last_year)
-    #     ),
-    #     error = function(e) return(NA)
-    #   )
-    # }else{
-    #   NA
-    # }
+    # * LSTM ----
+    lstm <- if(!"lstm" %in% non_converged){
+      tryCatch(
+        suppressMessages(
+          fit_lstm_rtmb(data = train,
+                        nhidden_layer = 2,
+                        hidden_dim = 3,
+                        n_proj_years = n_proj_years,
+                        input_par = NULL,
+                        last_year = last_year)
+        ),
+        error = function(e) return(NA)
+      )
+    }else{
+      NA
+    }
 
     # * Average of previous 5-years ----
     avg5 <- list(mean = train %>%
@@ -175,7 +176,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
                            # nn = nn,
-                           # lstm = lstm,
+                           lstm = lstm,
                            avg5 = avg5)
 
     # * Filter non-converged models ----
@@ -231,18 +232,15 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   ## drop first peel as it is raw projection (no observations)
   if(!is.null(maturity_vec)){
     maa <- cbind('age' = 1:length(maturity_vec), 'maturity' = maturity_vec)
-
-
   } else{
     message('No maturity vector provided. rmse_by_mat will match base RMSE')
-    maa <- cbind('age' = 1:length(maturity_vec), 'maturity' = 1)
-
+    maa <- cbind('age' = do.call(seq, as.list(range(data$age))), 'maturity' = 1)
   }
 
   rmse_table   <-  test_list_summary %>%
     filter(peel_id > 1) %>%
     merge(.,maa, by = 'age') %>%
-    dplyr::mutate(YID = paste0('y+',year - terminal_train_year)) %>%
+    dplyr::mutate(YID = paste0('y+', year - terminal_train_year)) %>%
     dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)),
                      RMSE_mat =  sqrt(mean(maturity*(obs_weight - pred_weight)^2, na.rm = TRUE)),
                      .by = c(model, YID)) %>%
@@ -252,15 +250,17 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   # * Calculate RSE by model and age for each peel ----
   rmse_table_by_age <- test_list_summary %>%
     dplyr::filter(peel_id > 1) %>%
+    merge(.,maa, by = 'age') %>%
     dplyr::mutate(YID = paste0('y+', year - terminal_train_year)) %>%
     dplyr::group_by(age, YID) %>%
     dplyr::slice_sample(n = 50 ) %>%
     ungroup() %>%
-    dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)), .by = c(model, YID, age)) %>%
-    dplyr::mutate(var_RMSE = var(RMSE, na.rm = TRUE), .by = c(YID, age)) %>%
+    dplyr::summarise(RMSE = sqrt(mean((obs_weight - pred_weight)^2, na.rm = TRUE)),
+                     RMSE_mat =  sqrt(mean(maturity*(obs_weight - pred_weight)^2, na.rm = TRUE)),
+                     .by = c(model, YID, age)) %>%
     filter(!is.na(RMSE)) %>%
     arrange(YID, age, RMSE) %>%
-    dplyr::select(YID, age, model, RMSE, var_RMSE)
+    dplyr::select(YID, age, model, RMSE, RMSE_mat)
 
   # Pick best model ----
   # * Based on overall RSE ----
