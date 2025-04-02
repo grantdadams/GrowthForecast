@@ -206,7 +206,7 @@ fit_lstm_rtmb <- function(data,
   #   dplyr::select(model, last_year, year, age, obs_value = value, pred_value, projection)
 
 
- pred_value <- reshape2::melt(report$output)  %>% 
+ pred_value <- reshape2::melt(report$output)  %>%
   select(year = Var1, age = Var2, pred_value = value) %>%
   merge(., data, by = c("year", "age"), all = TRUE) %>%
       mutate(model = "lstm",
@@ -214,30 +214,10 @@ fit_lstm_rtmb <- function(data,
            last_year = last_year) %>%
     as.data.frame()%>%
     arrange(year, age) %>%
-    dplyr::select(model, last_year, year, age, obs_value = weight, pred_value, projection) 
+    dplyr::select(model, last_year, year, age, obs_value = weight, pred_value, projection)
 
 
   # Return ----
   return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_value))
 }
 
-
-years <- 25
-ages <- 20
-sim_data <- GrowthForecast::simulate_weight(seed = 2,
-                                            nages = ages,
-                                            nyrs = years,
-                                            mu = c(5, 0.15, -0.5), # Winf, K, t0
-                                            sigma_obs = 0.05,
-                                            rho_ar1 = 0.99)
-data<-sim_data$data
-#data$value = data$weight
-data$age = round(data$age)
-
-
-tt <- fit_lstm_rtmb(data,
-                    nhidden_layer = 3,
-                    hidden_dim = 5,
-                    input_par = NULL,
-                    n_proj_years = 2,
-                    last_year = NA)
