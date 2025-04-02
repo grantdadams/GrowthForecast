@@ -1,6 +1,6 @@
 # LSTM Cell Function ----
 lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
-  act_neuron <- x %*% W + h_prev %*% U # Compute the combined input
+  act_neuron <- x %*% W + h_prev %*% U + b # Compute the combined input
   act_neuron_sigmoid <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # sig transform entire neuron
 
   forget_gate <- 1 / (1 + exp(-act_neuron[, ((ncol(W)/4) + 1):(2 * (ncol(W)/4))]))  # Compute the forget gate
@@ -36,7 +36,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
 
     # Call the LSTM neuron function
     lstm_out <- lstm_neuron(
-      x = t(x_t[,'age']),          # Input features for the current observation
+      x = t(x_t[,'age']), # Input features for the current observation
       h_prev = h_prev,  # Previous hidden state
       c_prev = c_prev,  # Previous cell state
       W = W,          # Weight matrix for input
@@ -47,7 +47,6 @@ lstm_fun_rtmb <- function(pars, data_list) {
     # Store the outputs for the current observation
     h_prev <- lstm_out$h  # Updated hidden state
     c_prev <- lstm_out$c  # Updated cell state
-
 
     # Store the hidden and cell states for the current timestep
     h[y, ] <- h_prev
@@ -167,6 +166,7 @@ fit_lstm_rtmb <- function(data,
       U = matrix(0.1,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
       h = matrix(0.1, nrow = timesteps, ncol = hidden_dim),  # Hidden states
       c = matrix(0.1, nrow = timesteps, ncol = hidden_dim), # Cell states
+      b = matrix(0, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
       last_layer =  matrix(0.1, nrow = hidden_dim, ncol = length(ages))
     )
   } else{
@@ -204,7 +204,7 @@ fit_lstm_rtmb <- function(data,
 
  pred_value <- reshape2::melt(report$output)  %>%
   select(year = Var1, age = Var2, pred_value = value) %>%
-  merge(., data, by = c("year", "age"), all = TRUE) %>%
+  merge(., data, by = c("year", "age")) %>%
       mutate(model = "lstm",
            projection = year %in% proj_years,
            last_year = last_year) %>%
