@@ -150,7 +150,7 @@ fit_lstm_rtmb <- function(data,
 
   # Build and fit ----
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
-  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = FALSE)
+  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = TRUE)
   gc()
 
   fit <- nlminb(obj$par, obj$fn, obj$gr, control = list(iter.max = 1e7))
@@ -160,9 +160,9 @@ fit_lstm_rtmb <- function(data,
 
   # Prediction ----
   pred_value <- reshape2::melt(report$output)  %>%
-    select(year = Var1, age = Var2, pred_value = value) %>%
+    dplyr::select(year = Var1, age = Var2, pred_value = value) %>%
     merge(., data, by = c("year", "age")) %>%
-    mutate(model = "lstm",
+    dplyr::mutate(model = "lstm",
            projection = year %in% proj_years,
            last_year = last_year) %>%
     as.data.frame()%>%
