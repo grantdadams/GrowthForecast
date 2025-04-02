@@ -56,7 +56,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
     output[y, ] <- h[y, ] %*% last_layer
   }
 
-  # Likelihood
+
   data_long <- do.call(rbind, lapply(names(data_list), function(yr) {
     cbind(data_list[[yr]], year = as.numeric(yr))
   }))
@@ -66,10 +66,29 @@ lstm_fun_rtmb <- function(pars, data_list) {
     filter(!is.na(logvalue)) %>%
     arrange(year, age)
 
+  # Reshape output to long format
+  # will have more rows than data_long due to projections
+  output_long <- as.data.frame(output) %>%
+    mutate(year = 1:nrow(output)) %>% # Add year column
+    pivot_longer(
+      cols = -year,                  # All columns except 'year'
+      names_to = "age",              # Name for the age column
+      values_to = "predicted_value"  # Name for the predicted value column
+    ) %>%
+    mutate(
+      age = as.numeric(gsub("V", "", age)), # Convert age column to numeric
+      logpredicted_value = log(predicted_value) # Add log-transformed predicted value
+    ) %>%
+    arrange(year, age) %>%
+    select(age, predicted_value, year, logpredicted_value)
+
+  compare_df <- merge(data_long, output_long, by =c('age', 'year'))
+
+
+  # - Likelihood
   nll = 0
-  for (i in 1:nrow(data_long)) {
-    # Calculate the log of the observed value and compare to logoutput
-    nll <- nll + (data_long$logvalue[i] - log(output)[i])^2
+  for (i in 1:nrow(compare_df)) {
+    nll <- nll + (compare_df$logvalue[i] - compare_df$logpredicted_value[i])^2
   }
   nll <- nll + tiny * sum(W^2)  # Add regularization for W
   nll <- nll + tiny * sum(U^2)  # Add regularization for U
@@ -77,6 +96,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
   # Report
   RTMB::REPORT(h)  # Report hidden states
   RTMB::REPORT(output)  # Report output
+  RTMB::REPORT(compare_df)  # make it easier for returning to function
   RTMB::REPORT(nll)  # Report negative log-likelihood
 
   return(nll)  # Return the negative log-likelihood
@@ -142,12 +162,12 @@ fit_lstm_rtmb <- function(data,
   if(is.null(input_par)){
     ## note: the dims are multiplied by 4 to account for the memory "gates", this will not change
     par_list <- list(
-      W = matrix(0.1,nrow =  length(ages), ncol = 4 * hidden_dim) , # Initialize values for input
-      U = matrix(0.1,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
-      h = matrix(0.1, nrow = timesteps, ncol = hidden_dim),  # Hidden states
-      c = matrix(0.1, nrow = timesteps, ncol = hidden_dim), # Cell states
-      b = matrix(0.1, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
-      last_layer =  matrix(0.1, nrow = hidden_dim, ncol = length(ages))
+      W = matrix(0.5, nrow =  length(ages), ncol = 4 * hidden_dim) , # Initialize values for input
+      U = matrix(0.5, nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
+      h = matrix(0.5, nrow = timesteps, ncol = hidden_dim),  # Hidden states
+      c = matrix(0.5, nrow = timesteps, ncol = hidden_dim), # Cell states
+      b = matrix(0.5, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
+      last_layer =  matrix(0.5, nrow = hidden_dim, ncol = length(ages))
     )
   } else{
     par_list <- input_par
@@ -181,6 +201,13 @@ fit_lstm_rtmb <- function(data,
 tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
                          meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
 plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
+
+ggplot(pred_value, aes(x = age,)) +
+  geom_point(aes(y = obs_value)) +
+  geom_line(aes(y = pred_value), col = 'blue') +
+  facet_grid(~year)
+
+
   # Return ----
   return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_value))
 }
