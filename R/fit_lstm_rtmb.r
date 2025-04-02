@@ -53,7 +53,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
     c[y, ] <- c_prev
 
     ## dense layer for output, unique age-year combos
-    output[y, ] <- h[y, ] %*% last_layer #+ b_output ## TODO update bias
+    output[y, ] <- h[y, ] %*% last_layer  
   }
   # Model ----
   # for (i in 1:nrow(data_list$mat)) {
