@@ -21,7 +21,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
   # Data transform ----
   #logvalue = log(value) ## TODO log value inside data_list creation
   tiny = 1.0e-6 # Parameter values
-  output <- matrix(0, nrow = timesteps, ncol = dim(W)[1]) ## initialize output matrix
+  output <- matrix(0, nrow =  dim(W)[2], ncol = dim(W)[1]) ## initialize output matrix
 
   # Process data sequentially by timestep
   for (y in 1:timesteps) {
@@ -31,7 +31,6 @@ lstm_fun_rtmb <- function(pars, data_list) {
       c_prev = matrix(0.1, nrow = 1, ncol = hidden_dim) # Cell states
     }
 
-    ##
     x_t <- data_list[[y]] ## pull out the matrix for the current timestep
     x_t[,'age'] <- (x_t[,'age'] - mean(x_t[,'age'])) / sd(x_t[,'age']) ## normalize
     # Call the LSTM neuron function
@@ -54,44 +53,44 @@ lstm_fun_rtmb <- function(pars, data_list) {
 
     ## dense layer for output, unique age-year combos
     output[y, ] <- h[y, ] %*% last_layer
+
+    ## update likelihood
+    # - Likelihood
+    nll = 0
+    for (i in 1:length(output[y,])) {
+      logvalue <- log(x_t[i,'value'])
+      if(is.na(logvalue)) next()
+      nll <- nll + (logvalue - log(output[y,i]))^2
+    }
+    nll <- nll + tiny * sum(W^2)  # Add regularization for W
+    nll <- nll + tiny * sum(U^2)  # Add regularization for U
+
   }
 
 
-  data_long <- do.call(rbind, lapply(names(data_list), function(yr) {
-    cbind(data_list[[yr]], year = as.numeric(yr))
-  }))
-
-  data_long <- as.data.frame(data_long) %>%
-    mutate(logvalue = log(value)) %>%
-    filter(!is.na(logvalue)) %>%
-    arrange(year, age)
-
-  # Reshape output to long format
-  # will have more rows than data_long due to projections
-  output_long <- as.data.frame(output) %>%
-    mutate(year = 1:nrow(output)) %>% # Add year column
-    pivot_longer(
-      cols = -year,                  # All columns except 'year'
-      names_to = "age",              # Name for the age column
-      values_to = "predicted_value"  # Name for the predicted value column
-    ) %>%
-    mutate(
-      age = as.numeric(gsub("V", "", age)), # Convert age column to numeric
-      logpredicted_value = log(predicted_value) # Add log-transformed predicted value
-    ) %>%
-    arrange(year, age) %>%
-    select(age, predicted_value, year, logpredicted_value)
-
-  compare_df <- merge(data_long, output_long, by =c('age', 'year'))
+  # data_long <- do.call(rbind, lapply(names(data_list), function(yr) {
+  #   cbind(data_list[[yr]], year = as.numeric(yr))
+  # }))
+  #
+  # data_long <- as.data.frame(data_long) %>%
+  #   mutate(logvalue = log(value)) %>%
+  #   filter(!is.na(logvalue)) %>%
+  #   arrange(year, age)
+  #
+  # # Reshape output to long format
+  # # will have more rows than data_long due to projections
+  # # Reshape output to long format using reshape2::melt
+  # output_long <- reshape2::melt(
+  #   output,
+  #   varnames = c("age", "year"),
+  #   value.name = "pred_value")
+  # print(head(output_long))
+  #
+  # compare_df <- merge(data_long, output_long, by =c('age', 'year')) %>%
+  #   arrange(year,age)
 
 
-  # - Likelihood
-  nll = 0
-  for (i in 1:nrow(compare_df)) {
-    nll <- nll + (compare_df$logvalue[i] - compare_df$logpredicted_value[i])^2
-  }
-  nll <- nll + tiny * sum(W^2)  # Add regularization for W
-  nll <- nll + tiny * sum(U^2)  # Add regularization for U
+
 
   # Report
   RTMB::REPORT(h)  # Report hidden states
