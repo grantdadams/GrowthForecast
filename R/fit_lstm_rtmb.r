@@ -65,32 +65,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
     nll <- nll + tiny * sum(W^2)  # Add regularization for W
     nll <- nll + tiny * sum(U^2)  # Add regularization for U
 
-  }
-
-
-  # data_long <- do.call(rbind, lapply(names(data_list), function(yr) {
-  #   cbind(data_list[[yr]], year = as.numeric(yr))
-  # }))
-  #
-  # data_long <- as.data.frame(data_long) %>%
-  #   mutate(logvalue = log(value)) %>%
-  #   filter(!is.na(logvalue)) %>%
-  #   arrange(year, age)
-  #
-  # # Reshape output to long format
-  # # will have more rows than data_long due to projections
-  # # Reshape output to long format using reshape2::melt
-  # output_long <- reshape2::melt(
-  #   output,
-  #   varnames = c("age", "year"),
-  #   value.name = "pred_value")
-  # print(head(output_long))
-  #
-  # compare_df <- merge(data_long, output_long, by =c('age', 'year')) %>%
-  #   arrange(year,age)
-
-
-
+  } ## end timesteps
 
   # Report
   RTMB::REPORT(h)  # Report hidden states
@@ -185,10 +160,10 @@ fit_lstm_rtmb <- function(data,
   par_list <- obj$env$parList(obj$env$last.par.best)
 
   # Prediction ----
- pred_value <- reshape2::melt(report$output)  %>%
-  select(year = Var1, age = Var2, pred_value = value) %>%
-  merge(., data, by = c("year", "age")) %>%
-      mutate(model = "lstm",
+  pred_value <- reshape2::melt(report$output)  %>%
+    select(year = Var1, age = Var2, pred_value = value) %>%
+    merge(., data, by = c("year", "age")) %>%
+    mutate(model = "lstm",
            projection = year %in% proj_years,
            last_year = last_year) %>%
     as.data.frame()%>%
@@ -197,14 +172,14 @@ fit_lstm_rtmb <- function(data,
 
   plot(pred_value$obs_value, pred_value$pred_value); abline(0,1,col = 'red')
 
-tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
-                         meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
-plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
+  tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
+                                 meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
+  plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
 
-ggplot(pred_value, aes(x = age,)) +
-  geom_point(aes(y = obs_value)) +
-  geom_line(aes(y = pred_value), col = 'blue') +
-  facet_grid(~year)
+  ggplot(pred_value, aes(x = age,)) +
+    geom_point(aes(y = obs_value)) +
+    geom_line(aes(y = pred_value), col = 'blue') +
+    facet_grid(~year)
 
 
   # Return ----
