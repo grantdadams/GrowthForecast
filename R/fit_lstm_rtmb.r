@@ -121,10 +121,6 @@ fit_lstm_rtmb <- function(data,
                           n_proj_years = 2,
                           last_year = NA){
 
-  # - Settings
-  nlayer = nhidden_layer + 2
-  nnform = formula(~age+year)
-
   # - Projection data
   years <- do.call(seq, as.list(range(data$year)))
   proj_years <- (max(years) + 1):(max(years) + n_proj_years)
