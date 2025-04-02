@@ -21,7 +21,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
   # Data transform ----
   #logvalue = log(value) ## TODO log value inside data_list creation
   tiny = 1.0e-6 # Parameter values
-  output <- matrix(0, nrow =  dim(W)[2], ncol = dim(W)[1]) ## initialize output matrix
+  output <- matrix(1e-4, nrow =  dim(W)[2], ncol = dim(last_layer)[2]) ## initialize output matrix
 
   # Process data sequentially by timestep
   for (y in 1:timesteps) {
@@ -70,7 +70,6 @@ lstm_fun_rtmb <- function(pars, data_list) {
   # Report
   RTMB::REPORT(h)  # Report hidden states
   RTMB::REPORT(output)  # Report output
-  RTMB::REPORT(compare_df)  # make it easier for returning to function
   RTMB::REPORT(nll)  # Report negative log-likelihood
 
   return(nll)  # Return the negative log-likelihood
