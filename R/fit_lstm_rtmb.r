@@ -24,11 +24,11 @@ lstm_fun_rtmb <- function(pars, data_list) {
   output <- matrix(1e-4, nrow =  dim(h)[1], ncol = dim(last_layer)[2]) ## initialize output matrix
 
   # Process data sequentially by timestep
-  for (y in 1:timesteps) {
+  for (y in 1:dim(h)[1]) {
 
     if (y == 1) {
-      h_prev = matrix(0.1, nrow = 1, ncol = hidden_dim)  # Hidden states
-      c_prev = matrix(0.1, nrow = 1, ncol = hidden_dim) # Cell states
+      h_prev = matrix(0.1, nrow = 1, ncol =  dim(h)[2])  # Hidden states
+      c_prev = matrix(0.1, nrow = 1, ncol = dim(h)[2]) # Cell states
     }
 
     x_t <- data_list[[y]] ## pull out the matrix for the current timestep
@@ -169,16 +169,16 @@ fit_lstm_rtmb <- function(data,
     arrange(year, age) %>%
     dplyr::select(model, last_year, year, age, obs_value = weight, pred_value, projection)
 
-  plot(pred_value$obs_value, pred_value$pred_value); abline(0,1,col = 'red')
-
-  tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
-                                 meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
-  plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
-
-  ggplot(pred_value, aes(x = age,)) +
-    geom_point(aes(y = obs_value)) +
-    geom_line(aes(y = pred_value), col = 'blue') +
-    facet_grid(~year)
+  # plot(pred_value$obs_value, pred_value$pred_value); abline(0,1,col = 'red')
+  #
+  # tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
+  #                                meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
+  # plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
+  #
+  # ggplot(pred_value, aes(x = age,)) +
+  #   geom_point(aes(y = obs_value)) +
+  #   geom_line(aes(y = pred_value), col = 'blue') +
+  #   facet_grid(~year)
 
 
   # Return ----
