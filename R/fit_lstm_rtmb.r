@@ -167,7 +167,7 @@ fit_lstm_rtmb <- function(data,
            last_year = last_year) %>%
     as.data.frame()%>%
     arrange(year, age) %>%
-    dplyr::select(model, last_year, year, age, obs_weight, pred_weight, projection)
+    dplyr::select(model, last_year, year, age, obs_weight = weight, pred_weight = pred_value, projection)
 
   # plot(pred_value$obs_value, pred_value$pred_value); abline(0,1,col = 'red')
   #
