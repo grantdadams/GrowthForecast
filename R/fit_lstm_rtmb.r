@@ -31,9 +31,9 @@ lstm_fun_rtmb <- function(pars, data_list) {
       c_prev = matrix(0.1, nrow = 1, ncol = hidden_dim) # Cell states
     }
 
+    ##
     x_t <- data_list[[y]] ## pull out the matrix for the current timestep
-
-
+    x_t[,'age'] <- (x_t[,'age'] - mean(x_t[,'age'])) / sd(x_t[,'age']) ## normalize
     # Call the LSTM neuron function
     lstm_out <- lstm_neuron(
       x = t(x_t[,'age']), # Input features for the current observation
@@ -160,7 +160,7 @@ fit_lstm_rtmb <- function(data,
   obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = FALSE)
   gc()
 
-  fit <- nlminb(obj$par, obj$fn, obj$gr)
+  fit <- nlminb(obj$par, obj$fn, obj$gr, control = list(iter.max = 1e7))
 
   report <- obj$report(obj$env$last.par.best)
   par_list <- obj$env$parList(obj$env$last.par.best)
@@ -176,7 +176,11 @@ fit_lstm_rtmb <- function(data,
     arrange(year, age) %>%
     dplyr::select(model, last_year, year, age, obs_value = weight, pred_value, projection)
 
+  plot(pred_value$obs_value, pred_value$pred_value); abline(0,1,col = 'red')
 
+tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
+                         meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
+plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
   # Return ----
   return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_value))
 }
