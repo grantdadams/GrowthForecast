@@ -1,5 +1,5 @@
 # LSTM Cell Function ----
-lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
+lstm_neuron_deprecated <- function(x, h_prev, c_prev, W, U, b) {
   act_neuron <- x %*% W + h_prev %*% U # Compute the combined input
   act_neuron_sigmoid <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # sig transform entire neuron
 
@@ -13,7 +13,7 @@ lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
 }
 
 # Function to fit LSTM in RTMB ----
-lstm_fun_rtmb <- function(pars, data_list) {
+lstm_fun_rtmb_deprecated <- function(pars, data_list) {
 
   require(RTMB)
   RTMB::getAll(pars, data_list)
@@ -68,7 +68,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
 #' @export
 #'
 #' @examples
-fit_lstm_rtmb <- function(data,
+fit_lstm_rtmb_deprecated <- function(data,
                           nhidden_layer = 3,
                           hidden_dim = 5,
                           input_par = NULL,
