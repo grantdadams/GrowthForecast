@@ -53,28 +53,8 @@ lstm_fun_rtmb <- function(pars, data_list) {
     c[y, ] <- c_prev
 
     ## dense layer for output, unique age-year combos
-    output[y, ] <- h[y, ] %*% last_layer  
+    output[y, ] <- h[y, ] %*% last_layer
   }
-  # Model ----
-  # for (i in 1:nrow(data_list$mat)) {
-  #   lstm_out <- lstm_neuron(x= data_list$mat[i, ],
-  #                           h_prev=h[i, ], ## output layer
-  #                           c_prev=c[i, ], ## long term memory
-  #                           W,
-  #                           U,
-  #                           b)  # Compute LSTM cell output
-  #   h[i,] <- lstm_out$h ## update stm
-  #   c[i,] <- lstm_out$c ## update cell
-  # }
-
-  # Final layer
-
-  # Assuming h has dimensions (timesteps, hidden_dim)
-  # Reshape h to align with unique age-year combinations
-  #h_reshaped <- matrix(h, nrow = n_years, ncol = n_ages)
-
-  #logoutput <- h %*% last_layer  # Compute the final output
-  #output <- exp(logoutput)  # Apply exponential to the output
 
   # Likelihood
   data_long <- do.call(rbind, lapply(names(data_list), function(yr) {
@@ -166,7 +146,7 @@ fit_lstm_rtmb <- function(data,
       U = matrix(0.1,nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
       h = matrix(0.1, nrow = timesteps, ncol = hidden_dim),  # Hidden states
       c = matrix(0.1, nrow = timesteps, ncol = hidden_dim), # Cell states
-      b = matrix(0, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
+      b = matrix(0.1, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
       last_layer =  matrix(0.1, nrow = hidden_dim, ncol = length(ages))
     )
   } else{
@@ -177,7 +157,7 @@ fit_lstm_rtmb <- function(data,
 
   # Build and fit ----
   cmb <- function(f, d) function(p) f(p, d) ## Helper to make closure
-  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = TRUE)
+  obj <- RTMB::MakeADFun(cmb(lstm_fun_rtmb, data_list), par_list, silent = FALSE)
   gc()
 
   fit <- nlminb(obj$par, obj$fn, obj$gr)
