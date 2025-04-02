@@ -166,22 +166,6 @@ fit_lstm_rtmb <- function(data,
   par_list <- obj$env$parList(obj$env$last.par.best)
 
   # Prediction ----
-  # - Prediction for each obs
-  # data$pred_value = report$output
-
-
-  # - Predicted for projection
-  # pred_value <- data %>%
-  #   # dplyr::filter(year %in% proj_years) %>%
-  #   # dplyr::select(-value) %>%
-  #   mutate(model = "lstm",
-  #          projection = year %in% proj_years,
-  #          last_year = last_year) %>%
-  #   as.data.frame()%>%
-  #   arrange(year, age) %>%
-  #   dplyr::select(model, last_year, year, age, obs_value = value, pred_value, projection)
-
-
  pred_value <- reshape2::melt(report$output)  %>%
   select(year = Var1, age = Var2, pred_value = value) %>%
   merge(., data, by = c("year", "age")) %>%
