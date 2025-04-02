@@ -19,9 +19,9 @@ lstm_fun_rtmb <- function(pars, data_list) {
   RTMB::getAll(pars, data_list)
 
   # Data transform ----
-  #logvalue = log(value) ## TODO log value inside data_list creation
+  nll = 0
   tiny = 1.0e-6 # Parameter values
-  output <- matrix(1e-4, nrow =  dim(W)[2], ncol = dim(last_layer)[2]) ## initialize output matrix
+  output <- matrix(1e-4, nrow =  dim(h)[1], ncol = dim(last_layer)[2]) ## initialize output matrix
 
   # Process data sequentially by timestep
   for (y in 1:timesteps) {
@@ -32,7 +32,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
     }
 
     x_t <- data_list[[y]] ## pull out the matrix for the current timestep
-    x_t[,'age'] <- (x_t[,'age'] - mean(x_t[,'age'])) / sd(x_t[,'age']) ## normalize
+    # x_t[,'age'] <- (x_t[,'age'] - mean(x_t[,'age'])) / sd(x_t[,'age']) ## normalize
     # Call the LSTM neuron function
     lstm_out <- lstm_neuron(
       x = t(x_t[,'age']), # Input features for the current observation
@@ -56,7 +56,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
 
     ## update likelihood
     # - Likelihood
-    nll = 0
+
     for (i in 1:length(output[y,])) {
       logvalue <- log(x_t[i,'value'])
       if(is.na(logvalue)) next()
@@ -135,12 +135,12 @@ fit_lstm_rtmb <- function(data,
   if(is.null(input_par)){
     ## note: the dims are multiplied by 4 to account for the memory "gates", this will not change
     par_list <- list(
-      W = matrix(0.5, nrow =  length(ages), ncol = 4 * hidden_dim) , # Initialize values for input
-      U = matrix(0.5, nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
-      h = matrix(0.5, nrow = timesteps, ncol = hidden_dim),  # Hidden states
-      c = matrix(0.5, nrow = timesteps, ncol = hidden_dim), # Cell states
-      b = matrix(0.5, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
-      last_layer =  matrix(0.5, nrow = hidden_dim, ncol = length(ages))
+      W = matrix(0.1, nrow =  length(ages), ncol = 4 * hidden_dim) , # Initialize values for input
+      U = matrix(0.1, nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
+      h = matrix(0.1, nrow = timesteps, ncol = hidden_dim),  # Hidden states
+      c = matrix(0.1, nrow = timesteps, ncol = hidden_dim), # Cell states
+      b = matrix(0.1, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
+      last_layer =  matrix(0.1, nrow = hidden_dim, ncol = length(ages))
     )
   } else{
     par_list <- input_par
