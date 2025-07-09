@@ -2,3 +2,13 @@
 .Rhistory
 .RData
 .Ruserdata
+*.so
+*.o
+*.dll
+src/GMRF_WAA.dll
+src/GMRF_WAA.so
+src/GrowthForecast.dll
+src/GrowthForecast.so
+src/TMB/GMRF_WAA.dll
+src/TMB/GMRF_WAA.o
+src/TMB/GMRF_WAA.so

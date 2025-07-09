@@ -47,7 +47,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
   # Run peels ----
   peels = peels + 1
-  non_converged = c(NA)
+  non_converged = c()
   peel_list <- list() # List of models for each peel
   pred_list <- list() # List of hindcast/forecast predictions for each peel
   test_list <- list() # List of forecast predictions for each peel
@@ -96,12 +96,14 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     # * GMRF ----
     #FIXME: only works when loaded locally?
     gmrf <-  tryCatch(
-      suppressMessages(
-        FitGMRF_RTMB(
-          data = train,
-          weights=NULL,
-          n_proj_years = n_proj_years,
-          last_year = last_year
+      suppressWarnings(
+        suppressMessages(
+          FitGMRF_RTMB(
+            data = train,
+            weights=NULL,
+            n_proj_years = n_proj_years,
+            last_year = last_year
+          )
         )
       ),
       error = function(e) return(NULL)
@@ -127,13 +129,15 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     # * LSTM ----
     lstm <- if(!"lstm" %in% non_converged){
       tryCatch(
-        suppressMessages(
-          fit_lstm_rtmb(data = train,
-                        nhidden_layer = 2,
-                        hidden_dim = 3,
-                        n_proj_years = n_proj_years,
-                        input_par = NULL,
-                        last_year = last_year)
+        suppressWarnings(
+          suppressMessages(
+            fit_lstm_rtmb(data = train,
+                          nhidden_layer = 2,
+                          hidden_dim = 3,
+                          n_proj_years = n_proj_years,
+                          input_par = NULL,
+                          last_year = last_year)
+          )
         ),
         error = function(e) return(NA)
       )
@@ -181,9 +185,9 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
     # * Filter non-converged models ----
     non_converged <- c(non_converged,
-                       names(peel_list[[i]])[sapply(peel_list[[i]], function(x) length(x) == 1)] # remove
+                       names(peel_list[[i]])[sapply(peel_list[[i]], function(x) length(x) == 1 | is.null(x))] # remove
     )
-    peel_list[[i]] <- peel_list[[i]][sapply(peel_list[[i]], function(x) length(x) != 1)] # keep
+    peel_list[[i]] <- peel_list[[i]][sapply(peel_list[[i]], function(x) length(x) != 1 & !is.null(x))] # keep
 
     # * Pull predictions (hindcast and forecast) ----
     pred_list[[i]]   <-   do.call("rbind",
@@ -268,7 +272,8 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     dplyr::group_by(YID) %>%
     dplyr::filter(RMSE == min(RMSE, na.rm = TRUE)) %>%
     ungroup() %>%
-    dplyr::select(YID, model, RMSE)
+    dplyr::select(YID, model, RMSE) %>%
+    suppressWarnings()
 
   # - Expand if biennial or triennial survey
   best_mods <- best_mods %>%
@@ -300,7 +305,8 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     dplyr::group_by(YID) %>%
     dplyr::filter(RMSE_mat == min(RMSE_mat, na.rm = TRUE)) %>%
     ungroup() %>%
-    dplyr::select(YID, model, RMSE_mat)
+    dplyr::select(YID, model, RMSE_mat) %>%
+    suppressWarnings()
 
   # - Expand if biennial or triennial survey
   best_mods_by_mat <- best_mods_by_mat %>%
@@ -334,44 +340,44 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     plotdf <- plotdf0 %>%
       filter(model == i & year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
 
-    plot_list[[i]] <- ggplot(data= NULL, aes(x = age)) +
-      geom_point(data = plotdf,
+    plot_list[[i]] <- ggplot2::ggplot(data= NULL, aes(x = age)) +
+      ggplot2::geom_point(data = plotdf,
                  alpha = 0.05,
                  size = 2,aes(y = obs_weight, color = factor(projection))) +
-      geom_line(data = plotdf,
+      ggplot2::geom_line(data = plotdf,
                 aes(y = pred_weight,
                     color = factor(projection),
                     group = interaction(year, peel_id)))+
-      scale_color_manual(values = c('grey22','blue'))+
-      facet_grid(peel_id ~ year, scales = 'free_y') +
-      theme_minimal() +
-      theme(legend.position = 'none') +
-      labs(x = 'age', y = 'weight', title = i)
+      ggplot2::scale_color_manual(values = c('grey22','blue'))+
+      ggplot2::facet_grid(peel_id ~ year, scales = 'free_y') +
+      ggplot2::theme_minimal() +
+      ggplot2::theme(legend.position = 'none') +
+      ggplot2::labs(x = 'age', y = 'weight', title = i)
   }
 
   # * single plot with best projection
   plotdf <- plotdf0 %>%
-    filter(model  %in% best_mods$model &
+    dplyr::filter(model  %in% best_mods$model &
              year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
 
   if(length(unique(best_mods$model))>1) colVec <- c('grey30','dodgerblue','grey30','blue')
   if(length(unique(best_mods$model))==1) colVec <- c('grey22','blue')
 
-  plot_list[[length(plot_list)+1]] <- ggplot(data= NULL, aes(x = age)) +
-    geom_point(data = plotdf,
+  plot_list[[length(plot_list)+1]] <- ggplot2::ggplot(data= NULL, aes(x = age)) +
+    ggplot2::geom_point(data = plotdf,
                alpha = 0.05,
                color = 'grey22',
                size = 2,aes(y = obs_weight)) +
-    geom_line(data = plotdf,
+    ggplot2::geom_line(data = plotdf,
               lwd = 1,
               aes(y = pred_weight,
                   color = interaction(projection, model),
                   group = interaction(model, year, peel_id)))+
-    scale_color_manual(values = colVec)+
-    facet_grid(peel_id ~ year, scales = 'free_y') +
-    theme_minimal() +
-    theme(legend.position = 'bottom') +
-    labs(x = 'age', y = 'weight', title = 'best model(s)', color = '')
+    ggplot2::scale_color_manual(values = colVec)+
+    ggplot2::facet_grid(peel_id ~ year, scales = 'free_y') +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = 'bottom') +
+    ggplot2::labs(x = 'age', y = 'weight', title = 'best model(s)', color = '')
 
 
   # * Plot projected waa ----

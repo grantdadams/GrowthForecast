@@ -204,6 +204,7 @@ FitGMRF_RTMB <- function(
   # - Convert to CV and sd in lognormal space
   Xcv_at <- sqrt( (exp(Xse_at^2) - 1) )
   Xsd_at <- sqrt((log((Xcv_at)^2 + 1))/(log(10)^2))
+  Xsd_at[Xsd_at == 1] <- max(Xsd_at, na.rm = TRUE) # Set 0 sd to max
 
   # - Create an index for ages and years to feed into TMB, which helps construct the precision matrix
   ay_Index <- as.matrix(expand.grid("age" = seq_len(length(ages)),

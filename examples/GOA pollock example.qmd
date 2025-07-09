@@ -1,0 +1,90 @@
+---
+title: "GrowthForecast"
+author: "Grant Adams"
+format: pptx
+editor: visual
+---
+
+## Data setup
+
+```{r, echo = TRUE, message = FALSE}
+# Load data and packages
+library(GrowthForecast)
+library(dplyr)
+library(ggplot2)
+
+# Observed data ----
+data(LWA)
+
+# Select species and region
+pollock <- LWA %>%
+  dplyr::filter(CN == "walleye pollock" & REGION == "GOA") %>%
+  dplyr::select(YEAR, age, weight, Temp) %>%
+  dplyr::mutate(weight = weight/1000) # Grams to kg
+
+colnames(pollock) <- tolower(colnames(pollock))
+```
+
+----
+
+## Fit and compare forecasts
+
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
+pollockforecast <- ForecastGrowth(
+  form = formula(weight~age+year), # Data including covariates
+  data = pollock, 
+  n_proj_years = 4,                # Number of projection years to evaluate
+  peels = 3                        # Number of retrospective peals
+  )
+```
+
+----
+
+## Performance metrics
+
+$RMSE=\sqrt{\sum \left( \hat{W}_{a,\hat{y}} - W_{a,y} \right)^2/N}$
+
+Age-specific RMSE
+
+RMSE across ages
+
+SSB and catch RMSE?
+
+----
+
+## Query output
+
+```{r, echo = TRUE}
+names(pollockforecast)
+```
+
+----
+
+## Best model according to RMSE
+
+```{r}
+library(kableExtra)
+pollockforecast$best_mods$RMSE <- round(pollockforecast$best_mods$RMSE, 4)
+pollockforecast$best_mods_by_age$RMSE <- round(pollockforecast$best_mods_by_age$RMSE, 4)
+```
+
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
+kable(pollockforecast$best_mods)
+```
+
+----
+
+## Predicted weight-at-age
+
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
+kable(pollockforecast$best_forecast, digits = 2)
+
+```
+
+----
+
+## Plot
+
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
+pollockforecast$plots$projection
+```
