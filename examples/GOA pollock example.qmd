@@ -18,14 +18,14 @@ data(LWA)
 
 # Select species and region
 pollock <- LWA %>%
-  dplyr::filter(CN == "walleye pollock" & REGION == "GOA") %>%
+  dplyr::filter(CN == "walleye pollock" & REGION == "BS") %>%
   dplyr::select(YEAR, age, weight, Temp) %>%
   dplyr::mutate(weight = weight/1000) # Grams to kg
 
 colnames(pollock) <- tolower(colnames(pollock))
 ```
 
-----
+------------------------------------------------------------------------
 
 ## Fit and compare forecasts
 
@@ -38,7 +38,7 @@ pollockforecast <- ForecastGrowth(
   )
 ```
 
-----
+------------------------------------------------------------------------
 
 ## Performance metrics
 
@@ -50,7 +50,7 @@ RMSE across ages
 
 SSB and catch RMSE?
 
-----
+------------------------------------------------------------------------
 
 ## Query output
 
@@ -58,7 +58,7 @@ SSB and catch RMSE?
 names(pollockforecast)
 ```
 
-----
+------------------------------------------------------------------------
 
 ## Best model according to RMSE
 
@@ -72,7 +72,7 @@ pollockforecast$best_mods_by_age$RMSE <- round(pollockforecast$best_mods_by_age$
 kable(pollockforecast$best_mods)
 ```
 
-----
+------------------------------------------------------------------------
 
 ## Predicted weight-at-age
 
@@ -81,7 +81,7 @@ kable(pollockforecast$best_forecast, digits = 2)
 
 ```
 
-----
+------------------------------------------------------------------------
 
 ## Plot
 

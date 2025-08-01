@@ -1,34 +1,60 @@
-# LSTM Cell Function ----
-lstm_neuron <- function(x, h_prev, c_prev, W, U, b) {
-  act_neuron <- x %*% W + h_prev %*% U + b # Compute the combined input
-  act_neuron_sigmoid <- 1 / (1 + exp(-act_neuron[, 1:(ncol(W)/4)]))  # sig transform entire neuron
+#' LSTM Cell Function
+#'
+#' @param x
+#' @param h_prev
+#' @param c_prev
+#' @param input_weights
+#' @param hidden_weights
+#' @param bias_vector
+#'
+#' @export
+lstm_neuron <- function(x, h_prev, c_prev, input_weights, hidden_weights, bias_vector) {
 
-  forget_gate <- 1 / (1 + exp(-act_neuron[, ((ncol(W)/4) + 1):(2 * (ncol(W)/4))]))  # Compute the forget gate
-  output_gate <- 1 / (1 + exp(-act_neuron[, ((2 * (ncol(W)/4)) + 1):(3 * (ncol(W)/4))]))  # Compute the output gate
-  candidate <- tanh(act_neuron[, ((3 * (ncol(W)/4)) + 1):(4 * (ncol(W)/4))])  # Compute the candidate cell state
+  "c" <- ADoverload("c")
+  "[<-" <- ADoverload("[<-")
+  "diag<-" <- ADoverload("diag<-")
+
+  act_neuron <- x %*% input_weights + h_prev %*% hidden_weights + bias_vector # Compute the combined input
+  act_neuron_sigmoid <- 1 / (1 + exp(-act_neuron[, 1:(ncol(input_weights)/4)]))  # sig transform entire neuron
+
+  forget_gate <- 1 / (1 + exp(-act_neuron[, ((ncol(input_weights)/4) + 1):(2 * (ncol(input_weights)/4))]))  # Compute the forget gate
+  output_gate <- 1 / (1 + exp(-act_neuron[, ((2 * (ncol(input_weights)/4)) + 1):(3 * (ncol(input_weights)/4))]))  # Compute the output gate
+  candidate <- tanh(act_neuron[, ((3 * (ncol(input_weights)/4)) + 1):(4 * (ncol(input_weights)/4))])  # Compute the candidate cell state
 
   input_gate <- forget_gate * c_prev + act_neuron_sigmoid * candidate  # Update the cell state
   h_update <- output_gate * tanh(input_gate)  # Compute the updated hidden state
-  return(list(h = h_update, c = input_gate))  # Return the hidden and cell states
+  return(list(hidden = h_update, cell = input_gate))  # Return the hidden and cell states
 }
 
-# Function to fit LSTM in RTMB ----
+
+#' Function to fit LSTM in RTMB
+#'
+#' @param pars
+#' @param data_list
+#'
+#' @export
 lstm_fun_rtmb <- function(pars, data_list) {
 
   require(RTMB)
   RTMB::getAll(pars, data_list)
 
+
+  # "[<-" <- ADoverload("[<-") # https://groups.google.com/g/tmb-users/c/HlPqkfcCa1g
+  "c" <- ADoverload("c")
+  "[<-" <- ADoverload("[<-")
+  "diag<-" <- ADoverload("diag<-")
+
   # Data transform ----
   nll = 0
   tiny = 1.0e-6 # Parameter values
-  output <- matrix(1e-4, nrow =  dim(h)[1], ncol = dim(last_layer)[2]) ## initialize output matrix
+  output <- matrix(1e-4, nrow =  dim(hidden)[1], ncol = dim(last_layer)[2]) ## initialize output matrix
 
   # Process data sequentially by timestep
-  for (y in 1:dim(h)[1]) {
+  for (y in 1:dim(hidden)[1]) {
 
     if (y == 1) {
-      h_prev = matrix(0.1, nrow = 1, ncol =  dim(h)[2])  # Hidden states
-      c_prev = matrix(0.1, nrow = 1, ncol = dim(h)[2]) # Cell states
+      h_prev = matrix(0.1, nrow = 1, ncol =  dim(hidden)[2])  # Hidden states
+      c_prev = matrix(0.1, nrow = 1, ncol = dim(hidden)[2]) # Cell states
     }
 
     x_t <- data_list[[y]] ## pull out the matrix for the current timestep
@@ -38,21 +64,21 @@ lstm_fun_rtmb <- function(pars, data_list) {
       x = t(x_t[,'age']), # Input features for the current observation
       h_prev = h_prev,  # Previous hidden state
       c_prev = c_prev,  # Previous cell state
-      W = W,          # Weight matrix for input
-      U = U,          # Weight matrix for hidden state
-      b = b           # Bias vector
+      input_weights = input_weights,          # Weight matrix for input
+      hidden_weights = hidden_weights,          # Weight matrix for hidden state
+      bias_vector = bias_vector           # Bias vector
     )
 
     # Store the outputs for the current observation
-    h_prev <- lstm_out$h  # Updated hidden state
-    c_prev <- lstm_out$c  # Updated cell state
+    h_prev <- lstm_out$hidden  # Updated hidden state
+    c_prev <- lstm_out$cell  # Updated cell state
 
     # Store the hidden and cell states for the current timestep
-    h[y, ] <- h_prev
-    c[y, ] <- c_prev
+    hidden[y, ] <- h_prev
+    cell[y, ] <- c_prev
 
     ## dense layer for output, unique age-year combos
-    output[y, ] <- h[y, ] %*% last_layer
+    output[y, ] <- hidden[y, ] %*% last_layer
 
     ## update likelihood
     # - Likelihood
@@ -62,13 +88,13 @@ lstm_fun_rtmb <- function(pars, data_list) {
       if(is.na(logvalue)) next()
       nll <- nll + (logvalue - log(output[y,i]))^2
     }
-    nll <- nll + tiny * sum(W^2)  # Add regularization for W
-    nll <- nll + tiny * sum(U^2)  # Add regularization for U
+    nll <- nll + tiny * sum(input_weights^2)  # Add regularization for input_weights
+    nll <- nll + tiny * sum(hidden_weights^2)  # Add regularization for hidden_weights
 
   } ## end timesteps
 
   # Report
-  RTMB::REPORT(h)  # Report hidden states
+  RTMB::REPORT(hidden)  # Report hidden states
   RTMB::REPORT(output)  # Report output
   RTMB::REPORT(nll)  # Report negative log-likelihood
 
@@ -82,10 +108,7 @@ lstm_fun_rtmb <- function(pars, data_list) {
 #' @param nhidden_layer number of hidden layers (this is on a per obs basis)
 #' @param hidden_dim dimension of hidden layers (nhidden_layer + 2 for in/out)
 #'
-#' @return
 #' @export
-#'
-#' @examples
 fit_lstm_rtmb <- function(data,
                           nhidden_layer = 3,
                           hidden_dim = 5,
@@ -135,11 +158,11 @@ fit_lstm_rtmb <- function(data,
   if(is.null(input_par)){
     ## note: the dims are multiplied by 4 to account for the memory "gates", this will not change
     par_list <- list(
-      W = matrix(0.1, nrow =  length(ages), ncol = 4 * hidden_dim) , # Initialize values for input
-      U = matrix(0.1, nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
-      h = matrix(0.1, nrow = timesteps, ncol = hidden_dim),  # Hidden states
-      c = matrix(0.1, nrow = timesteps, ncol = hidden_dim), # Cell states
-      b = matrix(0.1, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
+      input_weights = matrix(0.1, nrow =  length(ages), ncol = 4 * hidden_dim) , # Initialize values for input
+      hidden_weights = matrix(0.1, nrow = hidden_dim ,ncol = 4 * hidden_dim),  # Initialize values for hidden state
+      hidden = matrix(0.1, nrow = timesteps, ncol = hidden_dim),  # Hidden states
+      cell = matrix(0.1, nrow = timesteps, ncol = hidden_dim), # Cell states
+      bias_vector = matrix(0.1, nrow = 1, ncol = 4 * hidden_dim),  # Bias vector
       last_layer =  matrix(0.1, nrow = hidden_dim, ncol = length(ages))
     )
   } else{
@@ -156,11 +179,12 @@ fit_lstm_rtmb <- function(data,
   fit <- nlminb(obj$par, obj$fn, obj$gr, control = list(iter.max = 1e7))
 
   report <- obj$report(obj$env$last.par.best)
+  dimnames(report$output) <- list(year = c(years, proj_years), age = ages)
   par_list <- obj$env$parList(obj$env$last.par.best)
 
   # Prediction ----
   pred_value <- reshape2::melt(report$output)  %>%
-    dplyr::select(year = Var1, age = Var2, pred_value = value) %>%
+    dplyr::rename(pred_value = value) %>%
     merge(., data, by = c("year", "age")) %>%
     dplyr::mutate(model = "lstm",
            projection = year %in% proj_years,

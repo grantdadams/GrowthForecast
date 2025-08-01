@@ -14,11 +14,12 @@
 #' @returns Sparse precision matrix dimensioned by n_ages * n_years, n_ages * n_years
 #' @export
 #'
-#' @examples
-#'
 Get_3d_precision <- function(n_ages, n_yrs, pcorr_age, pcorr_year, pcorr_cohort, ln_var_value, Var_Param){
 
   require(Matrix)
+  "c" <- ADoverload("c")
+  "[<-" <- ADoverload("[<-")
+  "diag<-" <- ADoverload("diag<-")
 
   index = expand.grid(seq_len(n_ages), seq_len(n_yrs)) # create index combinations to loop through
   i = j = x = numeric(0) # initialize posiiton to fill in precision matrix
@@ -87,6 +88,10 @@ Get_3d_precision <- function(n_ages, n_yrs, pcorr_age, pcorr_year, pcorr_cohort,
 growth_3d = function(pars, data_list) {
 
   RTMB::getAll(pars, data_list) # load in starting values and data
+
+  "c" <- ADoverload("c")
+  "[<-" <- ADoverload("[<-")
+  "diag<-" <- ADoverload("diag<-")
 
   # make precision
   Q_sparse = Get_3d_precision(nrow(ln_Y_at), ncol(ln_Y_at), rho_a, rho_y, rho_c, log_sigma2, Var_Param)

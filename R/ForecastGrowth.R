@@ -28,6 +28,8 @@
 #' @examples
 ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3, maturity_vec = NULL){
 
+  source("../GrowthForecast/R/fit_gmrf_rtmb.R")
+
   # Data checks ----
   if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
     stop(print("Columns do not include `weight`, `age`, or `year`"))
@@ -112,19 +114,24 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
     # * NN ----
     # FIXME: no likelihood weights
     # FIXME: determine whether this model is worth keeping
-    # nn_init <- NULL
-    # if(i != 1){nn_init = nn$obj$weights}
-    # nn <-  tryCatch(
-    #   suppressMessages(
-    #     fit_nn(
-    #       form = form,
-    #       data = train,
-    #       startweights = nn_init,
-    #       n_proj_years = n_proj_years,
-    #       last_year = last_year)
-    #   ),
-    #   error = function(e) return(NULL)
-    # )
+    nn_init <- NULL
+    if(i != 1){nn_init = nn$obj$weights}
+
+    nn <- if(!"nn" %in% non_converged){
+      tryCatch(
+        suppressMessages(
+          fit_nn(
+            form = form,
+            data = train,
+            startweights = nn_init,
+            n_proj_years = n_proj_years,
+            last_year = last_year)
+        ),
+        error = function(e) return(NULL)
+      )
+    }else{
+      NA
+    }
 
     # * LSTM ----
     lstm <- if(!"lstm" %in% non_converged){
@@ -160,7 +167,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
       arrange(year,age)
 
     avg5[['forecast']] <-  avg5$mean %>%
-      merge(., data.frame(age = rep(ages, 2),
+      merge(., data.frame(age = rep(ages, n_proj_years),
                           year = rep((last_year+1):(last_year + n_proj_years), each = length(ages)))) %>%
       dplyr::mutate(last_year = last_year,
                     weight = NA,
@@ -179,7 +186,7 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
                            gmrf2 = gmrf[[2]],
                            gmrf3 = gmrf[[3]],
                            gmrf4 = gmrf[[4]],
-                           # nn = nn,
+                           nn = nn,
                            lstm = lstm,
                            avg5 = avg5)
 
@@ -342,12 +349,12 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
 
     plot_list[[i]] <- ggplot2::ggplot(data= NULL, aes(x = age)) +
       ggplot2::geom_point(data = plotdf,
-                 alpha = 0.05,
-                 size = 2,aes(y = obs_weight, color = factor(projection))) +
+                          alpha = 0.05,
+                          size = 2,aes(y = obs_weight, color = factor(projection))) +
       ggplot2::geom_line(data = plotdf,
-                aes(y = pred_weight,
-                    color = factor(projection),
-                    group = interaction(year, peel_id)))+
+                         aes(y = pred_weight,
+                             color = factor(projection),
+                             group = interaction(year, peel_id)))+
       ggplot2::scale_color_manual(values = c('grey22','blue'))+
       ggplot2::facet_grid(peel_id ~ year, scales = 'free_y') +
       ggplot2::theme_minimal() +
@@ -358,21 +365,21 @@ ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_
   # * single plot with best projection
   plotdf <- plotdf0 %>%
     dplyr::filter(model  %in% best_mods$model &
-             year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
+                    year > (max(data$year)-(n_proj_years*peels)) ) ## truncate historical years
 
   if(length(unique(best_mods$model))>1) colVec <- c('grey30','dodgerblue','grey30','blue')
   if(length(unique(best_mods$model))==1) colVec <- c('grey22','blue')
 
   plot_list[[length(plot_list)+1]] <- ggplot2::ggplot(data= NULL, aes(x = age)) +
     ggplot2::geom_point(data = plotdf,
-               alpha = 0.05,
-               color = 'grey22',
-               size = 2,aes(y = obs_weight)) +
+                        alpha = 0.05,
+                        color = 'grey22',
+                        size = 2,aes(y = obs_weight)) +
     ggplot2::geom_line(data = plotdf,
-              lwd = 1,
-              aes(y = pred_weight,
-                  color = interaction(projection, model),
-                  group = interaction(model, year, peel_id)))+
+                       lwd = 1,
+                       aes(y = pred_weight,
+                           color = interaction(projection, model),
+                           group = interaction(model, year, peel_id)))+
     ggplot2::scale_color_manual(values = colVec)+
     ggplot2::facet_grid(peel_id ~ year, scales = 'free_y') +
     ggplot2::theme_minimal() +

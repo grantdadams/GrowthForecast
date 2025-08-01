@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 
-# Observed data (pollock) ----
+# Growth data (EBS pollock) ----
 data(LWA)
 
 # Look at data
@@ -14,26 +14,39 @@ sort(unique(LWA$YEAR))
 
 # Select species and region
 pollock <- LWA %>%
-  dplyr::filter(CN == "walleye pollock" & REGION == "GOA") %>%
+  dplyr::filter(CN == "walleye pollock" & REGION == "BS") %>%
   dplyr::select(YEAR, age, weight, Temp) %>%
   dplyr::mutate(weight = weight/1000) # Grams to kg
 
 colnames(pollock) <- tolower(colnames(pollock))
 
+# - Plot/EDA
 pollock %>%
   count(age, year) %>%
   arrange(year) %>%
   pivot_wider(names_from = year, values_from = n)
 
-pollockforecast <- ForecastGrowth(form = formula(weight~age+year), data = pollock, n_proj_years = 4, peels = 3)
-pollockforecast$best_mods[c(2,4),]
-pollockforecast$rmse_table
-pollockforecast$best_forecast
-pollockforecast$plots
+pollock %>%
+  ggplot(aes(x = age, y = weight, group = year, colour = year)) +
+  geom_point()
 
-# Simulated populations ----
-# - for final SSB comparison
+# - Forecast
+pollockforecast <- ForecastGrowth(form = formula(weight~age+year), data = pollock, n_proj_years = 5, peels = 10)
+pollockforecast$best_mods
 
+# - Plot results
+plot1 <- pollockforecast$rmse_table %>%
+  dplyr::rename("Forecast period" = YID) %>%
+  ggplot(aes(y = RMSE, x = model, group = `Forecast period`, colour = `Forecast period`)) +
+  geom_point(size = 2) + theme_classic() +
+  xlab("Model")
+
+plot1
+
+ggsave(plot1, filename = )
+
+
+w# Simulated populations ----
 # Initialize parameters
 years <- 250
 ages <- 20
