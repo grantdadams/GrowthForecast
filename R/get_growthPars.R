@@ -18,6 +18,8 @@ get_growthPars <- function(species_name){
     predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus="Sebastes", Species = "alutus")$match_taxonomy)
   } else if(species_name == 'flathead'){
     predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus="Hippoglossoides", Species = "elassodon")$match_taxonomy)
+  } else if(species_name == 'pollock'){
+    predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus="Gadus")$match_taxonomy)
   } else{
     predict0 <- FishLife::Plot_taxa( FishLife::Search_species(Genus= strsplit(species_name,' ')[[1]][1],
                                           Species =  strsplit(species_name,' ')[[1]][2])$match_taxonomy)

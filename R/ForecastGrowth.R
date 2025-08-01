@@ -28,11 +28,16 @@
 #' @examples
 ForecastGrowth <- function(form = formula(weight~age+year), data = NULL, n_proj_years = 2, peels = 3, maturity_vec = NULL){
 
-  source("../GrowthForecast/R/fit_gmrf_rtmb.R")
-
   # Data checks ----
-  if(sum(c("weight", "age", "year") %in% colnames(data)) != 3){
+  if(any(!c("weight", "age", "year") %in% colnames(data))){
     stop(print("Columns do not include `weight`, `age`, or `year`"))
+  }
+
+
+  if(any(sapply(data, class) == "character")){
+    warning(print("Converting character columns to numeric"))
+    data <- data %>%
+      dplyr::mutate_if(is.character, as.numeric)
   }
 
   if(peels >= length(unique(data$year))){

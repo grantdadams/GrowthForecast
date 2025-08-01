@@ -43,10 +43,8 @@ plot1 <- pollockforecast$rmse_table %>%
 
 plot1
 
-ggsave(plot1, filename = )
 
-
-w# Simulated populations ----
+# Simulated populations ----
 # Initialize parameters
 years <- 250
 ages <- 20
