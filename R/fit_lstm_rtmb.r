@@ -182,30 +182,25 @@ fit_lstm_rtmb <- function(data,
   dimnames(report$output) <- list(year = c(years, proj_years), age = ages)
   par_list <- obj$env$parList(obj$env$last.par.best)
 
-  # Prediction ----
-  pred_value <- reshape2::melt(report$output)  %>%
-    dplyr::rename(pred_value = value) %>%
-    merge(., data, by = c("year", "age")) %>%
-    dplyr::mutate(model = "lstm",
-           projection = year %in% proj_years,
-           last_year = last_year) %>%
-    as.data.frame()%>%
-    arrange(year, age) %>%
-    dplyr::select(model, last_year, year, age, obs_weight = weight, pred_weight = pred_value, projection)
 
-  # plot(pred_value$obs_value, pred_value$pred_value); abline(0,1,col = 'red')
-  #
-  # tt <- pred_value %>% summarise(meanpred =mean(pred_value, na.rm = TRUE),
-  #                                meanobs = mean(obs_value, na.rm = TRUE), .by = c(year, age))
-  # plot(tt$meanobs, tt$meanpred); abline(0,1,col = 'red')
-  #
-  # ggplot(pred_value, aes(x = age,)) +
-  #   geom_point(aes(y = obs_value)) +
-  #   geom_line(aes(y = pred_value), col = 'blue') +
-  #   facet_grid(~year)
+  # Predicted weight-at-age matrix ----
+  predicted_weight <- reshape2::melt(report$output)  %>%
+    dplyr::rename(pred_weight = value) %>%
+    dplyr::mutate(
+      year = as.numeric(year),
+      model = "LSTM",
+      projection = year %in% proj_years,
+      last_year = last_year) %>%
+    dplyr::select(model, year, age, pred_weight, last_year, projection) %>%
+    dplyr::arrange(year, age) %>%
+    as.data.frame()
 
+  # Predicted observations ----
+  data <-  predicted_weight %>%
+    dplyr::full_join(data, by = join_by(year, age)) %>%
+    dplyr::arrange(year, age)
 
   # Return ----
-  return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_value))
+  return(list(obj = obj, data = data, fit = fit, report = report, predicted_weight = predicted_weight))
 }
 

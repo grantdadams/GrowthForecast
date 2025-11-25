@@ -5,11 +5,10 @@
 #' @param nyrs Number of years
 #' @param nsamples Number of samples across years and ages
 #' @param nages Number of ages (starting at 1)
-#' @param mu Vector of mean asymptoptic weight, growth coefficient, and t0 on natural scale
+#' @param mu Vector of mean asymptoptic weight (log scale), growth coefficient (log scale), and t0  (natural scale)
 #' @param trend_beta Percent linear increase or decrease in mu: \code{mu * seq(1, 1 + trend_beta, length.out = nyrs)}. Vector of length 3.
-#' @param vcov Variance-covariance matrix for von Bertalanfy parameters (Winf, K, t0)
-#' @param sigma_obs Variance of lognormal observation error "sdlog"
-#' @param rho Correlation for von Bertalanfy growth parameters (Winf, K, t0) MVN annual deviates
+#' @param vcov_y Variance-covariance matrix for interannual variability in von Bertalanfy parameters (log Winf, log K, t0)
+#' @param sigma_obs Time-invariant sd of lognormal observation error "sdlog"
 #' @param rho_ar1 Vector of length 3 of AR1 correlation for von Bertalanfy growth parameters (Winf, K, t0)
 #' @param seed
 #'
@@ -41,7 +40,7 @@ simulate_weight <- function(
     nages = 20,
     mu = c(5, 0.3, -0.5), # Winf, K, t0
     trend_beta = c(0, 0, 0),
-    vcov = diag(c(0.05, 0.05, 0.2)),# Variance-covariance of vgbm parameters (mu)
+    vcov_y = diag(c(0.05, 0.05, 0.2)), # Variance-covariance of vgbm parameters (mu)
     sigma_obs = 0.1,
     rho_ar1 = 0.95, # Time series rho
     seed = 1234){
@@ -60,7 +59,7 @@ simulate_weight <- function(
   # Trend ----
   # - Multiply trend by mu and convert to vector
   trend_df <- sapply(trend_beta, function(x) seq(1, 1 + x, length.out = nyrs))
-  mut_df <- t(t(trend_df) * mu)
+  mut_df <- t(t(trend_df) * exp(mu))
   mut_df[,1:2] <- log(mut_df[,1:2]) # Move winf and k to log scale
   mu_vec <- c(mut_df) # Convert to vector
 
@@ -70,7 +69,7 @@ simulate_weight <- function(
 
 
   # Simulate year specific parameters ----
-  cov.mat <- vcov %x% cov.ar1.mat
+  cov.mat <- vcov_y %x% cov.ar1.mat
 
   year.param.mat <- MASS::mvrnorm(1, mu_vec, cov.mat)
   year.param.mat <- matrix(year.param.mat, nrow = nyrs, ncol = 3, byrow = FALSE) # Rearrange

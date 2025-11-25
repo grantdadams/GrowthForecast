@@ -188,23 +188,25 @@ FitWtAgeRE <- function(
   rownames(report$wt_hat) <- ages
 
   # - Predicted for forecast
-  pred_weight <- report$wt_hat%>%
+  predicted_weight <- report$wt_hat %>%
     as.data.frame() %>%
     mutate(age = ages) %>%
     tidyr::pivot_longer(!age) %>%
     dplyr::rename(pred_weight = value, year = name) %>%
-    # dplyr::mutate(year = as.numeric(year)) %>%
-    dplyr::select(year, age, pred_weight) %>%
-    merge(., data, by = c('year','age'), all =TRUE) %>%
     dplyr::mutate(model = "WtAgeRe",
                   projection = year %in% proj_years,
                   last_year = last_year) %>%
-    as.data.frame()%>%
+    dplyr::select(model, year, age, pred_weight, last_year, projection) %>%
     arrange(year, age) %>%
-    dplyr::select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
+    as.data.frame()
+
+  # Predicted observations ----
+  data_tmp <- predicted_weight %>%
+    merge(., data, by = c('year','age'), all = TRUE) %>%
+    as.data.frame()
 
   # Return ----
-  return(list(obj = obj, data = data, fit = fit, report = report, prediction = pred_weight))
+  return(list(obj = obj, data = data_tmp, fit = fit, report = report, predicted_weight = predicted_weight))
 }
 
 # # Set up TMB inputs  ----

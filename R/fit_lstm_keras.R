@@ -34,16 +34,18 @@ fit_lstm_keras <- function(data,
 
   # Define the LSTM model ----
   model <- keras::keras_model_sequential() %>%
-    keras::layer_lstm(units = hidden_dim, input_shape = c(nrow(X_test)),
+    keras::layer_lstm(units = hidden_dim, input_shape = c(1,1),
                       activation = "tanh",
                       recurrent_activation = "sigmoid") %>%  # units = number of LSTM cells %>%
-    keras::layer_lstm(units = hidden_dim, input_shape = c(nrow(X_test)),
+    keras::layer_dropout(rate = 0.2) %>%
+    keras::layer_lstm(units = hidden_dim,
                       activation = "tanh",
                       recurrent_activation = "sigmoid") %>%  # units = number of LSTM cells
+    keras::layer_dropout(rate = 0.2) %>%
     keras::layer_dense(units = 1, activation = 'linear')
 
   # Compile the model
-  model %>% compile(
+  model %>% keras::compile(
     loss = 'mse',  # Mean squared error
     optimizer = optimizer_adam(),  # Optimizer like Adam
   )

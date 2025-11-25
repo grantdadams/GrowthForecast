@@ -18,23 +18,22 @@
 #' @export
 #'
 FitXGBoost <- function(
-    form = NULL,
     data = NULL,
-    weights=NULL,
     n_proj_years = 2,
-    max.depth = 6,
+    last_year = NA,
+    max.depth = 10,
     nthread = 1,
-    nrounds = 2){
+    nrounds = 20){
 
   # - Fit model
-  bst_model <- xgboost(data = data %>%
+  bst_model <- xgboost::xgboost(data = data %>%
                          dplyr::select(-weight) %>%
                          as.matrix(),
                        label = data$weight,
-                       max.depth = 10,
+                       max.depth = max.depth,
                        nthread = nthread,
-                       nrounds = 20,
-                       objective = "reg:squarederror")
+                       nrounds = nrounds,
+                       objective = "reg:squaredlogerror")
 
   # - Predict
   # -- Build data set for X year projection
@@ -58,7 +57,21 @@ FitXGBoost <- function(
     dplyr::filter(year >  max(years))
 
   # -- Predict
-  pred <- predict(bst_model, as.matrix(proj_data))
+  proj_data$pred_weight <-  xgboost::predict(bst_model, as.matrix(proj_data))
 
-  return(list(bst_model = bst_model, pred = pred))
+  # Predicted weight-at-age matrix ----
+  predicted_weight = proj_data %>%
+    dplyr::mutate(projection = year %in% proj_years,
+                  last_year = last_year,
+                  model = "XGBOOST") %>%
+    dplyr::select(model, year, age, pred_weight, last_year, projection) %>%
+    arrange(year, age) %>%
+    as.data.frame()
+
+  # Predicted observations ----
+  data$predicted_weight <-  xgboost::predict(bst_model)
+  data <- data %>%
+    arrange(year, age)
+
+  return(list(data = data, model = bst_model, predicted_weight = predicted_weight))
 }

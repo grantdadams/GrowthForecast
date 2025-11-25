@@ -1,3 +1,5 @@
+# Cheng, M. L., Thorson, J. T., Ianelli, J. N., & Cunningham, C. J. (2023). Unlocking the triad of age, year, and cohort effects for stock assessment: demonstration of a computationally efficient and reproducible framework using weight-at-age. Fisheries Research, 266, 106755.
+# https://www.sciencedirect.com/science/article/abs/pii/S0165783623001480
 # https://github.com/chengmatt/GMRF_WAA/blob/master/R_scripts/model%20runs/RTMB_GrowthModel.R
 
 
@@ -241,6 +243,7 @@ FitGMRF_RTMB <- function(
   # Run factorial models ----
   map_factorial <- tidyr::crossing(rho_y = 1, rho_c = 0:1, rho_a = 0:1) %>%
     # dplyr::filter(rowSums(.) > 1) %>%
+    dplyr::slice(n()) %>%
     data.frame()
 
   # - Empty list to store model objects
@@ -307,27 +310,33 @@ FitGMRF_RTMB <- function(
       colnames(report$Y_at) <- c(years, proj_years)
       rownames(report$Y_at) <- ages
 
-      # Prediction
-      pred_weight <- report$Y_at%>%
+      # Predicted weight-at-age matrix ----
+      predicted_weight <- report$Y_at %>%
         as.data.frame() %>%
         mutate(age = ages) %>%
         tidyr::pivot_longer(!age) %>%
-        dplyr::rename(weight = value, year = name) %>%
-        dplyr::select(year, age, weight) %>%
-        dplyr::rename(pred_weight = weight) %>%
+        dplyr::rename(pred_weight = value, year = name) %>%
+        dplyr::mutate(
+          year = as.numeric(year),
+          model = paste0("GMRF", n_fact),
+          projection = year %in% proj_years,
+          last_year = last_year) %>%
+        dplyr::select(model, year, age, pred_weight, last_year, projection) %>%
+        dplyr::arrange(year, age) %>%
+        as.data.frame()
+
+      # Predicted observations ----
+      data_tmp <- predicted_weight %>%
         merge(., data, by = c('year','age'), all = TRUE) %>%
-        dplyr::mutate(model = paste0("GMRF", n_fact),
-                      projection = year %in% proj_years,
-                      last_year = last_year) %>%
-        as.data.frame()%>%
-        arrange(year, age) %>%
-        dplyr::select(model, last_year, year, age, obs_weight = weight, pred_weight, projection)
+        as.data.frame()
 
       # Save
-      models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report, prediction = pred_weight)
+      models[[n_fact]] <- list(obj = obj, map = map_factorial[n_fact,], opt = fit, report = report,
+                               data = data_tmp,
+                               predicted_weight = predicted_weight)
     }
 
-    print(n_fact)
+    # print(n_fact)
   } # loop through to run multiple models
 
   return(models)
